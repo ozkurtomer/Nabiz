@@ -20,7 +20,7 @@ public record KullaniciGuncelleIstek(Rol Rol, bool Aktif, string Dil);
 public record PersonelAktarimSonucu(int Yeni, int Guncel, int Atlanan);
 
 // ---- Plan
-public record PlanDto(int Id, int PaketId, string? PaketAd, HedefTipi HedefTipi, string? HedefDeger, string HedefAciklama, DateTime Baslangic, int SiklikGun, string Saat, bool Aktif);
+public record PlanDto(int Id, int PaketId, string? PaketAd, HedefTipi HedefTipi, string? HedefDeger, string HedefAciklama, DateTime Baslangic, int SiklikGun, string Saat, bool Aktif, DateTime? SonCalisma = null);
 public record PlanKaydetIstek(int PaketId, HedefTipi HedefTipi, string? HedefDeger, DateTime Baslangic, int SiklikGun, string Saat, bool Aktif);
 
 // ---- Cevaplama (çalışan)

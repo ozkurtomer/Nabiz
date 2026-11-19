@@ -31,6 +31,12 @@ public class ApplicationTests
     public void Plan_siklik_gune_gore_calisir(int siklik, string simdi, bool beklenen) =>
         Assert.Equal(beklenen, GonderimService.Vadesi(Plan("2026-03-01", "09:00", siklik, "2026-03-10 09:00"), DateTime.Parse(simdi)));
 
+    [Fact] public void Bir_kez_plani_ilk_vaktinde_calisir() =>
+        Assert.True(GonderimService.Vadesi(Plan("2026-03-10", "09:00", 0), DateTime.Parse("2026-03-10 09:30")));
+
+    [Fact] public void Bir_kez_plani_calistiktan_sonra_bir_daha_calismaz() =>
+        Assert.False(GonderimService.Vadesi(Plan("2026-03-10", "09:00", 0, "2026-03-10 09:30"), DateTime.Parse("2026-04-20 12:00")));
+
     [Fact]
     public void Csv_bom_noktalivirgul_ve_kacis_kurallarini_uygular()
     {

@@ -6,7 +6,7 @@ using Nabiz.Application.Services;
 
 namespace Nabiz.Api.Controllers;
 
-[ApiController, Route("api/planlar"), Authorize(Roles = Roller.Admin)]
+[ApiController, Route("api/planlar"), Authorize(Roles = Roller.AdminIK)]
 public class PlanlarController(IPlanService planlar, IGonderimService gonderim) : ControllerBase
 {
     [HttpGet]

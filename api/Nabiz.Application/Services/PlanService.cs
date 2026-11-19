@@ -19,7 +19,7 @@ public class PlanService(IUnitOfWork uow) : IPlanService
 {
     private static PlanDto Dto(GonderimPlani p, IReadOnlyDictionary<int, string> isimler) =>
         new(p.Id, p.PaketId, p.Paket?.Ad, p.HedefTipi, p.HedefDeger, HedefYardimcisi.Aciklama(p.HedefTipi, p.HedefDeger, isimler),
-            p.Baslangic, p.SiklikGun, p.Saat.ToString(@"hh\:mm"), p.Aktif);
+            p.Baslangic, p.SiklikGun, p.Saat.ToString(@"hh\:mm"), p.Aktif, p.SonCalisma);
 
     private async Task<Dictionary<int, string>> IsimleriGetirAsync(IEnumerable<GonderimPlani> planlar, CancellationToken ct)
     {
@@ -67,7 +67,7 @@ public class PlanService(IUnitOfWork uow) : IPlanService
     private async Task UygulaAsync(GonderimPlani p, PlanKaydetIstek i, CancellationToken ct)
     {
         if (!TimeSpan.TryParse(i.Saat, out var saat)) throw new DogrulamaHatasi("Saat biçimi SS:dd olmalı.");
-        if (i.SiklikGun < 1) throw new DogrulamaHatasi("Sıklık en az 1 gün olmalı.");
+        if (i.SiklikGun < 0) throw new DogrulamaHatasi("Sıklık geçersiz (0 = bir kez, 1+ = kaç günde bir).");
         if (!await uow.Paketler.Query.AnyAsync(x => x.Id == i.PaketId, ct)) throw new DogrulamaHatasi("Paket bulunamadı.");
         await HedefYardimcisi.DogrulaAsync(uow, i.HedefTipi, i.HedefDeger, ct);
         p.PaketId = i.PaketId; p.HedefTipi = i.HedefTipi;

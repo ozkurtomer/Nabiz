@@ -110,11 +110,13 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
         return gonderilen;
     }
 
-    /// <summary>Plan bugün çalışmalı mı? Başlangıç geldi, saat geçti ve son çalışmadan beri yeterli gün geçti.</summary>
+    /// <summary>Plan bugün çalışmalı mı? Başlangıç geldi, saat geçti ve son çalışmadan beri yeterli gün geçti ("bir kez" planı yalnızca bir kez çalışır).</summary>
     internal static bool Vadesi(GonderimPlani p, DateTime simdi)
     {
         if (p.Baslangic.Date > simdi.Date || simdi.TimeOfDay < p.Saat) return false;
-        return p.SonCalisma is null || (simdi.Date - p.SonCalisma.Value.Date).Days >= p.SiklikGun;
+        if (p.SonCalisma is null) return true;
+        // SiklikGun = 0: "bir kez" planı; bir kez çalıştıktan sonra tekrar çalışmaz.
+        return p.SiklikGun > 0 && (simdi.Date - p.SonCalisma.Value.Date).Days >= p.SiklikGun;
     }
 
     private async Task<GonderimSonucu> PlanGonderAsync(GonderimPlani plan, CancellationToken ct)
@@ -122,6 +124,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
         var paket = await PaketSorgu.FirstOrDefaultAsync(p => p.Id == plan.PaketId, ct) ?? throw new BulunamadiHatasi("Paket bulunamadı.");
         // Plan çalıştı olarak işaretlenir; böylece aynı gün tekrar tekrar gönderilmez.
         plan.SonCalisma = zaman.Simdi;
+        if (plan.SiklikGun == 0) plan.Aktif = false;   // bir kez gönderilecek plan tamamlandı
         var (_, sonuc) = await GonderAsync(paket, plan.HedefTipi, plan.HedefDeger, plan.Id, anlik: false, ct);
         return sonuc;
     }

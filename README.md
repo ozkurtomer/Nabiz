@@ -10,7 +10,7 @@
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-MSSQL-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-38%20passing-2ea44f)
+![Tests](https://img.shields.io/badge/tests-40%20passing-2ea44f)
 
 <img src="docs/screenshots/raporlar.jpg" alt="Raporlar" width="860">
 
@@ -23,7 +23,7 @@
 | | |
 |---|---|
 | 📦 **Soru paketleri** | Sorular paket halinde gider (Motivasyon, İş Yükü, Oryantasyon, Uzaktan Çalışma, Yönetici Değerlendirme…). 9 hazır şablon, kendi paketini oluştur. |
-| ✉️ **Mail ile gönderim** | Plan (tekrarlayan, saatli) ya da **anlık gönderim**. Hedef: **Herkes / Departman / Kişi seç**. Türkçe + İngilizce mail şablonları. |
+| ✉️ **Mail ile gönderim** | Tek ekranda: **Hemen**, **Bir kez** (seçtiğin tarih/saatte) ya da **Tekrarlayan** (her N günde bir). Hedef: **Herkes / Departman / Kişi seç**. Türkçe + İngilizce mail şablonları. |
 | 🔔 **Otomatik hatırlatma** | Cevaplamayanlara hafta içi çalışma saatlerinde nazik hatırlatma (en fazla N kez). |
 | 🙂 **Adım adım cevaplama** | Tek mail linki, **giriş gerekmez**. Emoji / 1-10 puan / Evet-Hayır. Düşük cevapta nazik bir **takip sorusu**; yorum **anonim** bırakılabilir. |
 | 📊 **Raporlar** | Ortalama skor, cevap oranı, olumlu/nötr/olumsuz ağırlık, günlük trend, departman karşılaştırma, soru bazlı dağılım, **önceki dönemle fark**, "kim ne demiş". |
@@ -42,8 +42,12 @@
     <td width="50%"><img src="docs/screenshots/gonderim-detay.jpg" alt="Gönderim raporu"><br><sub><b>Gönderim raporu:</b> kim ne cevap vermiş, kim vermemiş</sub></td>
   </tr>
   <tr>
+    <td><img src="docs/screenshots/gonderim-olustur.jpg" alt="Yeni gönderim"><br><sub><b>Yeni gönderim:</b> Hemen / Bir kez / Tekrarlayan, tek ekranda</sub></td>
     <td><img src="docs/screenshots/kisi-gecmisi.jpg" alt="Kişi geçmişi"><br><sub><b>Kişi geçmişi (İK):</b> skor trendi ve düşüş eğilimi</sub></td>
+  </tr>
+  <tr>
     <td><img src="docs/screenshots/giris.jpg" alt="Giriş"><br><sub><b>Giriş:</b> şifresiz, e-posta linkiyle</sub></td>
+    <td></td>
   </tr>
 </table>
 
@@ -66,7 +70,7 @@ Giriş ekranındaki **demo butonlarıyla** (Admin / İK / Yönetici / Çalışan
 `admin@nabiz.local` / `Admin123!` · diğerleri `ik@`, `yonetici@`, `calisan@nabiz.local` / `Demo123!`
 
 **Denemek için:**
-1. *Gönderimler → Anlık gönder* ile bir paketi herkese gönder.
+1. *Gönderimler → Yeni gönderim* ile bir paketi seç, kimlere gideceğini belirle ve **Hemen** gönder (ya da *Bir kez* / *Tekrarlayan* olarak zamanla).
 2. http://localhost:8025 adresinden maili aç, **Hemen cevapla**'ya tıkla ve soruları cevapla.
 3. *Gönderimler → ilgili gönderim*'de cevapları, *Uyarılar*'da düşük puanları gör.
 4. Boş raporları doldurmak için *Ayarlar → Demo veri üret* (sahte veri; "Temizle" yalnızca onu siler).
@@ -121,7 +125,7 @@ Tüm ayarlar, gizlilik özeti, yedekleme ve izleme: **[docs/OPERASYON.md](docs/O
 ```bash
 # API (appsettings.Development.json içindeki bağlantı cümlesini düzenle ya da yalnızca db servisini başlat: docker compose up -d db mailpit)
 cd api && dotnet run --project Nabiz.Api        # http://localhost:5277
-cd api && dotnet test Nabiz.Tests                # 38 test
+cd api && dotnet test Nabiz.Tests                # 40 test
 
 # Web
 cd web && npm install && npm start               # http://localhost:4200 (/api → 5277 proxy)

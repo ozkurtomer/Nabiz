@@ -18,7 +18,7 @@ export interface PersonelAktarimSonucu { yeni: number; guncel: number; atlanan: 
 // ---- Plan
 export interface Plan {
   id: number; paketId: number; paketAd?: string; hedefTipi: HedefTipi; hedefDeger?: string; hedefAciklama: string;
-  baslangic: string; siklikGun: number; saat: string; aktif: boolean;
+  baslangic: string; siklikGun: number; saat: string; aktif: boolean; sonCalisma?: string;
 }
 export interface PlanKaydet {
   paketId: number; hedefTipi: HedefTipi; hedefDeger?: string | null; baslangic: string; siklikGun: number; saat: string; aktif: boolean;

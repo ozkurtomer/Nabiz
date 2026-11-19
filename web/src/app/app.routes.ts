@@ -20,7 +20,7 @@ export const routes: Routes = [
       { path: 'denetim', canActivate: [rolGerekli('Admin')], loadComponent: () => import('./features/denetim/denetim').then(m => m.DenetimSayfasi) },
       { path: 'kullanicilar', canActivate: [rolGerekli('Admin')], loadComponent: () => import('./features/admin/kullanicilar/kullanicilar').then(m => m.Kullanicilar) },
       { path: 'sorular', canActivate: [rolGerekli('Admin')], loadComponent: () => import('./features/admin/sorular/sorular').then(m => m.Sorular) },
-      { path: 'planlar', canActivate: [rolGerekli('Admin')], loadComponent: () => import('./features/admin/planlar/planlar').then(m => m.Planlar) },
+      { path: 'planlar', redirectTo: 'gonderimler' },
       { path: 'ayarlar', canActivate: [rolGerekli('Admin')], loadComponent: () => import('./features/admin/ayarlar/ayarlar').then(m => m.Ayarlar) },
       { path: '', pathMatch: 'full', canActivate: [anasayfaYonlendir], children: [] },
     ],
