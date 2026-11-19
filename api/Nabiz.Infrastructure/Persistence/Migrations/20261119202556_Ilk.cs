@@ -76,7 +76,9 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ad = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    AdEn = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Aciklama = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    AciklamaEn = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Aktif = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -285,18 +287,18 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
             migrationBuilder.InsertData(
                 schema: "nabiz",
                 table: "Paketler",
-                columns: new[] { "Id", "Aciklama", "Ad", "Aktif" },
+                columns: new[] { "Id", "Aciklama", "AciklamaEn", "Ad", "AdEn", "Aktif" },
                 values: new object[,]
                 {
-                    { 1, "Tek soruluk hızlı moral kontrolü.", "Günlük Nabız", true },
-                    { 2, "Değer görme, motivasyon, bağlılık ve enerji.", "Motivasyon Paketi", true },
-                    { 3, "İş yükü, dinlenme ve iş-yaşam dengesi.", "İş Yükü ve Denge", true },
-                    { 4, "Ekip iletişimi ve yönetici desteği.", "Ekip ve Yönetici", true },
-                    { 5, "İşe yeni başlayanların ilk haftalardaki deneyimi.", "Oryantasyon (Yeni Başlayanlar)", true },
-                    { 6, "Uzaktan çalışmada bağlantı, verimlilik ve ortam.", "Uzaktan / Hibrit Çalışma", true },
-                    { 7, "Toplantıdan hemen sonra gönderilen hızlı değerlendirme.", "Toplantı Sonrası Geri Bildirim", true },
-                    { 8, "Kariyer beklentisi, ücret memnuniyeti ve bağlılık; ayrılma riskini erken görmek için.", "Bağlılık ve Kariyer", true },
-                    { 9, "Yöneticiye güven, geri bildirim ve adalet algısı.", "Yönetici Değerlendirme", true }
+                    { 1, "Tek soruluk hızlı moral kontrolü.", "A one-question quick mood check.", "Günlük Nabız", "Daily Pulse", true },
+                    { 2, "Değer görme, motivasyon, bağlılık ve enerji.", "Feeling valued, motivation, commitment and energy.", "Motivasyon Paketi", "Motivation Pack", true },
+                    { 3, "İş yükü, dinlenme ve iş-yaşam dengesi.", "Workload, rest and work-life balance.", "İş Yükü ve Denge", "Workload & Balance", true },
+                    { 4, "Ekip iletişimi ve yönetici desteği.", "Team communication and manager support.", "Ekip ve Yönetici", "Team & Manager", true },
+                    { 5, "İşe yeni başlayanların ilk haftalardaki deneyimi.", "How new joiners experience their first weeks.", "Oryantasyon (Yeni Başlayanlar)", "Onboarding (New Joiners)", true },
+                    { 6, "Uzaktan çalışmada bağlantı, verimlilik ve ortam.", "Connection, productivity and setup when working remotely.", "Uzaktan / Hibrit Çalışma", "Remote / Hybrid Work", true },
+                    { 7, "Toplantıdan hemen sonra gönderilen hızlı değerlendirme.", "A quick evaluation sent right after a meeting.", "Toplantı Sonrası Geri Bildirim", "Post-Meeting Feedback", true },
+                    { 8, "Kariyer beklentisi, ücret memnuniyeti ve bağlılık; ayrılma riskini erken görmek için.", "Career outlook, pay satisfaction and commitment; to spot attrition risk early.", "Bağlılık ve Kariyer", "Commitment & Career", true },
+                    { 9, "Yöneticiye güven, geri bildirim ve adalet algısı.", "Trust, feedback and fairness perceptions about the manager.", "Yönetici Değerlendirme", "Manager Feedback", true }
                 });
 
             migrationBuilder.InsertData(

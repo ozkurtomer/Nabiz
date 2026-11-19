@@ -1,37 +1,37 @@
-<a routerLink="/gonderimler" class="geri">← Gönderimler</a>
+<a routerLink="/gonderimler" class="geri">{{ '← Gönderimler' | t }}</a>
 
 @if (detay(); as d) {
   <div class="sayfa-baslik">
     <div>
       <h2>{{ d.parti.paket }}</h2>
-      <p>{{ d.parti.zaman | date: 'dd.MM.yyyy HH:mm' }} · {{ d.parti.hedef }} · {{ d.parti.soruSayisi }} soru</p>
+      <p>{{ d.parti.zaman | date: 'dd.MM.yyyy HH:mm' }} · {{ d.parti.hedef }} · {{ d.parti.soruSayisi }} {{ 'soru' | t }}</p>
     </div>
-    <button (click)="csvIndir()">⬇ CSV indir</button>
-    @if (d.parti.hatali) { <button class="birincil" (click)="tekrarDene()">↻ Gitmeyen {{ d.parti.hatali }} maili tekrar dene</button> }
+    <button (click)="csvIndir()">{{ '⬇ CSV indir' | t }}</button>
+    @if (d.parti.hatali) { <button class="birincil" (click)="tekrarDene()">{{ '↻ Gitmeyen' | t }} {{ d.parti.hatali }} {{ 'maili tekrar dene' | t }}</button> }
   </div>
 
   <div class="kpi-satir">
-    <div class="kpi"><small>Gönderilen</small><b>{{ d.parti.gonderilen }}</b></div>
-    <div class="kpi"><small>Cevaplayan</small><b>{{ d.parti.cevaplayan }}</b></div>
-    <div class="kpi"><small>Cevap oranı</small><b>%{{ d.parti.cevapOrani }}</b></div>
-    <div class="kpi"><small>Ortalama skor</small>
+    <div class="kpi"><small>{{ 'Gönderilen' | t }}</small><b>{{ d.parti.gonderilen }}</b></div>
+    <div class="kpi"><small>{{ 'Cevaplayan' | t }}</small><b>{{ d.parti.cevaplayan }}</b></div>
+    <div class="kpi"><small>{{ 'Cevap oranı' | t }}</small><b>%{{ d.parti.cevapOrani }}</b></div>
+    <div class="kpi"><small>{{ 'Ortalama skor' | t }}</small>
       @if (d.parti.ortalamaSkor != null) { <b class="skor {{ skorSinifi(d.parti.ortalamaSkor) }}">{{ d.parti.ortalamaSkor }}</b> } @else { <b>—</b> }
     </div>
   </div>
 
-  <h3 class="alt-baslik">Soru bazlı dağılım</h3>
+  <h3 class="alt-baslik">{{ 'Soru bazlı dağılım' | t }}</h3>
   <div class="soru-izgara">
     @for (s of d.sorular; track s.soruId) {
       <article class="kart soru-kart">
         <p class="soru">{{ s.soru }}</p>
-        <div class="ust"><small>{{ s.cevapSayisi }} cevap</small>
-          @if (s.ortalamaSkor != null) { <span class="skor {{ skorSinifi(s.ortalamaSkor) }}">ort. {{ s.ortalamaSkor }}</span> }</div>
+        <div class="ust"><small>{{ s.cevapSayisi }} {{ 'cevap' | t }}</small>
+          @if (s.ortalamaSkor != null) { <span class="skor {{ skorSinifi(s.ortalamaSkor) }}">{{ 'ort.' | t }} {{ s.ortalamaSkor }}</span> }</div>
         <app-dagilim [tip]="s.tip" [veri]="s.dagilim" />
       </article>
     }
   </div>
 
-  <h3 class="alt-baslik">Kim ne demiş?</h3>
+  <h3 class="alt-baslik">{{ 'Kim ne demiş?' | t }}</h3>
   <div class="sekmeler">
     @for (s of sekmeler(); track s.f) {
       <button class="sekme" [class.aktif]="filtre() === s.f" (click)="filtre.set(s.f)">{{ s.ad }} <span class="sayac">{{ s.n }}</span></button>
@@ -40,23 +40,23 @@
 
   @if (d.anonimYorumlar.length) {
     <section class="kart anonim-kart">
-      <h3>🕶️ Anonim yorumlar</h3>
-      <p class="aciklama">Bu yorumları bırakan kişiler kimliklerinin gizli kalmasını seçti; kimse (İK dahil) yorumu kişiyle ilişkilendiremez.</p>
+      <h3>{{ '🕶️ Anonim yorumlar' | t }}</h3>
+      <p class="aciklama">{{ 'Bu yorumları bırakan kişiler kimliklerinin gizli kalmasını seçti; kimse (İK dahil) yorumu kişiyle ilişkilendiremez.' | t }}</p>
       @for (a of d.anonimYorumlar; track $index) { <blockquote><small>{{ a.soru }}</small>“{{ a.yorum }}”</blockquote> }
     </section>
   }
 
   <div class="tablo-kutu">
     <table>
-      <thead><tr><th>Kişi</th><th>Durum</th><th>Skor</th><th>Cevapları</th></tr></thead>
+      <thead><tr><th>{{ 'Kişi' | t }}</th><th>{{ 'Durum' | t }}</th><th>{{ 'Skor' | t }}</th><th>{{ 'Cevapları' | t }}</th></tr></thead>
       <tbody>
         @for (k of gorunen(); track k.kullaniciId) {
           <tr class="satir" [class.tikla]="k.tamamlandi" (click)="ac(k)">
             <td><div class="kisi"><span class="avatar">{{ k.ad.charAt(0) }}</span><div><a [routerLink]="['/kisi', k.kullaniciId]" class="isim" (click)="$event.stopPropagation()"><b>{{ k.ad }}</b></a><small>{{ k.departman || '—' }}</small></div></div></td>
             <td>
-              @if (k.tamamlandi) { <span class="rozet ok">Cevapladı</span><small class="blok">{{ k.tamamlanmaZamani | date: 'dd.MM HH:mm' }}</small> }
-              @else if (k.gonderimDurumu === 'Hata') { <span class="rozet hata">Mail gitmedi</span><small class="blok" [title]="k.hata ?? ''">{{ k.hata }}</small> }
-              @else { <span class="rozet gri">Bekliyor</span> }
+              @if (k.tamamlandi) { <span class="rozet ok">{{ 'Cevapladı' | t }}</span><small class="blok">{{ k.tamamlanmaZamani | date: 'dd.MM HH:mm' }}</small> }
+              @else if (k.gonderimDurumu === 'Hata') { <span class="rozet hata">{{ 'Mail gitmedi' | t }}</span><small class="blok" [title]="k.hata ?? ''">{{ k.hata }}</small> }
+              @else { <span class="rozet gri">{{ 'Bekliyor' | t }}</span> }
             </td>
             <td>@if (k.ortalamaSkor != null) { <span class="skor {{ skorSinifi(k.ortalamaSkor) }}">{{ k.ortalamaSkor }}</span> } @else { — }</td>
             <td>
@@ -73,17 +73,17 @@
               @for (c of k.cevaplar; track c.soruId) {
                 <div class="cevap-satiri">
                   <span class="deger skor {{ c.dusuk ? 'kotu' : skorSinifi(c.skor) }}">{{ cevapGoster(c.tip, c.deger) }}</span>
-                  <div><b>{{ c.soru }}</b>@if (c.yorum) { <blockquote>“{{ c.yorum }}”</blockquote> } @else if (c.yorumAnonim) { <small>🕶️ Anonim yorum bırakıldı (aşağıda)</small> }</div>
+                  <div><b>{{ c.soru }}</b>@if (c.yorum) { <blockquote>“{{ c.yorum }}”</blockquote> } @else if (c.yorumAnonim) { <small>{{ '🕶️ Anonim yorum bırakıldı (aşağıda)' | t }}</small> }</div>
                 </div>
               }
             </td></tr>
           }
         } @empty {
-          <tr><td colspan="4" class="bos">Bu filtrede kimse yok.</td></tr>
+          <tr><td colspan="4" class="bos">{{ 'Bu filtrede kimse yok.' | t }}</td></tr>
         }
       </tbody>
     </table>
   </div>
 } @else {
-  <p class="bos">Yükleniyor…</p>
+  <p class="bos">{{ 'Yükleniyor…' | t }}</p>
 }

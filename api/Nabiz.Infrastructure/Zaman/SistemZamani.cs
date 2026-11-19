@@ -32,4 +32,5 @@ public class UygulamaAyarlari(IConfiguration cfg) : IUygulamaAyarlari
     public int HatirlatmaGun => cfg.GetValue("Hatirlatma:GunSonra", 2);
     public int HatirlatmaMaks => cfg.GetValue("Hatirlatma:Maks", 2);
     public string? MobilAnahtar => cfg["Mobil:Anahtar"];
+    public string SmtpSunucu => string.IsNullOrWhiteSpace(cfg["Smtp:Host"]) ? "" : $"{cfg["Smtp:Host"]}:{cfg.GetValue("Smtp:Port", 25)}";
 }

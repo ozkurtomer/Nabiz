@@ -28,8 +28,10 @@ public interface IGonderimService
     Task<byte[]> PartiCsvAsync(int partiId, CancellationToken ct);
 }
 
-public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, IUygulamaAyarlari uygulama, ICurrentUser kullanici, IAyarService ayarlar, IDenetimService denetim, ILogger<GonderimService> log) : IGonderimService
+public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, IUygulamaAyarlari uygulama, ICurrentUser kullanici, IAyarService ayarlar, IDenetimService denetim, ILogger<GonderimService> log, IDilBilgisi? dilBilgisi = null) : IGonderimService
 {
+    private string Lang => dilBilgisi?.Dil ?? "tr";
+
     private IQueryable<SoruPaketi> PaketSorgu => uow.Paketler.Query.Include(p => p.Sorular).ThenInclude(s => s.Soru);
 
     // ---------------- Gönderim ----------------
@@ -62,7 +64,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
         await HedefYardimcisi.DogrulaAsync(uow, i.HedefTipi, i.HedefDeger, ct);
         var hedef = i.HedefTipi == HedefTipi.Hepsi ? null : i.HedefDeger;
         var (parti, sonuc) = await GonderAsync(paket, i.HedefTipi, hedef, planId: null, anlik: true, ct);
-        await denetim.KaydetAsync("Anlık gönderim", $"{paket.Ad} → {i.HedefTipi} ({sonuc.Basarili}/{sonuc.Toplam} mail)", ct);
+        await denetim.KaydetAsync("Anlık gönderim", $"{paket.AdGoster("tr")} → {i.HedefTipi} ({sonuc.Basarili}/{sonuc.Toplam} mail)", ct);
         return new AnlikGonderYanit(parti.Id, sonuc);
     }
 
@@ -192,7 +194,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
     {
         var parti = await uow.GonderimPartileri.Query.Include(p => p.Paket!).ThenInclude(p => p.Sorular).ThenInclude(s => s.Soru)
             .FirstOrDefaultAsync(p => p.Id == partiId, ct) ?? throw new BulunamadiHatasi();
-        await denetim.KaydetAsync("Gönderim raporu görüntülendi", $"#{partiId} {parti.Paket!.Ad}", ct);
+        await denetim.KaydetAsync("Gönderim raporu görüntülendi", $"#{partiId} {parti.Paket!.AdGoster("tr")}", ct);
         var gonderimler = await uow.Gonderimler.Query.Include(g => g.Cevaplar).Include(g => g.Kullanici).Where(g => g.PartiId == partiId).ToListAsync(ct);
         var a = await ayarlar.GetirAsync(ct);
         var sorular = parti.Paket!.Sorular.OrderBy(s => s.Sira).Select(s => s.Soru!).ToList();
@@ -202,7 +204,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
         var soruDagilimlari = sorular.Select(s =>
         {
             var cevaplar = tamam.SelectMany(g => g.Cevaplar).Where(c => c.SoruId == s.Id).ToList();
-            return new SoruDagilimi(s.Id, s.MetinTr, s.Tip, cevaplar.Count,
+            return new SoruDagilimi(s.Id, s.Metin(Lang), s.Tip, cevaplar.Count,
                 cevaplar.Count == 0 ? null : Math.Round(cevaplar.Average(c => s.Skor(c.Deger)), 1),
                 s.Degerler().Select(d => new DagilimNoktasi(d, cevaplar.Count(c => c.Deger == d))).ToList());
         }).ToList();
@@ -214,7 +216,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
                 ? sorular.Select(s => g.Cevaplar.FirstOrDefault(c => c.SoruId == s.Id)).Where(c => c is not null).Select(c =>
                 {
                     var s = soruSozluk[c!.SoruId];
-                    return new KisiCevabi(s.Id, s.MetinTr, s.Tip, c.Deger, Math.Round(s.Skor(c.Deger), 0), c.YorumAnonim ? null : c.Yorum, c.YorumAnonim && !string.IsNullOrWhiteSpace(c.Yorum), s.DusukMu(c.Deger, a.EmojiEsik, a.PuanEsik));
+                    return new KisiCevabi(s.Id, s.Metin(Lang), s.Tip, c.Deger, Math.Round(s.Skor(c.Deger), 0), c.YorumAnonim ? null : c.Yorum, c.YorumAnonim && !string.IsNullOrWhiteSpace(c.Yorum), s.DusukMu(c.Deger, a.EmojiEsik, a.PuanEsik));
                 }).ToList()
                 : [];
             return new PartiKisiSatiri(k.Id, k.Ad, k.Email, k.Departman, g.Durum.ToString(), g.Hata, g.Tamamlandi,
@@ -223,7 +225,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
         }).OrderByDescending(s => s.Tamamlandi).ThenBy(s => s.OrtalamaSkor ?? 999).ThenBy(s => s.Ad).ToList();
 
         var anonim = tamam.SelectMany(x => x.Cevaplar).Where(c => c.YorumAnonim && !string.IsNullOrWhiteSpace(c.Yorum))
-            .Select(c => new AnonimYorumSatiri(soruSozluk[c.SoruId].MetinTr, c.Yorum!)).ToList();
+            .Select(c => new AnonimYorumSatiri(soruSozluk[c.SoruId].Metin(Lang), c.Yorum!)).ToList();
         var isimler = await IsimleriAsync([parti], ct);
         return new PartiDetayDto(Ozet(parti, gonderimler, soruSozluk, isimler), soruDagilimlari, kisiler, anonim);
     }
@@ -247,8 +249,8 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
     {
         var tamam = g.Where(x => x.Tamamlandi).ToList();
         var skorlar = tamam.SelectMany(x => x.Cevaplar).Where(c => sorular.ContainsKey(c.SoruId)).Select(c => sorular[c.SoruId].Skor(c.Deger)).ToList();
-        return new PartiDto(p.Id, zaman.Yerel(p.Zaman), p.PaketId, p.Paket!.Ad, p.Paket.Sorular.Count,
-            HedefYardimcisi.Aciklama(p.HedefTipi, p.HedefDeger, isimler), p.Anlik, p.Demo, p.Test, g.Count, g.Count(x => x.Durum == GonderimDurumu.Hata),
+        return new PartiDto(p.Id, zaman.Yerel(p.Zaman), p.PaketId, p.Paket!.AdGoster(Lang), p.Paket.Sorular.Count,
+            HedefYardimcisi.Aciklama(p.HedefTipi, p.HedefDeger, isimler, Lang), p.Anlik, p.Demo, p.Test, g.Count, g.Count(x => x.Durum == GonderimDurumu.Hata),
             tamam.Count, g.Count == 0 ? 0 : Math.Round(tamam.Count * 100.0 / g.Count, 1),
             skorlar.Count == 0 ? null : Math.Round(skorlar.Average(), 1));
     }

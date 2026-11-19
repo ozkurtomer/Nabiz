@@ -1,47 +1,47 @@
 <div class="sayfa-baslik">
   <div>
     <h2>{{ i18n.t('ayarlar') }}</h2>
-    <p>Hangi cevapların İK uyarısı üreteceğini belirle.</p>
+    <p>{{ 'Hangi cevapların İK uyarısı üreteceğini belirle.' | t }}</p>
   </div>
   <button class="birincil" (click)="kaydet()">{{ i18n.t('kaydet') }}</button>
 </div>
 
 @if (durum(); as d) {
   <section class="kart sistem">
-    <h3>🩺 Sistem durumu</h3>
+    <h3>{{ '🩺 Sistem durumu' | t }}</h3>
     <div class="durum-izgara">
-      <div class="d" [class.ok]="d.veritabani" [class.kotu]="!d.veritabani"><small>Veritabanı</small><b>{{ d.veritabani ? 'Çalışıyor' : 'Hata' }}</b></div>
-      <div class="d" [class.ok]="d.smtpAyarli" [class.kotu]="!d.smtpAyarli"><small>SMTP (mail)</small><b>{{ d.smtpAyarli ? 'Ayarlı' : 'Ayarlı değil' }}</b></div>
-      <div class="d" [class.ok]="d.son24SaatHatali === 0" [class.kotu]="d.son24SaatHatali > 0"><small>Son 24 saat mail</small><b>{{ d.son24SaatGonderilen }} gitti · {{ d.son24SaatHatali }} hata</b></div>
-      <div class="d" [class.ok]="d.hatirlatmaAktif"><small>Otomatik hatırlatma</small><b>{{ d.hatirlatmaAktif ? 'Açık' : 'Kapalı' }}</b></div>
-      <div class="d" [class.ok]="d.ikMailAktif"><small>İK uyarı maili</small><b>{{ d.ikMailAktif ? 'Açık' : 'Kapalı' }}</b></div>
-      <div class="d" [class.ok]="d.webhookAyarli"><small>Teams/Slack bildirimi</small><b>{{ d.webhookAyarli ? 'Bağlı' : 'Bağlı değil' }}</b></div>
-      <div class="d" [class.ok]="d.mobilGirisAktif"><small>Mobil otomatik giriş</small><b>{{ d.mobilGirisAktif ? 'Açık' : 'Kapalı' }}</b></div>
-      <div class="d"><small>Son personel senkronu</small><b>{{ d.sonPersonelSenkron ? (d.sonPersonelSenkron | date: 'dd.MM HH:mm') : '—' }}</b></div>
+      <div class="d" [class.ok]="d.veritabani" [class.kotu]="!d.veritabani"><small>{{ 'Veritabanı' | t }}</small><b>{{ d.veritabani ? 'Çalışıyor' : 'Hata' }}</b></div>
+      <div class="d" [class.ok]="d.smtpAyarli" [class.kotu]="!d.smtpAyarli"><small>{{ 'SMTP (mail)' | t }}</small><b>{{ d.smtpAyarli ? 'Ayarlı' : 'Ayarlı değil' }}</b></div>
+      <div class="d" [class.ok]="d.son24SaatHatali === 0" [class.kotu]="d.son24SaatHatali > 0"><small>{{ 'Son 24 saat mail' | t }}</small><b>{{ d.son24SaatGonderilen }} {{ 'gitti ·' | t }} {{ d.son24SaatHatali }} {{ 'hata' | t }}</b></div>
+      <div class="d" [class.ok]="d.hatirlatmaAktif"><small>{{ 'Otomatik hatırlatma' | t }}</small><b>{{ d.hatirlatmaAktif ? 'Açık' : 'Kapalı' }}</b></div>
+      <div class="d" [class.ok]="d.ikMailAktif"><small>{{ 'İK uyarı maili' | t }}</small><b>{{ d.ikMailAktif ? 'Açık' : 'Kapalı' }}</b></div>
+      <div class="d" [class.ok]="d.webhookAyarli"><small>{{ 'Teams/Slack bildirimi' | t }}</small><b>{{ d.webhookAyarli ? 'Bağlı' : 'Bağlı değil' }}</b></div>
+      <div class="d" [class.ok]="d.mobilGirisAktif"><small>{{ 'Mobil otomatik giriş' | t }}</small><b>{{ d.mobilGirisAktif ? 'Açık' : 'Kapalı' }}</b></div>
+      <div class="d"><small>{{ 'Son personel senkronu' | t }}</small><b>{{ d.sonPersonelSenkron ? (d.sonPersonelSenkron | date: 'dd.MM HH:mm') : '—' }}</b></div>
     </div>
   </section>
 }
 
 <div class="izgara">
   <section class="kart">
-    <div class="kafa"><span class="ikon">😞</span><div><h3>Emoji eşiği</h3><small>1-5 arası skala</small></div></div>
-    <p>Bu değer ve altındaki cevaplar İK'ya uyarı olarak düşer.</p>
+    <div class="kafa"><span class="ikon">😞</span><div><h3>{{ 'Emoji eşiği' | t }}</h3><small>{{ '1-5 arası skala' | t }}</small></div></div>
+    <p>{{ 'Bu değer ve altındaki cevaplar İK\'ya uyarı olarak düşer.' | t }}</p>
     <div class="deger"><input type="range" min="1" max="5" [(ngModel)]="a.emojiEsik"><b>{{ a.emojiEsik }}</b></div>
   </section>
 
   <section class="kart">
-    <div class="kafa"><span class="ikon">🔢</span><div><h3>Puan eşiği</h3><small>1-10 arası skala</small></div></div>
-    <p>Bu değer ve altındaki puanlar İK'ya uyarı olarak düşer.</p>
+    <div class="kafa"><span class="ikon">🔢</span><div><h3>{{ 'Puan eşiği' | t }}</h3><small>{{ '1-10 arası skala' | t }}</small></div></div>
+    <p>{{ 'Bu değer ve altındaki puanlar İK\'ya uyarı olarak düşer.' | t }}</p>
     <div class="deger"><input type="range" min="1" max="10" [(ngModel)]="a.puanEsik"><b>{{ a.puanEsik }}</b></div>
   </section>
 
 </div>
 
 <section class="kart demo">
-  <div class="kafa"><span class="ikon">🧪</span><div><h3>Deneme verisi</h3><small>Raporları gerçek cevap gelmeden görmek için</small></div></div>
-  <p>Son 60 gün için tüm kullanıcılara sahte paket gönderimleri ve cevaplar üretir. "Temizle" yalnızca bu sahte verileri siler, gerçek cevaplara dokunmaz.</p>
+  <div class="kafa"><span class="ikon">🧪</span><div><h3>{{ 'Deneme verisi' | t }}</h3><small>{{ 'Raporları gerçek cevap gelmeden görmek için' | t }}</small></div></div>
+  <p>{{ 'Son 60 gün için tüm kullanıcılara sahte paket gönderimleri ve cevaplar üretir. "Temizle" yalnızca bu sahte verileri siler, gerçek cevaplara dokunmaz.' | t }}</p>
   <div class="islem">
-    <button (click)="demoUret()" [disabled]="demoMesgul()">Demo veri üret</button>
-    <button class="tehlike" (click)="demoTemizle()">Demo verileri temizle</button>
+    <button (click)="demoUret()" [disabled]="demoMesgul()">{{ 'Demo veri üret' | t }}</button>
+    <button class="tehlike" (click)="demoTemizle()">{{ 'Demo verileri temizle' | t }}</button>
   </div>
 </section>

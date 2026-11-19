@@ -13,6 +13,10 @@ public class Soru
     public string? TakipMetniTr { get; set; }
     public string? TakipMetniEn { get; set; }
 
+    /// <summary>İstenen dilde soru metni; o dilde yazılmadıysa diğer dile düşer.</summary>
+    public string Metin(string? dil) => Dil.Sec(dil, MetinTr, MetinEn);
+    public string? TakipMetni(string? dil) => Dil.SecOpsiyonel(dil, TakipMetniTr, TakipMetniEn);
+
     /// <summary>Cevabı soru tipinden bağımsız 0-100 skala skoruna çevirir (yüksek = olumlu).</summary>
     public double Skor(int deger) => Tip switch
     {

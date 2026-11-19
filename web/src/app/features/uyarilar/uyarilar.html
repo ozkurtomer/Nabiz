@@ -1,7 +1,7 @@
 <div class="sayfa-baslik">
   <div>
     <h2>{{ i18n.t('uyarilar') }}</h2>
-    <p>Düşük puan veren çalışanları takip et, destek olmak için harekete geç.</p>
+    <p>{{ 'Düşük puan veren çalışanları takip et, destek olmak için harekete geç.' | t }}</p>
   </div>
 </div>
 
@@ -18,8 +18,8 @@
 } @else if (gorunen().length === 0) {
   <div class="kart bos-kart">
     <div class="buyuk">🎉</div>
-    <h3>Her şey yolunda</h3>
-    <p>Bu filtrede gösterilecek uyarı yok.</p>
+    <h3>{{ 'Her şey yolunda' | t }}</h3>
+    <p>{{ 'Bu filtrede gösterilecek uyarı yok.' | t }}</p>
   </div>
 } @else {
   <div class="liste">
@@ -30,19 +30,19 @@
             <span class="avatar">{{ u.kullaniciAd.charAt(0) }}</span>
             <div><a [routerLink]="['/kisi', u.kullaniciId]" class="isim"><b>{{ u.kullaniciAd }}</b></a><small>{{ u.departman || '—' }} · {{ u.olusturma + 'Z' | date: 'dd.MM.yyyy HH:mm' }}</small></div>
           </div>
-          @if (u.sonDonemUyariSayisi >= 3) { <span class="rozet hata" title="Son 30 günde birden çok uyarı">🔁 30 günde {{ u.sonDonemUyariSayisi }} uyarı</span> }
+          @if (u.sonDonemUyariSayisi >= 3) { <span class="rozet hata" [attr.title]="'Son 30 günde birden çok uyarı' | t">{{ '🔁 30 günde' | t }} {{ u.sonDonemUyariSayisi }} {{ 'uyarı' | t }}</span> }
           <span class="rozet" [class]="'rozet ' + rozet(u.durum)">{{ u.durum === 'Kapandi' ? 'Kapandı' : u.durum }}</span>
         </div>
         <p class="soru">{{ u.soru }}</p>
         <div class="cevap">
           <span class="puan">{{ u.deger }}</span>
-          @if (u.yorum) { <blockquote>“{{ u.yorum }}”</blockquote> } @else if (u.yorumAnonim) { <small>🕶️ Anonim yorum bıraktı (içeriği gösterilmez)</small> } @else { <small>Yorum bırakılmadı.</small> }
+          @if (u.yorum) { <blockquote>“{{ u.yorum }}”</blockquote> } @else if (u.yorumAnonim) { <small>{{ '🕶️ Anonim yorum bıraktı (içeriği gösterilmez)' | t }}</small> } @else { <small>{{ 'Yorum bırakılmadı.' | t }}</small> }
         </div>
         <div class="islem-satir">
           <select [(ngModel)]="u.durum">
-            <option value="Yeni">Yeni</option><option value="Takipte">Takipte</option><option value="Kapandi">Kapandı</option>
+            <option value="Yeni">{{ 'Yeni' | t }}</option><option value="Takipte">{{ 'Takipte' | t }}</option><option value="Kapandi">{{ 'Kapandı' | t }}</option>
           </select>
-          <input class="not" [(ngModel)]="u.ikNotu" placeholder="İK notu ekle…">
+          <input class="not" [(ngModel)]="u.ikNotu" [placeholder]="'İK notu ekle…' | t">
           <button class="birincil" (click)="kaydet(u)">{{ i18n.t('kaydet') }}</button>
         </div>
       </article>

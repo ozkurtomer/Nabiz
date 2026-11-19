@@ -12,6 +12,8 @@ public interface IKullaniciService
     Task<List<KullaniciDto>> ListeAsync(string? ara, CancellationToken ct);
     Task GuncelleAsync(int id, KullaniciGuncelleIstek istek, CancellationToken ct);
     Task<PersonelAktarimSonucu> PersonelAktarAsync(CancellationToken ct);
+    /// <summary>Kullanıcının kendi arayüz/e-posta dilini ("tr"/"en") kaydeder.</summary>
+    Task DilDegistirAsync(int kullaniciId, string dil, CancellationToken ct);
 }
 
 public class KullaniciService(IUnitOfWork uow, IPersonelKaynagi personel, IDenetimService denetim, IZaman zaman) : IKullaniciService
@@ -31,10 +33,17 @@ public class KullaniciService(IUnitOfWork uow, IPersonelKaynagi personel, IDenet
     {
         var k = await uow.Kullanicilar.FindAsync(id, ct) ?? throw new BulunamadiHatasi();
         var eski = $"{k.Rol}/{(k.Aktif ? "aktif" : "pasif")}";
-        k.Rol = i.Rol; k.Aktif = i.Aktif; k.Dil = i.Dil == "en" ? "en" : "tr";
+        k.Rol = i.Rol; k.Aktif = i.Aktif; k.Dil = Nabiz.Domain.Dil.Normalize(i.Dil);
         await uow.SaveChangesAsync(ct);
         var yeni = $"{k.Rol}/{(k.Aktif ? "aktif" : "pasif")}";
         if (eski != yeni) await denetim.KaydetAsync("Kullanıcı rolü/erişimi değişti", $"{k.Ad}: {eski} → {yeni}", ct);
+    }
+
+    public async Task DilDegistirAsync(int kullaniciId, string dil, CancellationToken ct)
+    {
+        var k = await uow.Kullanicilar.FindAsync(kullaniciId, ct) ?? throw new BulunamadiHatasi("Kullanıcı bulunamadı.");
+        k.Dil = Nabiz.Domain.Dil.Normalize(dil);
+        await uow.SaveChangesAsync(ct);
     }
 
     public async Task<PersonelAktarimSonucu> PersonelAktarAsync(CancellationToken ct)

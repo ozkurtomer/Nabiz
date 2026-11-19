@@ -39,7 +39,9 @@ public class SoruPaketiConfig : IEntityTypeConfiguration<SoruPaketi>
     public void Configure(EntityTypeBuilder<SoruPaketi> b)
     {
         b.Property(x => x.Ad).HasMaxLength(200).IsRequired();
+        b.Property(x => x.AdEn).HasMaxLength(200).IsRequired();
         b.Property(x => x.Aciklama).HasMaxLength(1000);
+        b.Property(x => x.AciklamaEn).HasMaxLength(1000);
         b.HasMany(x => x.Sorular).WithOne().HasForeignKey(x => x.PaketId).OnDelete(DeleteBehavior.Cascade);
         b.HasData(SoruSeed.Paketler);
     }

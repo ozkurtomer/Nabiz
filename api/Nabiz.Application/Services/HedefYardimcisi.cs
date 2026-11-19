@@ -32,15 +32,15 @@ public static class HedefYardimcisi
         return await q.ToListAsync(ct);
     }
 
-    public static string Aciklama(HedefTipi tip, string? deger, IReadOnlyDictionary<int, string> isimler)
+    public static string Aciklama(HedefTipi tip, string? deger, IReadOnlyDictionary<int, string> isimler, string dil = "tr")
     {
         switch (tip)
         {
-            case HedefTipi.Hepsi: return "Tüm çalışanlar";
-            case HedefTipi.Departman: return $"Departman: {deger}";
+            case HedefTipi.Hepsi: return dil == "en" ? "All employees" : "Tüm çalışanlar";
+            case HedefTipi.Departman: return dil == "en" ? $"Department: {deger}" : $"Departman: {deger}";
             default:
                 var adlar = Hedef.KisiIdleri(deger).Select(i => isimler.TryGetValue(i, out var a) ? a : "?").ToList();
-                return adlar.Count <= 3 ? string.Join(", ", adlar) : $"{adlar.Count} kişi: {string.Join(", ", adlar.Take(3))}…";
+                return adlar.Count <= 3 ? string.Join(", ", adlar) : dil == "en" ? $"{adlar.Count} people: {string.Join(", ", adlar.Take(3))}…" : $"{adlar.Count} kişi: {string.Join(", ", adlar.Take(3))}…";
         }
     }
 }

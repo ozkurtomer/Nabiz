@@ -76,4 +76,41 @@ public class ApplicationTests
         Assert.DoesNotContain("<script>x</script>", html);
         Assert.DoesNotContain("<b>Ali</b>", html);
     }
+
+    [Theory]
+    [InlineData("tr", "Merhaba", "Hello", "Merhaba")]
+    [InlineData("en", "Merhaba", "Hello", "Hello")]
+    [InlineData("en", "Sadece Türkçe", "", "Sadece Türkçe")]
+    [InlineData("tr", "", "Only English", "Only English")]
+    [InlineData(null, "Merhaba", "Hello", "Merhaba")]
+    [InlineData("fr", "Merhaba", "Hello", "Merhaba")]
+    public void Dil_secimi_istenen_dili_verir_yoksa_digerine_duser(string? dil, string tr, string en, string beklenen) =>
+        Assert.Equal(beklenen, Nabiz.Domain.Dil.Sec(dil, tr, en));
+
+    [Fact]
+    public void Hata_mesaji_ingilizceye_cevrilir_bilinmeyen_mesaj_oldugu_gibi_kalir()
+    {
+        Assert.Equal("Incorrect email or password.", Nabiz.Application.Exceptions.Mesajlar.Cevir("E-posta veya şifre hatalı.", "en"));
+        Assert.Equal("E-posta veya şifre hatalı.", Nabiz.Application.Exceptions.Mesajlar.Cevir("E-posta veya şifre hatalı.", "tr"));
+        Assert.Equal("Bilinmeyen mesaj", Nabiz.Application.Exceptions.Mesajlar.Cevir("Bilinmeyen mesaj", "en"));
+    }
+
+    [Fact]
+    public void Hedef_aciklamasi_dile_gore_uretilir()
+    {
+        var isim = new Dictionary<int, string> { [1] = "Ayşe", [2] = "Can" };
+        Assert.Equal("All employees", HedefYardimcisi.Aciklama(HedefTipi.Hepsi, null, isim, "en"));
+        Assert.Equal("Tüm çalışanlar", HedefYardimcisi.Aciklama(HedefTipi.Hepsi, null, isim));
+        Assert.Equal("Department: BT", HedefYardimcisi.Aciklama(HedefTipi.Departman, "BT", isim, "en"));
+        Assert.Equal("Ayşe, Can", HedefYardimcisi.Aciklama(HedefTipi.Kisi, "1,2", isim, "en"));
+    }
+
+    [Fact]
+    public void Mail_alicinin_dilinde_gelir_ve_eksik_dilde_diger_dile_duser()
+    {
+        var paket = new SoruPaketi { Ad = "Sadece Türkçe Paket", AdEn = "", Sorular = [new PaketSoru { Sira = 0, Soru = new Soru { MetinTr = "Türkçe soru", MetinEn = "", Tip = SoruTipi.Puan } }] };
+        var (_, html) = EmailSablonu.Paket(new Kullanici { Ad = "Ali", Dil = "en" }, paket, "https://x/c/1");
+        Assert.Contains("Hi Ali", html);              // şablon İngilizce
+        Assert.Contains(System.Net.WebUtility.HtmlEncode("Türkçe soru"), html);   // soru İngilizce yazılmamış: Türkçe'ye düştü (HTML kodlu)
+    }
 }

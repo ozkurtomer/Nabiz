@@ -25,7 +25,7 @@ public class HataYonetimi(RequestDelegate next, ILogger<HataYonetimi> log)
             await ctx.Response.WriteAsJsonAsync(new ProblemDetails
             {
                 Status = kod, Title = baslik,
-                Detail = kod == 500 ? "Beklenmeyen bir hata oluştu." : ex.Message,
+                Detail = Mesajlar.Cevir(kod == 500 ? "Beklenmeyen bir hata oluştu." : ex.Message, Nabiz.Domain.Dil.Normalize(ctx.Request.Headers["X-Dil"].ToString())),
             });
         }
     }

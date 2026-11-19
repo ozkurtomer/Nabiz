@@ -1,17 +1,17 @@
 <div class="sayfa-baslik">
   <div>
-    <h2>Gönderimler</h2>
-    <p>Paketleri hemen, zamanlı ya da düzenli gönder; sonra kimin ne cevap verdiğini incele.</p>
+    <h2>{{ 'Gönderimler' | t }}</h2>
+    <p>{{ 'Paketleri hemen, zamanlı ya da düzenli gönder; sonra kimin ne cevap verdiğini incele.' | t }}</p>
   </div>
 </div>
 
 <section class="kart yeni">
-  <h3>🚀 Yeni gönderim</h3>
+  <h3>{{ '🚀 Yeni gönderim' | t }}</h3>
 
   <div class="form">
-    <label class="genis">Paket
+    <label class="genis">{{ 'Paket' | t }}
       <select [ngModel]="paketId()" (ngModelChange)="paketId.set($event)">
-        @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ p.ad }} ({{ p.sorular.length }} soru)</option> }
+        @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ p.ad }} ({{ p.sorular.length }} {{ 'soru)' | t }}</option> }
       </select>
     </label>
   </div>
@@ -19,59 +19,59 @@
     <ol class="sorular">@for (s of p.sorular; track s.id) { <li>{{ s.metinTr }}</li> }</ol>
   }
 
-  <h4 class="alt">Kime?</h4>
+  <h4 class="alt">{{ 'Kime?' | t }}</h4>
   <app-hedef-secici [kullanicilar]="kullanicilar()" [(tip)]="hedefTipi" [(deger)]="hedefDeger" />
 
-  <h4 class="alt">Ne zaman?</h4>
+  <h4 class="alt">{{ 'Ne zaman?' | t }}</h4>
   <div class="modlar">
-    <button type="button" [class.aktif]="mod() === 'hemen'" (click)="mod.set('hemen')"><span>⚡</span><b>Hemen</b><small>Şimdi gönder</small></button>
-    <button type="button" [class.aktif]="mod() === 'birkez'" (click)="mod.set('birkez')"><span>🕘</span><b>Bir kez</b><small>Seçtiğin tarih ve saatte</small></button>
-    <button type="button" [class.aktif]="mod() === 'tekrar'" (click)="mod.set('tekrar')"><span>🔁</span><b>Tekrarlayan</b><small>Her N günde bir</small></button>
+    <button type="button" [class.aktif]="mod() === 'hemen'" (click)="mod.set('hemen')"><span>⚡</span><b>{{ 'Hemen' | t }}</b><small>{{ 'Şimdi gönder' | t }}</small></button>
+    <button type="button" [class.aktif]="mod() === 'birkez'" (click)="mod.set('birkez')"><span>🕘</span><b>{{ 'Bir kez' | t }}</b><small>{{ 'Seçtiğin tarih ve saatte' | t }}</small></button>
+    <button type="button" [class.aktif]="mod() === 'tekrar'" (click)="mod.set('tekrar')"><span>🔁</span><b>{{ 'Tekrarlayan' | t }}</b><small>{{ 'Her N günde bir' | t }}</small></button>
   </div>
 
   @if (mod() !== 'hemen') {
     <div class="form zaman">
       <label>{{ mod() === 'birkez' ? 'Tarih' : 'Başlangıç tarihi' }} <input type="date" [(ngModel)]="baslangic"></label>
-      <label>Saat <input type="time" [(ngModel)]="saat"></label>
+      <label>{{ 'Saat' | t }} <input type="time" [(ngModel)]="saat"></label>
       @if (mod() === 'tekrar') {
-        <label>Kaç günde bir <input type="number" min="1" [(ngModel)]="siklikGun" style="width:110px"></label>
+        <label>{{ 'Kaç günde bir' | t }} <input type="number" min="1" [(ngModel)]="siklikGun" style="width:110px"></label>
       }
     </div>
-    @if (gecmisZaman()) { <p class="bilgi">⏱️ Seçilen zaman geçti; gönderim hemen (yaklaşık 1 dakika içinde) yapılır.</p> }
+    @if (gecmisZaman()) { <p class="bilgi">{{ '⏱️ Seçilen zaman geçti; gönderim hemen (yaklaşık 1 dakika içinde) yapılır.' | t }}</p> }
   }
 
   <div class="islem">
     <button class="birincil" (click)="gonder()" [disabled]="gonderiliyor() || !paketId() || !hedefHazir() || (mod() !== 'hemen' && (!baslangic || !saat || (mod() === 'tekrar' && siklikGun < 1)))">
       @switch (mod()) {
         @case ('hemen') { {{ gonderiliyor() ? 'Gönderiliyor…' : '✉ Şimdi gönder' }} }
-        @case ('birkez') { 🕘 Zamanla }
-        @case ('tekrar') { 🔁 Tekrarlayan gönderim kur }
+        @case ('birkez') { {{ '🕘 Zamanla' | t }} }
+        @case ('tekrar') { {{ '🔁 Tekrarlayan gönderim kur' | t }} }
       }
     </button>
   </div>
 </section>
 
 @if (planlar().length) {
-  <h3 class="alt-baslik">Zamanlanmış gönderimler</h3>
+  <h3 class="alt-baslik">{{ 'Zamanlanmış gönderimler' | t }}</h3>
   <div class="tablo-kutu plan-kutu">
     <table>
-      <thead><tr><th>Paket</th><th>Kime</th><th>Ne zaman</th><th>Durum</th><th></th></tr></thead>
+      <thead><tr><th>{{ 'Paket' | t }}</th><th>{{ 'Kime' | t }}</th><th>{{ 'Ne zaman' | t }}</th><th>{{ 'Durum' | t }}</th><th></th></tr></thead>
       <tbody>
         @for (p of planlar(); track p.id) {
           <tr>
             <td><b>{{ p.paketAd }}</b></td>
             <td><span class="rozet">{{ p.hedefAciklama }}</span></td>
             <td>
-              @if (p.siklikGun === 0) { Bir kez · {{ p.baslangic | date: 'dd.MM.yyyy' }} {{ p.saat }} }
-              @else { {{ p.siklikGun === 1 ? 'Her gün' : p.siklikGun + ' günde bir' }} · {{ p.saat }}<small>{{ p.baslangic | date: 'dd.MM.yyyy' }} tarihinden itibaren</small> }
+              @if (p.siklikGun === 0) { {{ 'Bir kez ·' | t }} {{ p.baslangic | date: 'dd.MM.yyyy' }} {{ p.saat }} }
+              @else { {{ p.siklikGun === 1 ? 'Her gün' : p.siklikGun + ' günde bir' }} · {{ p.saat }}<small>{{ p.baslangic | date: 'dd.MM.yyyy' }} {{ 'tarihinden itibaren' | t }}</small> }
             </td>
             <td>
-              @if (!p.aktif) { <span class="rozet ok">Gönderildi ✓</span> }
-              @else if (p.siklikGun === 0) { <span class="rozet uyari">Bekliyor</span> }
-              @else { <span class="rozet ok">Aktif</span>@if (p.sonCalisma) { <small>Son: {{ p.sonCalisma | date: 'dd.MM.yyyy HH:mm' }}</small> } }
+              @if (!p.aktif) { <span class="rozet ok">{{ 'Gönderildi ✓' | t }}</span> }
+              @else if (p.siklikGun === 0) { <span class="rozet uyari">{{ 'Bekliyor' | t }}</span> }
+              @else { <span class="rozet ok">{{ 'Aktif' | t }}</span>@if (p.sonCalisma) { <small>{{ 'Son:' | t }} {{ p.sonCalisma | date: 'dd.MM.yyyy HH:mm' }}</small> } }
             </td>
             <td><div class="islem">
-              @if (p.aktif) { <button class="kucuk" (click)="planSimdi(p)">✉ Şimdi gönder</button> }
+              @if (p.aktif) { <button class="kucuk" (click)="planSimdi(p)">{{ '✉ Şimdi gönder' | t }}</button> }
               <button class="kucuk tehlike" (click)="planSil(p)">{{ p.siklikGun === 0 && p.aktif ? 'İptal' : 'Sil' }}</button>
             </div></td>
           </tr>
@@ -81,17 +81,17 @@
   </div>
 }
 
-<h3 class="alt-baslik">Gönderim geçmişi</h3>
+<h3 class="alt-baslik">{{ 'Gönderim geçmişi' | t }}</h3>
 <div class="tablo-kutu">
   <table>
-    <thead><tr><th>Tarih</th><th>Paket</th><th>Kime</th><th>Cevap</th><th>Ort. skor</th><th></th></tr></thead>
+    <thead><tr><th>{{ 'Tarih' | t }}</th><th>{{ 'Paket' | t }}</th><th>{{ 'Kime' | t }}</th><th>{{ 'Cevap' | t }}</th><th>{{ 'Ort. skor' | t }}</th><th></th></tr></thead>
     <tbody>
       @for (p of liste(); track p.id) {
         <tr>
           <td>{{ p.zaman | date: 'dd.MM.yyyy HH:mm' }}</td>
           <td>
             <b>{{ p.paket }}</b>
-            <small>{{ p.soruSayisi }} soru
+            <small>{{ p.soruSayisi }} {{ 'soru' | t }}
               <span class="rozet kucuk-r" [class.ok]="p.anlik && !p.demo" [class.gri]="!p.anlik && !p.demo" [class.uyari]="p.demo || p.test">
                 {{ p.demo ? 'Demo' : p.test ? 'Test' : p.anlik ? 'Anlık' : 'Plan' }}</span></small>
           </td>
@@ -99,13 +99,13 @@
           <td>
             <div class="oran"><div class="dolu" [style.width.%]="p.cevapOrani"></div></div>
             <small>{{ p.cevaplayan }}/{{ p.gonderilen }} (%{{ p.cevapOrani }})
-              @if (p.hatali) { · <span class="hata">{{ p.hatali }} mail hatası</span> }</small>
+              @if (p.hatali) { · <span class="hata">{{ p.hatali }} {{ 'mail hatası' | t }}</span> }</small>
           </td>
           <td>@if (p.ortalamaSkor != null) { <span class="skor {{ skorSinifi(p.ortalamaSkor) }}">{{ p.ortalamaSkor }}</span> } @else { — }</td>
-          <td><a [routerLink]="['/gonderimler', p.id]"><button class="kucuk">Cevapları gör →</button></a></td>
+          <td><a [routerLink]="['/gonderimler', p.id]"><button class="kucuk">{{ 'Cevapları gör →' | t }}</button></a></td>
         </tr>
       } @empty {
-        <tr><td colspan="6" class="bos">Henüz gönderim yok. Yukarıdan bir paket gönder.</td></tr>
+        <tr><td colspan="6" class="bos">{{ 'Henüz gönderim yok. Yukarıdan bir paket gönder.' | t }}</td></tr>
       }
     </tbody>
   </table>

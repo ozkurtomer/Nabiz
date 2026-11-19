@@ -60,6 +60,7 @@ public class EntegrasyonTests
         public string PublicUrl => "https://nabiz.test";
         public bool SmtpAyarli => true; public bool IkMailAktif => true; public string? WebhookUrl => null;
         public bool HatirlatmaAktif => true; public int HatirlatmaGun => 2; public int HatirlatmaMaks => 2; public string? MobilAnahtar => "gizli";
+        public string SmtpSunucu => "smtp.test:25";
     }
     private class MailKutusu : IEmailSender
     {
@@ -196,5 +197,78 @@ public class EntegrasyonTests
     private class SabitPersonel(PersonelKaydi[] kayitlar) : IPersonelKaynagi
     {
         public Task<IReadOnlyList<PersonelKaydi>> OkuAsync(CancellationToken ct = default) => Task.FromResult<IReadOnlyList<PersonelKaydi>>(kayitlar);
+    }
+
+    // ---------------- Çok dillilik (TR/EN) ----------------
+
+    private class HataliMail : IEmailSender
+    {
+        public Task GonderAsync(string kime, string konu, string html, CancellationToken ct = default) => throw new InvalidOperationException("SMTP bağlantısı reddedildi");
+    }
+    private class SabitDil(string dil) : IDilBilgisi { public string Dil => dil; }
+
+    [Fact]
+    public async Task Soru_yalnizca_turkce_ya_da_yalnizca_ingilizce_kaydedilebilir_ikisi_bos_olamaz()
+    {
+        var (_, uow) = Ortam();
+        var servis = new SoruService(uow);
+        var tr = await servis.EkleAsync(new SoruKaydetIstek("Sadece Türkçe", null, SoruTipi.Emoji, true), default);
+        var en = await servis.EkleAsync(new SoruKaydetIstek(null, "English only", SoruTipi.Puan, true), default);
+        Assert.Equal("Sadece Türkçe", tr.MetinTr); Assert.Equal("", tr.MetinEn);
+        Assert.Equal("", en.MetinTr); Assert.Equal("English only", en.MetinEn);
+        await Assert.ThrowsAsync<DogrulamaHatasi>(() => servis.EkleAsync(new SoruKaydetIstek("  ", null, SoruTipi.Emoji, true), default));
+    }
+
+    [Fact]
+    public async Task Paket_adi_turkce_ya_da_ingilizce_olabilir_ikisi_bos_olamaz()
+    {
+        var (_, uow) = Ortam();
+        var servis = new PaketService(uow);
+        var p = await servis.EkleAsync(new PaketKaydetIstek(null, "Only English", null, null, true, [1]), default);
+        Assert.Equal("Only English", p.AdEn);
+        await Assert.ThrowsAsync<DogrulamaHatasi>(() => servis.EkleAsync(new PaketKaydetIstek("", " ", null, null, true, [1]), default));
+    }
+
+    [Fact]
+    public async Task Rapor_ve_gonderim_metinleri_istek_diline_gore_gelir_eksik_dilde_diger_dile_duser()
+    {
+        var (db, uow) = Ortam(); Veri(db, 2);
+        db.Sorular.Add(new Soru { Id = 500, MetinTr = "", MetinEn = "Only English question", Tip = SoruTipi.Emoji });
+        db.SaveChanges();
+        // Seed soru 1: TR "Bugün keyfin yerinde mi?" / EN "Are you feeling good today?"
+        var tr = await new RaporService(uow, new Ben(101, Rol.IK), new Zaman(), new AyarService(uow), new DenetimYok(), new SabitDil("tr")).CevaplarAsync(Filtre, false, default);
+        var en = await new RaporService(uow, new Ben(101, Rol.IK), new Zaman(), new AyarService(uow), new DenetimYok(), new SabitDil("en")).CevaplarAsync(Filtre, false, default);
+        Assert.Equal("Bugün keyfin yerinde mi?", tr[0].Soru);
+        Assert.Equal("Are you feeling good today?", en[0].Soru);
+        Assert.Equal("Only English question", db.Sorular.Find(500)!.Metin("tr"));   // Türkçe boş: İngilizce'ye düşer
+        Assert.Equal("Daily Pulse", db.Paketler.Find(1)!.AdGoster("en"));
+        Assert.Equal("Günlük Nabız", db.Paketler.Find(1)!.AdGoster("tr"));
+    }
+
+    [Fact]
+    public async Task Test_maili_basariyi_ve_hatanin_nedenini_doner()
+    {
+        var (db, uow) = Ortam(); Veri(db, 1);
+        var kutu = new MailKutusu();
+        var tamam = await new SistemService(uow, new Ayarlar(), new Zaman(), kutu, new Ben(101, Rol.IK), new DenetimYok()).TestMailiGonderAsync(null, default);
+        Assert.True(tamam.Basarili);
+        Assert.Equal("ik@x", Assert.Single(kutu.Giden).Kime);        // adres boşsa kendi adresine
+        Assert.Equal("smtp.test:25", tamam.Sunucu);
+
+        var hatali = await new SistemService(uow, new Ayarlar(), new Zaman(), new HataliMail(), new Ben(101, Rol.IK), new DenetimYok()).TestMailiGonderAsync("baska@x.com", default);
+        Assert.False(hatali.Basarili);
+        Assert.Contains("reddedildi", hatali.Mesaj);
+        await Assert.ThrowsAsync<DogrulamaHatasi>(() => new SistemService(uow, new Ayarlar(), new Zaman(), kutu, new Ben(101, Rol.IK), new DenetimYok()).TestMailiGonderAsync("gecersiz", default));
+    }
+
+    [Fact]
+    public async Task Kullanici_kendi_dilini_degistirir_ve_gecersiz_dil_turkceye_doner()
+    {
+        var (db, uow) = Ortam(); Veri(db, 1);
+        var servis = new KullaniciService(uow, new SabitPersonel([]), new DenetimYok(), new Zaman());
+        await servis.DilDegistirAsync(1, "EN", default);
+        Assert.Equal("en", (await db.Kullanicilar.FindAsync(1))!.Dil);
+        await servis.DilDegistirAsync(1, "xx", default);
+        Assert.Equal("tr", (await db.Kullanicilar.FindAsync(1))!.Dil);
     }
 }

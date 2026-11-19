@@ -11,8 +11,10 @@ public interface IUyariService
     Task GuncelleAsync(int id, UyariGuncelleIstek istek, CancellationToken ct);
 }
 
-public class UyariService(IUnitOfWork uow, IZaman zaman) : IUyariService
+public class UyariService(IUnitOfWork uow, IZaman zaman, IDilBilgisi? dilBilgisi = null) : IUyariService
 {
+    private string Lang => dilBilgisi?.Dil ?? "tr";
+
     public async Task<List<UyariDto>> ListeAsync(CancellationToken ct)
     {
         var q = from u in uow.Uyarilar.Query
@@ -21,13 +23,13 @@ public class UyariService(IUnitOfWork uow, IZaman zaman) : IUyariService
                 join k in uow.Kullanicilar.Query on g.KullaniciId equals k.Id
                 join s in uow.Sorular.Query on c.SoruId equals s.Id
                 orderby u.Olusturma descending
-                select new { u.Id, u.Olusturma, u.Durum, u.IkNotu, KullaniciId = k.Id, k.Ad, k.Departman, Soru = s.MetinTr, c.Deger, c.Yorum, c.YorumAnonim };
+                select new { u.Id, u.Olusturma, u.Durum, u.IkNotu, KullaniciId = k.Id, k.Ad, k.Departman, SoruTr = s.MetinTr, SoruEn = s.MetinEn, c.Deger, c.Yorum, c.YorumAnonim };
         var satirlar = await q.Take(300).ToListAsync(ct);
 
         // "Son 30 günde kaç uyarı": üst üste düşük puan veren kişileri öne çıkarmak için
         var sinir = zaman.UtcNow.AddDays(-30);
         var sayilar = satirlar.Where(x => x.Olusturma >= sinir).GroupBy(x => x.KullaniciId).ToDictionary(g => g.Key, g => g.Count());
-        return satirlar.Select(x => new UyariDto(x.Id, x.Olusturma, x.Durum, x.IkNotu, x.KullaniciId, x.Ad, x.Departman, x.Soru, x.Deger,
+        return satirlar.Select(x => new UyariDto(x.Id, x.Olusturma, x.Durum, x.IkNotu, x.KullaniciId, x.Ad, x.Departman, Nabiz.Domain.Dil.Sec(Lang, x.SoruTr, x.SoruEn), x.Deger,
             x.YorumAnonim ? null : x.Yorum, x.YorumAnonim && !string.IsNullOrWhiteSpace(x.Yorum), sayilar.GetValueOrDefault(x.KullaniciId))).ToList();
     }
 

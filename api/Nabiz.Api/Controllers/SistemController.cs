@@ -13,6 +13,10 @@ public class SistemController(ISistemService sistem, IDenetimService denetim) : 
     [HttpGet("durum")]
     public Task<SistemDurumuDto> Durum(CancellationToken ct) => sistem.DurumAsync(ct);
 
+    /// <summary>SMTP ayarlarını doğrulamak için test e-postası yollar (adres boşsa kendi adresine).</summary>
+    [HttpPost("test-mail")]
+    public Task<TestMailYanit> TestMail(TestMailIstek istek, CancellationToken ct) => sistem.TestMailiGonderAsync(istek.Adres, ct);
+
     [HttpGet("denetim")]
     public Task<List<DenetimDto>> Denetim(CancellationToken ct) => denetim.ListeAsync(ct);
 }

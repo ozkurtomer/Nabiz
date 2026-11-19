@@ -23,7 +23,7 @@ public class SoruService(IUnitOfWork uow) : ISoruService
     public async Task<SoruDto> EkleAsync(SoruKaydetIstek i, CancellationToken ct)
     {
         Dogrula(i);
-        var s = new Soru { MetinTr = i.MetinTr.Trim(), MetinEn = i.MetinEn.Trim(), Tip = i.Tip, Aktif = i.Aktif, TakipMetniTr = Bos(i.TakipMetniTr), TakipMetniEn = Bos(i.TakipMetniEn) };
+        var s = new Soru { MetinTr = (i.MetinTr ?? "").Trim(), MetinEn = (i.MetinEn ?? "").Trim(), Tip = i.Tip, Aktif = i.Aktif, TakipMetniTr = Bos(i.TakipMetniTr), TakipMetniEn = Bos(i.TakipMetniEn) };
         uow.Sorular.Add(s);
         await uow.SaveChangesAsync(ct);
         return Dto(s);
@@ -33,7 +33,7 @@ public class SoruService(IUnitOfWork uow) : ISoruService
     {
         Dogrula(i);
         var s = await uow.Sorular.FindAsync(id, ct) ?? throw new BulunamadiHatasi();
-        s.MetinTr = i.MetinTr.Trim(); s.MetinEn = i.MetinEn.Trim(); s.Tip = i.Tip; s.Aktif = i.Aktif;
+        s.MetinTr = (i.MetinTr ?? "").Trim(); s.MetinEn = (i.MetinEn ?? "").Trim(); s.Tip = i.Tip; s.Aktif = i.Aktif;
         s.TakipMetniTr = Bos(i.TakipMetniTr); s.TakipMetniEn = Bos(i.TakipMetniEn);
         await uow.SaveChangesAsync(ct);
         return Dto(s);
@@ -43,7 +43,7 @@ public class SoruService(IUnitOfWork uow) : ISoruService
 
     private static void Dogrula(SoruKaydetIstek i)
     {
-        if (string.IsNullOrWhiteSpace(i.MetinTr) || string.IsNullOrWhiteSpace(i.MetinEn))
-            throw new DogrulamaHatasi("Türkçe ve İngilizce soru metni zorunlu.");
+        if (string.IsNullOrWhiteSpace(i.MetinTr) && string.IsNullOrWhiteSpace(i.MetinEn))
+            throw new DogrulamaHatasi("Soru metnini Türkçe ya da İngilizce olarak yazmalısın (en az biri zorunlu).");
     }
 }

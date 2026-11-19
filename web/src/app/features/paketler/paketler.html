@@ -1,47 +1,47 @@
 <div class="sayfa-baslik">
   <div>
-    <h2>Soru paketleri</h2>
-    <p>Sorular paketler halinde gönderilir. Çalışan tek linkle paketteki tüm soruları adım adım cevaplar.</p>
+    <h2>{{ 'Soru paketleri' | t }}</h2>
+    <p>{{ 'Sorular paketler halinde gönderilir. Çalışan tek linkle paketteki tüm soruları adım adım cevaplar.' | t }}</p>
   </div>
-  @if (auth.rolVar('IK')) { <button class="birincil" (click)="yeni()">＋ Yeni paket</button> }
+  @if (auth.rolVar('IK')) { <button class="birincil" (click)="yeni()">{{ '＋ Yeni paket' | t }}</button> }
 </div>
 
 @if (form(); as f) {
   <section class="kart duzenle">
     <h3>{{ f.id ? 'Paketi düzenle' : 'Yeni paket' }}</h3>
     <div class="form">
-      <label class="genis">Paket adı <input [ngModel]="f.ad" (ngModelChange)="adGuncelle($event)" placeholder="Motivasyon Paketi"></label>
-      <label class="genis">Açıklama (isteğe bağlı) <input [ngModel]="f.aciklama" (ngModelChange)="aciklamaGuncelle($event)" placeholder="Kısa bir açıklama"></label>
-      <label class="aktif">Aktif <span class="anahtar"><input type="checkbox" [ngModel]="f.aktif" (ngModelChange)="aktifGuncelle($event)"><span></span></span></label>
+      <label class="genis">{{ 'Paket adı' | t }} <input [ngModel]="f.ad" (ngModelChange)="adGuncelle($event)" [placeholder]="'Motivasyon Paketi' | t"></label>
+      <label class="genis">{{ 'Açıklama (isteğe bağlı)' | t }} <input [ngModel]="f.aciklama" (ngModelChange)="aciklamaGuncelle($event)" [placeholder]="'Kısa bir açıklama' | t"></label>
+      <label class="aktif">{{ 'Aktif' | t }} <span class="anahtar"><input type="checkbox" [ngModel]="f.aktif" (ngModelChange)="aktifGuncelle($event)"><span></span></span></label>
     </div>
 
     <div class="iki">
       <div>
-        <h4>Pakette ({{ secilenSorular().length }})</h4>
+        <h4>{{ 'Pakette (' | t }}{{ secilenSorular().length }})</h4>
         @for (s of secilenSorular(); track s.id; let i = $index) {
           <div class="secili-soru">
             <span class="no">{{ i + 1 }}</span>
             <span class="metin">{{ s.metinTr }}<small>{{ s.tip }}</small></span>
-            <button class="kucuk hayalet" (click)="tasi(i, -1)" [disabled]="i === 0" title="Yukarı">↑</button>
-            <button class="kucuk hayalet" (click)="tasi(i, 1)" [disabled]="i === secilenSorular().length - 1" title="Aşağı">↓</button>
-            <button class="kucuk hayalet" (click)="cikar(s.id)" title="Çıkar">✕</button>
+            <button class="kucuk hayalet" (click)="tasi(i, -1)" [disabled]="i === 0" [attr.title]="'Yukarı' | t">↑</button>
+            <button class="kucuk hayalet" (click)="tasi(i, 1)" [disabled]="i === secilenSorular().length - 1" [attr.title]="'Aşağı' | t">↓</button>
+            <button class="kucuk hayalet" (click)="cikar(s.id)" [attr.title]="'Çıkar' | t">✕</button>
           </div>
-        } @empty { <p class="bos">Sağdaki havuzdan soru ekle.</p> }
+        } @empty { <p class="bos">{{ 'Sağdaki havuzdan soru ekle.' | t }}</p> }
       </div>
       <div>
-        <h4>Soru havuzu</h4>
-        <input class="ara" [ngModel]="ara()" (ngModelChange)="ara.set($event)" placeholder="Soru ara…">
+        <h4>{{ 'Soru havuzu' | t }}</h4>
+        <input class="ara" [ngModel]="ara()" (ngModelChange)="ara.set($event)" [placeholder]="'Soru ara…' | t">
         <div class="havuz">
           @for (s of eklenebilir(); track s.id) {
             <button class="havuz-soru" (click)="ekle(s.id)"><span>＋</span><span class="metin">{{ s.metinTr }}<small>{{ s.tip }}</small></span></button>
-          } @empty { <p class="bos">Eklenecek soru kalmadı.</p> }
+          } @empty { <p class="bos">{{ 'Eklenecek soru kalmadı.' | t }}</p> }
         </div>
       </div>
     </div>
 
     <div class="islem">
       <button class="birincil" (click)="kaydet()" [disabled]="!f.ad.trim() || f.secili.length === 0">{{ i18n.t('kaydet') }}</button>
-      <button (click)="vazgec()">Vazgeç</button>
+      <button (click)="vazgec()">{{ 'Vazgeç' | t }}</button>
     </div>
   </section>
 }
@@ -58,10 +58,10 @@
         @for (s of p.sorular; track s.id) { <li>{{ s.metinTr }}</li> }
       </ol>
       <div class="islem">
-        <button class="kucuk" (click)="dene(p)" title="Paketi e-posta atmadan kendine gönderip cevapla">▶ Dene</button>
+        <button class="kucuk" (click)="dene(p)" [attr.title]="'Paketi e-posta atmadan kendine gönderip cevapla' | t">{{ '▶ Dene' | t }}</button>
         @if (auth.rolVar('IK')) {
-          <button class="kucuk" (click)="duzenle(p)">Düzenle</button>
-          <button class="kucuk tehlike" (click)="sil(p)">Sil</button>
+          <button class="kucuk" (click)="duzenle(p)">{{ 'Düzenle' | t }}</button>
+          <button class="kucuk tehlike" (click)="sil(p)">{{ 'Sil' | t }}</button>
         }
       </div>
     </article>

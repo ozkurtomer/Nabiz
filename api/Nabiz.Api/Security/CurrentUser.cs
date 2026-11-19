@@ -14,6 +14,21 @@ public class CurrentUser(IHttpContextAccessor accessor) : ICurrentUser
         ?? throw new InvalidOperationException("Oturum bulunamadı."));
 }
 
+/// <summary>İstek dilini <c>X-Dil</c> başlığından (yoksa Accept-Language'den) okur; varsayılan Türkçe.</summary>
+public class DilBilgisi(IHttpContextAccessor accessor) : IDilBilgisi
+{
+    public string Dil
+    {
+        get
+        {
+            var h = accessor.HttpContext?.Request.Headers;
+            var x = h?["X-Dil"].ToString();
+            if (string.IsNullOrWhiteSpace(x)) x = h?["Accept-Language"].ToString().Split(',')[0];
+            return Nabiz.Domain.Dil.Normalize(x?.Split('-')[0]);
+        }
+    }
+}
+
 public static class Roller
 {
     /// <summary>İnsan Kaynakları: raporlar, gönderim, paket/soru/kullanıcı yönetimi, ayarlar ve denetim.</summary>

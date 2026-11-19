@@ -19,7 +19,7 @@ public class PaketService(IUnitOfWork uow) : IPaketService
     private IQueryable<SoruPaketi> Sorgu => uow.Paketler.Query.Include(p => p.Sorular).ThenInclude(s => s.Soru);
 
     public static PaketDto Dto(SoruPaketi p) =>
-        new(p.Id, p.Ad, p.Aciklama, p.Aktif, p.Sorular.OrderBy(s => s.Sira).Select(s => SoruService.Dto(s.Soru!)).ToList());
+        new(p.Id, p.Ad, p.AdEn, p.Aciklama, p.AciklamaEn, p.Aktif, p.Sorular.OrderBy(s => s.Sira).Select(s => SoruService.Dto(s.Soru!)).ToList());
 
     public async Task<List<PaketDto>> ListeAsync(CancellationToken ct) =>
         (await Sorgu.OrderBy(p => p.Id).ToListAsync(ct)).Select(Dto).ToList();
@@ -57,14 +57,17 @@ public class PaketService(IUnitOfWork uow) : IPaketService
 
     private static void Uygula(SoruPaketi p, PaketKaydetIstek i)
     {
-        p.Ad = i.Ad.Trim(); p.Aciklama = string.IsNullOrWhiteSpace(i.Aciklama) ? null : i.Aciklama.Trim(); p.Aktif = i.Aktif;
+        p.Ad = (i.Ad ?? "").Trim(); p.AdEn = (i.AdEn ?? "").Trim();
+        p.Aciklama = string.IsNullOrWhiteSpace(i.Aciklama) ? null : i.Aciklama.Trim();
+        p.AciklamaEn = string.IsNullOrWhiteSpace(i.AciklamaEn) ? null : i.AciklamaEn.Trim();
+        p.Aktif = i.Aktif;
         var sira = 0;
         foreach (var soruId in i.SoruIdleri.Distinct()) p.Sorular.Add(new PaketSoru { SoruId = soruId, Sira = sira++ });
     }
 
     private async Task DogrulaAsync(PaketKaydetIstek i, CancellationToken ct)
     {
-        if (string.IsNullOrWhiteSpace(i.Ad)) throw new DogrulamaHatasi("Paket adı zorunlu.");
+        if (string.IsNullOrWhiteSpace(i.Ad) && string.IsNullOrWhiteSpace(i.AdEn)) throw new DogrulamaHatasi("Paket adı zorunlu (Türkçe ya da İngilizce).");
         var ids = i.SoruIdleri.Distinct().ToList();
         if (ids.Count == 0) throw new DogrulamaHatasi("Pakete en az bir soru eklemelisin.");
         if (await uow.Sorular.Query.CountAsync(s => ids.Contains(s.Id), ct) != ids.Count) throw new DogrulamaHatasi("Seçilen sorulardan bazıları bulunamadı.");

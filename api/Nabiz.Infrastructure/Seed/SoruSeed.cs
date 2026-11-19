@@ -43,15 +43,15 @@ public static class SoruSeed
 
     public static readonly SoruPaketi[] Paketler =
     [
-        new() { Id = 1, Ad = "Günlük Nabız", Aciklama = "Tek soruluk hızlı moral kontrolü.", Aktif = true },
-        new() { Id = 2, Ad = "Motivasyon Paketi", Aciklama = "Değer görme, motivasyon, bağlılık ve enerji.", Aktif = true },
-        new() { Id = 3, Ad = "İş Yükü ve Denge", Aciklama = "İş yükü, dinlenme ve iş-yaşam dengesi.", Aktif = true },
-        new() { Id = 4, Ad = "Ekip ve Yönetici", Aciklama = "Ekip iletişimi ve yönetici desteği.", Aktif = true },
-        new() { Id = 5, Ad = "Oryantasyon (Yeni Başlayanlar)", Aciklama = "İşe yeni başlayanların ilk haftalardaki deneyimi.", Aktif = true },
-        new() { Id = 6, Ad = "Uzaktan / Hibrit Çalışma", Aciklama = "Uzaktan çalışmada bağlantı, verimlilik ve ortam.", Aktif = true },
-        new() { Id = 7, Ad = "Toplantı Sonrası Geri Bildirim", Aciklama = "Toplantıdan hemen sonra gönderilen hızlı değerlendirme.", Aktif = true },
-        new() { Id = 8, Ad = "Bağlılık ve Kariyer", Aciklama = "Kariyer beklentisi, ücret memnuniyeti ve bağlılık; ayrılma riskini erken görmek için.", Aktif = true },
-        new() { Id = 9, Ad = "Yönetici Değerlendirme", Aciklama = "Yöneticiye güven, geri bildirim ve adalet algısı.", Aktif = true },
+        new() { Id = 1, AdEn = "Daily Pulse", AciklamaEn = "A one-question quick mood check.", Ad = "Günlük Nabız", Aciklama = "Tek soruluk hızlı moral kontrolü.", Aktif = true },
+        new() { Id = 2, AdEn = "Motivation Pack", AciklamaEn = "Feeling valued, motivation, commitment and energy.", Ad = "Motivasyon Paketi", Aciklama = "Değer görme, motivasyon, bağlılık ve enerji.", Aktif = true },
+        new() { Id = 3, AdEn = "Workload & Balance", AciklamaEn = "Workload, rest and work-life balance.", Ad = "İş Yükü ve Denge", Aciklama = "İş yükü, dinlenme ve iş-yaşam dengesi.", Aktif = true },
+        new() { Id = 4, AdEn = "Team & Manager", AciklamaEn = "Team communication and manager support.", Ad = "Ekip ve Yönetici", Aciklama = "Ekip iletişimi ve yönetici desteği.", Aktif = true },
+        new() { Id = 5, AdEn = "Onboarding (New Joiners)", AciklamaEn = "How new joiners experience their first weeks.", Ad = "Oryantasyon (Yeni Başlayanlar)", Aciklama = "İşe yeni başlayanların ilk haftalardaki deneyimi.", Aktif = true },
+        new() { Id = 6, AdEn = "Remote / Hybrid Work", AciklamaEn = "Connection, productivity and setup when working remotely.", Ad = "Uzaktan / Hibrit Çalışma", Aciklama = "Uzaktan çalışmada bağlantı, verimlilik ve ortam.", Aktif = true },
+        new() { Id = 7, AdEn = "Post-Meeting Feedback", AciklamaEn = "A quick evaluation sent right after a meeting.", Ad = "Toplantı Sonrası Geri Bildirim", Aciklama = "Toplantıdan hemen sonra gönderilen hızlı değerlendirme.", Aktif = true },
+        new() { Id = 8, AdEn = "Commitment & Career", AciklamaEn = "Career outlook, pay satisfaction and commitment; to spot attrition risk early.", Ad = "Bağlılık ve Kariyer", Aciklama = "Kariyer beklentisi, ücret memnuniyeti ve bağlılık; ayrılma riskini erken görmek için.", Aktif = true },
+        new() { Id = 9, AdEn = "Manager Feedback", AciklamaEn = "Trust, feedback and fairness perceptions about the manager.", Ad = "Yönetici Değerlendirme", Aciklama = "Yöneticiye güven, geri bildirim ve adalet algısı.", Aktif = true },
     ];
 
     public static readonly PaketSoru[] PaketSorulari =

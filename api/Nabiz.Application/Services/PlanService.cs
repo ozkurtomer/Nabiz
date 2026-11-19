@@ -15,10 +15,12 @@ public interface IPlanService
     Task SilAsync(int id, CancellationToken ct);
 }
 
-public class PlanService(IUnitOfWork uow) : IPlanService
+public class PlanService(IUnitOfWork uow, IDilBilgisi? dilBilgisi = null) : IPlanService
 {
-    private static PlanDto Dto(GonderimPlani p, IReadOnlyDictionary<int, string> isimler) =>
-        new(p.Id, p.PaketId, p.Paket?.Ad, p.HedefTipi, p.HedefDeger, HedefYardimcisi.Aciklama(p.HedefTipi, p.HedefDeger, isimler),
+    private string Lang => dilBilgisi?.Dil ?? "tr";
+
+    private PlanDto Dto(GonderimPlani p, IReadOnlyDictionary<int, string> isimler) =>
+        new(p.Id, p.PaketId, p.Paket?.AdGoster(Lang), p.HedefTipi, p.HedefDeger, HedefYardimcisi.Aciklama(p.HedefTipi, p.HedefDeger, isimler, Lang),
             p.Baslangic, p.SiklikGun, p.Saat.ToString(@"hh\:mm"), p.Aktif, p.SonCalisma);
 
     private async Task<Dictionary<int, string>> IsimleriGetirAsync(IEnumerable<GonderimPlani> planlar, CancellationToken ct)

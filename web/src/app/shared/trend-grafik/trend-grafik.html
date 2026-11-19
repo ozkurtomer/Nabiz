@@ -1,4 +1,4 @@
-<svg [attr.viewBox]="'0 0 ' + G + ' ' + Y" preserveAspectRatio="none" role="img" aria-label="Günlük ortalama skor grafiği">
+<svg [attr.viewBox]="'0 0 ' + G + ' ' + Y" preserveAspectRatio="none" role="img" [attr.aria-label]="'Günlük ortalama skor grafiği' | t">
   @for (c of cizgiler; track c) {
     <line [attr.x1]="SOL" [attr.x2]="G - SAG" [attr.y1]="y(c)" [attr.y2]="y(c)" class="izgara"/>
     <text [attr.x]="SOL - 6" [attr.y]="y(c) + 4" class="eksen" text-anchor="end">{{ c }}</text>
@@ -7,7 +7,7 @@
   @for (p of dolu(); track p.gun) {
     @if (p.cy !== null) {
       <circle [attr.cx]="p.cx" [attr.cy]="p.cy" r="4" class="nokta">
-        <title>{{ p.gun | date: 'dd.MM.yyyy' }} · skor {{ p.ortalamaSkor }} · {{ p.cevapSayisi }} cevap</title>
+        <title>{{ p.gun | date: 'dd.MM.yyyy' }} {{ '· skor' | t }} {{ p.ortalamaSkor }} · {{ p.cevapSayisi }} {{ 'cevap' | t }}</title>
       </circle>
     }
   }

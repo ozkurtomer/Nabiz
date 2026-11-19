@@ -790,7 +790,16 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<string>("AciklamaEn")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("AdEn")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -807,63 +816,81 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 1,
                             Aciklama = "Tek soruluk hızlı moral kontrolü.",
+                            AciklamaEn = "A one-question quick mood check.",
                             Ad = "Günlük Nabız",
+                            AdEn = "Daily Pulse",
                             Aktif = true
                         },
                         new
                         {
                             Id = 2,
                             Aciklama = "Değer görme, motivasyon, bağlılık ve enerji.",
+                            AciklamaEn = "Feeling valued, motivation, commitment and energy.",
                             Ad = "Motivasyon Paketi",
+                            AdEn = "Motivation Pack",
                             Aktif = true
                         },
                         new
                         {
                             Id = 3,
                             Aciklama = "İş yükü, dinlenme ve iş-yaşam dengesi.",
+                            AciklamaEn = "Workload, rest and work-life balance.",
                             Ad = "İş Yükü ve Denge",
+                            AdEn = "Workload & Balance",
                             Aktif = true
                         },
                         new
                         {
                             Id = 4,
                             Aciklama = "Ekip iletişimi ve yönetici desteği.",
+                            AciklamaEn = "Team communication and manager support.",
                             Ad = "Ekip ve Yönetici",
+                            AdEn = "Team & Manager",
                             Aktif = true
                         },
                         new
                         {
                             Id = 5,
                             Aciklama = "İşe yeni başlayanların ilk haftalardaki deneyimi.",
+                            AciklamaEn = "How new joiners experience their first weeks.",
                             Ad = "Oryantasyon (Yeni Başlayanlar)",
+                            AdEn = "Onboarding (New Joiners)",
                             Aktif = true
                         },
                         new
                         {
                             Id = 6,
                             Aciklama = "Uzaktan çalışmada bağlantı, verimlilik ve ortam.",
+                            AciklamaEn = "Connection, productivity and setup when working remotely.",
                             Ad = "Uzaktan / Hibrit Çalışma",
+                            AdEn = "Remote / Hybrid Work",
                             Aktif = true
                         },
                         new
                         {
                             Id = 7,
                             Aciklama = "Toplantıdan hemen sonra gönderilen hızlı değerlendirme.",
+                            AciklamaEn = "A quick evaluation sent right after a meeting.",
                             Ad = "Toplantı Sonrası Geri Bildirim",
+                            AdEn = "Post-Meeting Feedback",
                             Aktif = true
                         },
                         new
                         {
                             Id = 8,
                             Aciklama = "Kariyer beklentisi, ücret memnuniyeti ve bağlılık; ayrılma riskini erken görmek için.",
+                            AciklamaEn = "Career outlook, pay satisfaction and commitment; to spot attrition risk early.",
                             Ad = "Bağlılık ve Kariyer",
+                            AdEn = "Commitment & Career",
                             Aktif = true
                         },
                         new
                         {
                             Id = 9,
                             Aciklama = "Yöneticiye güven, geri bildirim ve adalet algısı.",
+                            AciklamaEn = "Trust, feedback and fairness perceptions about the manager.",
                             Ad = "Yönetici Değerlendirme",
+                            AdEn = "Manager Feedback",
                             Aktif = true
                         });
                 });

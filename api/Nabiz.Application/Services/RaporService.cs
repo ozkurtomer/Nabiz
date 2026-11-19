@@ -21,8 +21,10 @@ public interface IRaporService
 /// Çalışan yorumunu anonim bıraktıysa İK dahil kimse o yorumun sahibini göremez.
 /// Raporlar yalnızca çalışanın "Tamamla" dediği gönderimleri sayar.
 /// </summary>
-public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarService ayarlar, IDenetimService denetim) : IRaporService
+public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarService ayarlar, IDenetimService denetim, IDilBilgisi? dilBilgisi = null) : IRaporService
 {
+    private string Lang => dilBilgisi?.Dil ?? "tr";
+
     private record Satir(Gonderim G, Cevap C, Soru S, double Skor);
 
     private record Baglam(
@@ -60,7 +62,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
         {
             var s = grp.Key;
             var dagilim = s.Degerler().Select(d => new DagilimNoktasi(d, grp.Count(x => x.C.Deger == d))).ToList();
-            return new SoruSatiri(s.Id, s.MetinTr, s.Tip, grp.Count(), Math.Round(grp.Average(x => x.Skor), 1), dagilim);
+            return new SoruSatiri(s.Id, s.Metin(Lang), s.Tip, grp.Count(), Math.Round(grp.Average(x => x.Skor), 1), dagilim);
         }).OrderByDescending(s => s.CevapSayisi).ToList();
 
         var gunluk = tamam.GroupBy(g => zaman.Yerel(g.GonderimZamani).Date).ToDictionary(x => x.Key, x => x.ToList());
@@ -80,7 +82,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
         await denetim.KaydetAsync("Cevap listesi görüntülendi", $"{b.Bas:dd.MM.yyyy}-{b.Bit:dd.MM.yyyy} · {b.Kapsam}", ct);
 
         var satirlar = b.Satirlar(b.Tamam).Where(x => !sadeceYorumlu || !string.IsNullOrWhiteSpace(x.C.Yorum));
-        var paketAd = await uow.GonderimPartileri.Query.Include(p => p.Paket).ToDictionaryAsync(p => p.Id, p => p.Paket!.Ad, ct);
+        var paketAd = await uow.GonderimPartileri.Query.Include(p => p.Paket).ToDictionaryAsync(p => p.Id, p => p.Paket!.AdGoster(Lang), ct);
 
         return satirlar.OrderByDescending(x => x.C.GuncellemeZamani).Take(500).Select(x =>
         {
@@ -88,7 +90,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
             var gizle = x.C.YorumAnonim && !string.IsNullOrWhiteSpace(x.C.Yorum);   // anonim yorumun sahibi kimseye gösterilmez
             return new CevapSatiri(x.C.Id, zaman.Yerel(x.C.GuncellemeZamani),
                 gizle ? null : k.Ad, gizle ? null : k.Departman,
-                paketAd.GetValueOrDefault(x.G.PartiId, "—"), x.S.MetinTr, x.S.Tip, x.C.Deger, Math.Round(x.Skor, 0), x.C.Yorum,
+                paketAd.GetValueOrDefault(x.G.PartiId, "—"), x.S.Metin(Lang), x.S.Tip, x.C.Deger, Math.Round(x.Skor, 0), x.C.Yorum,
                 x.S.DusukMu(x.C.Deger, b.Ayar.EmojiEsik, b.Ayar.PuanEsik));
         }).ToList();
     }
@@ -116,7 +118,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
         var noktalar = gonderimler.Select(g =>
         {
             var skorlar = g.Cevaplar.Select(c => sorular[c.SoruId].Skor(c.Deger)).ToList();
-            return new KisiNoktasi(zaman.Yerel(g.TamamlanmaZamani!.Value), g.Parti!.Paket!.Ad, Math.Round(skorlar.Average(), 1),
+            return new KisiNoktasi(zaman.Yerel(g.TamamlanmaZamani!.Value), g.Parti!.Paket!.AdGoster(Lang), Math.Round(skorlar.Average(), 1),
                 g.Cevaplar.Any(c => sorular[c.SoruId].DusukMu(c.Deger, ayar.EmojiEsik, ayar.PuanEsik)));
         }).ToList();
 
@@ -124,7 +126,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
             .Select(x =>
             {
                 var s = sorular[x.C.SoruId];
-                return new KisiGecmisCevap(zaman.Yerel(x.C.GuncellemeZamani), x.G.Parti!.Paket!.Ad, s.MetinTr, s.Tip, x.C.Deger, Math.Round(s.Skor(x.C.Deger), 0),
+                return new KisiGecmisCevap(zaman.Yerel(x.C.GuncellemeZamani), x.G.Parti!.Paket!.AdGoster(Lang), s.Metin(Lang), s.Tip, x.C.Deger, Math.Round(s.Skor(x.C.Deger), 0),
                     x.C.YorumAnonim ? null : x.C.Yorum, s.DusukMu(x.C.Deger, ayar.EmojiEsik, ayar.PuanEsik));
             }).ToList();
 
@@ -162,7 +164,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
         if (f.PaketId is int pid) gq = gq.Where(g => g.Parti!.PaketId == pid);
 
         var ayar = await ayarlar.GetirAsync(ct);
-        var kapsam = string.IsNullOrWhiteSpace(f.Departman) ? "Tüm şirket" : f.Departman!;
+        var kapsam = string.IsNullOrWhiteSpace(f.Departman) ? (Lang == "en" ? "Whole company" : "Tüm şirket") : f.Departman!;
         return new Baglam(bas, bit, ayar, kapsam, kullanicilar, await uow.Sorular.Query.ToDictionaryAsync(s => s.Id, ct), await gq.ToListAsync(ct));
     }
 

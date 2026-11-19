@@ -1,7 +1,7 @@
 <div class="sekmeler">
-  <button type="button" [class.aktif]="tip() === 'Hepsi'" (click)="tipSec('Hepsi')">👥 Herkes</button>
-  <button type="button" [class.aktif]="tip() === 'Departman'" (click)="tipSec('Departman')">🏢 Departman</button>
-  <button type="button" [class.aktif]="tip() === 'Kisi'" (click)="tipSec('Kisi')">🙋 Kişi seç</button>
+  <button type="button" [class.aktif]="tip() === 'Hepsi'" (click)="tipSec('Hepsi')">{{ '👥 Herkes' | t }}</button>
+  <button type="button" [class.aktif]="tip() === 'Departman'" (click)="tipSec('Departman')">{{ '🏢 Departman' | t }}</button>
+  <button type="button" [class.aktif]="tip() === 'Kisi'" (click)="tipSec('Kisi')">{{ '🙋 Kişi seç' | t }}</button>
 </div>
 
 @if (tip() === 'Departman') {
@@ -13,9 +13,9 @@
 @if (tip() === 'Kisi') {
   <div class="kisi-kutu">
     <div class="kisi-ust">
-      <input [ngModel]="ara()" (ngModelChange)="ara.set($event)" placeholder="Ad veya departman ara…">
-      <button type="button" class="kucuk" (click)="hepsiniSec()">Görünenleri seç</button>
-      <button type="button" class="kucuk hayalet" (click)="temizle()">Temizle</button>
+      <input [ngModel]="ara()" (ngModelChange)="ara.set($event)" [placeholder]="'Ad veya departman ara…' | t">
+      <button type="button" class="kucuk" (click)="hepsiniSec()">{{ 'Görünenleri seç' | t }}</button>
+      <button type="button" class="kucuk hayalet" (click)="temizle()">{{ 'Temizle' | t }}</button>
     </div>
     <div class="liste">
       @for (k of filtreli(); track k.id) {
@@ -23,9 +23,9 @@
           <input type="checkbox" [checked]="secili().has(k.id)" (change)="kisiDegistir(k.id, $any($event.target).checked)">
           <span class="ad">{{ k.ad }}</span><small>{{ k.departman || '—' }}</small>
         </label>
-      } @empty { <p class="bos">Eşleşen kişi yok.</p> }
+      } @empty { <p class="bos">{{ 'Eşleşen kişi yok.' | t }}</p> }
     </div>
   </div>
 }
 
-<p class="ozet">📨 Hedef: <b>{{ hedefSayisi() }}</b> kişi</p>
+<p class="ozet">{{ '📨 Hedef:' | t }} <b>{{ hedefSayisi() }}</b> {{ 'kişi' | t }}</p>

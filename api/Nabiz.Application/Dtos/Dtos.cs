@@ -10,9 +10,9 @@ public record GirisDogrulaIstek(string Token);
 
 // ---- Soru ve paket
 public record SoruDto(int Id, string MetinTr, string MetinEn, SoruTipi Tip, bool Aktif, string? TakipMetniTr = null, string? TakipMetniEn = null);
-public record SoruKaydetIstek(string MetinTr, string MetinEn, SoruTipi Tip, bool Aktif, string? TakipMetniTr = null, string? TakipMetniEn = null);
-public record PaketDto(int Id, string Ad, string? Aciklama, bool Aktif, List<SoruDto> Sorular);
-public record PaketKaydetIstek(string Ad, string? Aciklama, bool Aktif, List<int> SoruIdleri);
+public record SoruKaydetIstek(string? MetinTr, string? MetinEn, SoruTipi Tip, bool Aktif, string? TakipMetniTr = null, string? TakipMetniEn = null);
+public record PaketDto(int Id, string Ad, string AdEn, string? Aciklama, string? AciklamaEn, bool Aktif, List<SoruDto> Sorular);
+public record PaketKaydetIstek(string? Ad, string? AdEn, string? Aciklama, string? AciklamaEn, bool Aktif, List<int> SoruIdleri);
 
 // ---- Kullanıcı
 public record KullaniciDto(int Id, string PersonelId, string Ad, string Email, string? Departman, Rol Rol, string Dil, bool Aktif);
@@ -26,7 +26,7 @@ public record PlanKaydetIstek(int PaketId, HedefTipi HedefTipi, string? HedefDeg
 // ---- Cevaplama (çalışan)
 public record CevapGirdisi(int SoruId, int Deger, string? Yorum, bool AnonimYorum = false);
 public record CevapKaydetIstek(List<CevapGirdisi> Cevaplar, bool Tamamla);
-public record CevapSayfasiDto(string KullaniciAd, string PaketAd, string? Aciklama, List<SoruDto> Sorular, List<CevapGirdisi> Cevaplar, bool Tamamlandi, int EmojiEsik, int PuanEsik);
+public record CevapSayfasiDto(string KullaniciAd, string Dil, string PaketAd, string PaketAdEn, string? Aciklama, string? AciklamaEn, List<SoruDto> Sorular, List<CevapGirdisi> Cevaplar, bool Tamamlandi, int EmojiEsik, int PuanEsik);
 public record CevapKaydetYanit(bool Tamamlandi, int Cevaplanan, int Toplam);
 public record TestGonderimYanit(string Token);
 public record BenimSoruDto(string Token, string Paket, int SoruSayisi, DateTime Zaman, bool Tamamlandi);
@@ -72,3 +72,8 @@ public record SistemDurumuDto(bool Veritabani, int Son24SaatGonderilen, int Son2
 public record DenetimDto(int Id, DateTime Zaman, string Kullanici, string Eylem, string? Detay);
 public record MobilGirisIstek(string Email);
 public record MobilGirisYanit(string Url, string Token);
+
+// ---- Profil dili ve test maili
+public record ProfilDilIstek(string Dil);
+public record TestMailIstek(string? Adres);
+public record TestMailYanit(bool Basarili, string Mesaj, string Sunucu);

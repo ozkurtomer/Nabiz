@@ -20,8 +20,10 @@ public interface ICevapService
     Task<List<BenimSoruDto>> BenimAsync(int kullaniciId, CancellationToken ct);
 }
 
-public class CevapService(IUnitOfWork uow, IAyarService ayarlar, IZaman zaman, IUyariBildirimService bildirim) : ICevapService
+public class CevapService(IUnitOfWork uow, IAyarService ayarlar, IZaman zaman, IUyariBildirimService bildirim, IDilBilgisi? dilBilgisi = null) : ICevapService
 {
+    private string Lang => dilBilgisi?.Dil ?? "tr";
+
     private IQueryable<Gonderim> Sorgu => uow.Gonderimler.Query
         .Include(g => g.Kullanici).Include(g => g.Cevaplar)
         .Include(g => g.Parti!).ThenInclude(p => p.Paket!).ThenInclude(p => p.Sorular).ThenInclude(s => s.Soru);
@@ -33,7 +35,7 @@ public class CevapService(IUnitOfWork uow, IAyarService ayarlar, IZaman zaman, I
         var g = await BulAsync(token, ct);
         var p = g.Parti!.Paket!;
         var a = await ayarlar.GetirAsync(ct);
-        return new CevapSayfasiDto(g.Kullanici!.Ad, p.Ad, p.Aciklama, PaketSorulari(g).Select(SoruService.Dto).ToList(),
+        return new CevapSayfasiDto(g.Kullanici!.Ad, Nabiz.Domain.Dil.Normalize(g.Kullanici.Dil), p.Ad, p.AdEn, p.Aciklama, p.AciklamaEn, PaketSorulari(g).Select(SoruService.Dto).ToList(),
             g.Cevaplar.Select(c => new CevapGirdisi(c.SoruId, c.Deger, c.Yorum, c.YorumAnonim)).ToList(), g.Tamamlandi, a.EmojiEsik, a.PuanEsik);
     }
 
@@ -91,7 +93,7 @@ public class CevapService(IUnitOfWork uow, IAyarService ayarlar, IZaman zaman, I
         var liste = await uow.Gonderimler.Query.Include(g => g.Parti!).ThenInclude(p => p.Paket!).ThenInclude(p => p.Sorular)
             .Where(g => g.KullaniciId == kullaniciId && g.Durum == GonderimDurumu.Gonderildi)
             .OrderByDescending(g => g.GonderimZamani).Take(50).ToListAsync(ct);
-        return liste.Select(g => new BenimSoruDto(g.Token, g.Parti!.Paket!.Ad, g.Parti.Paket.Sorular.Count, zaman.Yerel(g.GonderimZamani), g.Tamamlandi)).ToList();
+        return liste.Select(g => new BenimSoruDto(g.Token, g.Parti!.Paket!.AdGoster(Lang), g.Parti.Paket.Sorular.Count, zaman.Yerel(g.GonderimZamani), g.Tamamlandi)).ToList();
     }
 
     private async Task<Gonderim> BulAsync(string token, CancellationToken ct) =>

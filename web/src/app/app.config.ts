@@ -2,6 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessC
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { dilInterceptor } from './core/interceptors/dil.interceptor';
 import { hataInterceptor } from './core/interceptors/hata.interceptor';
 import { routes } from './app.routes';
 
@@ -10,6 +11,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withInterceptors([authInterceptor, hataInterceptor])),
+    provideHttpClient(withInterceptors([dilInterceptor, authInterceptor, hataInterceptor])),
   ],
 };

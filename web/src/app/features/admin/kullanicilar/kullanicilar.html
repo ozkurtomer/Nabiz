@@ -1,24 +1,24 @@
 <div class="sayfa-baslik">
   <div>
     <h2>{{ i18n.t('kullanicilar') }}</h2>
-    <p>Kullanıcılar personel tablosundan otomatik gelir (her saat başı senkronize edilir). Burada yalnızca rol ve erişim yönetilir.</p>
+    <p>{{ 'Kullanıcılar personel tablosundan otomatik gelir (her saat başı senkronize edilir). Burada yalnızca rol ve erişim yönetilir.' | t }}</p>
   </div>
-  <button class="birincil" (click)="aktar()">↻ Şimdi senkronize et</button>
+  <button class="birincil" (click)="aktar()">{{ '↻ Şimdi senkronize et' | t }}</button>
 </div>
 
 <div class="arac-cubugu">
   <div class="arama">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input [(ngModel)]="ara" (keyup.enter)="yukle()" placeholder="Ad veya e-posta ara…">
+    <input [(ngModel)]="ara" (keyup.enter)="yukle()" [placeholder]="'Ad veya e-posta ara…' | t">
   </div>
-  <button (click)="yukle()">Ara</button>
+  <button (click)="yukle()">{{ 'Ara' | t }}</button>
   <span class="bosluk"></span>
-  <small>{{ liste().length }} kullanıcı</small>
+  <small>{{ liste().length }} {{ 'kullanıcı' | t }}</small>
 </div>
 
 <div class="tablo-kutu">
   <table>
-    <thead><tr><th>Kullanıcı</th><th>Departman</th><th>Rol</th><th>Aktif</th><th></th></tr></thead>
+    <thead><tr><th>{{ 'Kullanıcı' | t }}</th><th>{{ 'Departman' | t }}</th><th>{{ 'Rol' | t }}</th><th>{{ 'Aktif' | t }}</th><th></th></tr></thead>
     <tbody>
       @for (k of liste(); track k.id) {
         <tr>
@@ -31,7 +31,7 @@
           <td>{{ k.departman || '—' }}</td>
           <td>
             <select [(ngModel)]="k.rol">
-              <option value="Calisan">Çalışan</option><option value="IK">İK</option>
+              <option value="Calisan">{{ 'Çalışan' | t }}</option><option value="IK">İK</option>
             </select>
           </td>
           <td><label class="anahtar"><input type="checkbox" [(ngModel)]="k.aktif"><span></span></label></td>

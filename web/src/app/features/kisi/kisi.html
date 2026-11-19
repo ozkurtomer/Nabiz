@@ -1,4 +1,4 @@
-<a routerLink="/uyarilar" class="geri">← Geri</a>
+<a routerLink="/uyarilar" class="geri">{{ '← Geri' | t }}</a>
 
 @if (gecmis(); as g) {
   <div class="sayfa-baslik">
@@ -6,24 +6,24 @@
       <span class="avatar buyuk">{{ g.ad.charAt(0) }}</span>
       <div><h2>{{ g.ad }}</h2><p>{{ g.departman || '—' }} · {{ g.email }}</p></div>
     </div>
-    @if (g.ortalamaSkor != null) { <div class="ort"><small>Ortalama skor</small><b class="skor {{ skorSinifi(g.ortalamaSkor) }}">{{ g.ortalamaSkor }}</b></div> }
+    @if (g.ortalamaSkor != null) { <div class="ort"><small>{{ 'Ortalama skor' | t }}</small><b class="skor {{ skorSinifi(g.ortalamaSkor) }}">{{ g.ortalamaSkor }}</b></div> }
   </div>
 
   @if (g.dususte) {
-    <div class="uyari-kutu">📉 <b>Düşüş eğilimi:</b> son üç ölçümde skor sürekli azalıyor ya da hepsi düşük. İletişime geçmeyi düşünebilirsin.</div>
+    <div class="uyari-kutu">📉 <b>{{ 'Düşüş eğilimi:' | t }}</b> {{ 'son üç ölçümde skor sürekli azalıyor ya da hepsi düşük. İletişime geçmeyi düşünebilirsin.' | t }}</div>
   }
-  <div class="bilgi">🔍 Bu sayfanın görüntülenmesi denetim kaydına işlenir. Anonim bırakılan yorumlar burada gösterilmez.</div>
+  <div class="bilgi">{{ '🔍 Bu sayfanın görüntülenmesi denetim kaydına işlenir. Anonim bırakılan yorumlar burada gösterilmez.' | t }}</div>
 
   <section class="kart">
-    <h3>Skor geçmişi</h3>
-    @if (g.noktalar.length < 2) { <p class="bos">Grafik için en az iki tamamlanmış cevap gerekir.</p> } @else { <app-trend-grafik [noktalar]="trend()" /> }
+    <h3>{{ 'Skor geçmişi' | t }}</h3>
+    @if (g.noktalar.length < 2) { <p class="bos">{{ 'Grafik için en az iki tamamlanmış cevap gerekir.' | t }}</p> } @else { <app-trend-grafik [noktalar]="trend()" /> }
   </section>
 
   <section class="kart">
-    <h3>Son cevaplar</h3>
+    <h3>{{ 'Son cevaplar' | t }}</h3>
     <div class="tablo-kutu ic">
       <table>
-        <thead><tr><th>Tarih</th><th>Paket / soru</th><th>Cevap</th><th>Yorum</th></tr></thead>
+        <thead><tr><th>{{ 'Tarih' | t }}</th><th>{{ 'Paket / soru' | t }}</th><th>{{ 'Cevap' | t }}</th><th>{{ 'Yorum' | t }}</th></tr></thead>
         <tbody>
           @for (c of g.cevaplar; track $index) {
             <tr>
@@ -32,11 +32,11 @@
               <td><span class="skor {{ c.dusuk ? 'kotu' : skorSinifi(c.skor) }}">{{ cevapGoster(c.tip, c.deger) }}</span></td>
               <td class="yorum">{{ c.yorum }}</td>
             </tr>
-          } @empty { <tr><td colspan="4" class="bos">Henüz tamamlanmış cevap yok.</td></tr> }
+          } @empty { <tr><td colspan="4" class="bos">{{ 'Henüz tamamlanmış cevap yok.' | t }}</td></tr> }
         </tbody>
       </table>
     </div>
   </section>
 } @else if (hata()) {
-  <div class="kart"><h3>Bu sayfaya erişim yok</h3><p>Kişi bazlı geçmişi yalnızca İK görebilir.</p></div>
-} @else { <p class="bos">Yükleniyor…</p> }
+  <div class="kart"><h3>{{ 'Bu sayfaya erişim yok' | t }}</h3><p>{{ 'Kişi bazlı geçmişi yalnızca İK görebilir.' | t }}</p></div>
+} @else { <p class="bos">{{ 'Yükleniyor…' | t }}</p> }

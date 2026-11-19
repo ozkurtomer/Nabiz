@@ -53,6 +53,14 @@ public interface IUygulamaAyarlari
     int HatirlatmaMaks { get; }
     /// <summary>Mobil uygulamanın backend'i ile paylaşılan gizli anahtar (WebView otomatik giriş). Boşsa kapalı.</summary>
     string? MobilAnahtar { get; }
+    /// <summary>"host:port" (SMTP ayarlı değilse boş); test mailinde gösterilir.</summary>
+    string SmtpSunucu { get; }
+}
+
+/// <summary>İstek dilini ("tr" / "en") verir; kullanıcıya dönen metinler bu dile göre seçilir. İstek dışı çalışmalarda "tr".</summary>
+public interface IDilBilgisi
+{
+    string Dil { get; }
 }
 
 public interface IWebhookGonderici
