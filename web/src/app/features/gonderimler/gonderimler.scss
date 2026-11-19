@@ -7,14 +7,14 @@
 td small { display: block; }
 .kucuk-r { margin-left: 6px; padding: 1px 8px; font-size: .7rem; }
 .oran { height: 6px; width: 140px; background: var(--vurgu-soft); border-radius: 999px; overflow: hidden; margin-bottom: 4px; }
-.dolu { height: 100%; background: linear-gradient(90deg, var(--vurgu), var(--vurgu2)); }
+.dolu { height: 100%; background: var(--vurgu); }
 .skor { display: inline-block; min-width: 44px; text-align: center; padding: 3px 10px; border-radius: 999px; font-weight: 700; }
 .skor.kotu { background: var(--hata-soft); color: var(--hata); } .skor.orta { background: var(--uyari-soft); color: var(--uyari); } .skor.iyi { background: var(--ok-soft); color: var(--ok); }
 a { text-decoration: none; }
 
 .alt { margin: 20px 0 10px; }
 .modlar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.modlar button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 8px; border-radius: 14px; text-align: center; }
+.modlar button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 8px; border-radius: 10px; text-align: center; }
 .modlar button span { font-size: 1.5rem; }
 .modlar button small { color: var(--soluk); font-weight: 400; }
 .modlar button.aktif { background: var(--vurgu-soft); border-color: var(--vurgu); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vurgu) 18%, transparent); }

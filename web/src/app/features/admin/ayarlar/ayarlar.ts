@@ -10,10 +10,11 @@ import { SistemService } from '../../../core/services/sistem.service';
 import { SistemDurumu, TestMailYanit } from '../../../core/models/models';
 import { DatePipe } from '@angular/common';
 import { TPipe } from '../../../shared/t.pipe';
+import { Ikon } from '../../../shared/ikon/ikon';
 
 @Component({
   selector: 'app-ayarlar',
-  imports: [TPipe, FormsModule, DatePipe],
+  imports: [Ikon, TPipe, FormsModule, DatePipe],
   templateUrl: './ayarlar.html',
   styleUrl: './ayarlar.scss',
 })

@@ -9,11 +9,13 @@ import { I18n } from '../../../core/services/i18n';
 import { EMOJILER } from '../../../core/utils/cevap';
 import { sec } from '../../../core/utils/dil';
 import { Soru } from '../../../core/models/models';
+import { Ikon } from '../../../shared/ikon/ikon';
+import { TPipe } from '../../../shared/t.pipe';
 
 /** E-postadaki linkten açılır (giriş gerekmez). Paketteki soruları adım adım sorar. */
 @Component({
   selector: 'app-cevap',
-  imports: [FormsModule, DecimalPipe],
+  imports: [FormsModule, DecimalPipe, TPipe, Ikon],
   templateUrl: './cevap.html',
   styleUrl: './cevap.scss',
 })

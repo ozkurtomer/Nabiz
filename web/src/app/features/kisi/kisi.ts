@@ -8,11 +8,12 @@ import { cevapGoster as cevapGosterFn, skorSinifi } from '../../core/utils/cevap
 import { TrendGrafik } from '../../shared/trend-grafik/trend-grafik';
 import { TPipe } from '../../shared/t.pipe';
 import { I18n } from '../../core/services/i18n';
+import { Ikon } from '../../shared/ikon/ikon';
 
 /** Bir çalışanın zaman içindeki skorları (yalnızca İK; her görüntüleme denetim kaydına işlenir). */
 @Component({
   selector: 'app-kisi',
-  imports: [TPipe, DatePipe, RouterLink, TrendGrafik],
+  imports: [Ikon, TPipe, DatePipe, RouterLink, TrendGrafik],
   templateUrl: './kisi.html',
   styleUrl: './kisi.scss',
 })

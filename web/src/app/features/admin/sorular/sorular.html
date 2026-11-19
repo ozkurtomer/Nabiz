@@ -6,7 +6,7 @@
 </div>
 
 <div class="kart yeni">
-  <h3>{{ '✨ Yeni soru ekle' | t }}</h3>
+  <h3>{{ 'Yeni soru ekle' | t }}</h3>
   <div class="form">
     <label class="genis">{{ 'Türkçe' | t }} <input [(ngModel)]="yeni.metinTr" [placeholder]="'Bugün keyfin yerinde mi?' | t"></label>
     <label class="genis">English <input [(ngModel)]="yeni.metinEn" placeholder="Are you feeling good today?"></label>
@@ -14,12 +14,12 @@
     <label class="genis">{{ 'Düşük cevapta takip sorusu (İngilizce, isteğe bağlı)' | t }} <input [(ngModel)]="yeni.takipMetniEn" placeholder="What made it hard?"></label>
     <label>{{ 'Tip' | t }}
       <select [(ngModel)]="yeni.tip">
-        <option value="Emoji">{{ '😀 Emoji' | t }}</option><option value="Puan">{{ '🔢 1-10 puan' | t }}</option><option value="EvetHayir">{{ '👍 Evet/Hayır' | t }}</option>
+        <option value="Emoji">{{ 'Emoji' | t }}</option><option value="Puan">{{ '1-10 puan' | t }}</option><option value="EvetHayir">{{ 'Evet/Hayır' | t }}</option>
       </select>
     </label>
     <button class="birincil" (click)="ekle()" [disabled]="!yeni.metinTr.trim() && !yeni.metinEn.trim()">{{ 'Ekle' | t }}</button>
   </div>
-  <p class="ipucu">💡 {{ 'Soruyu Türkçe ya da İngilizce yazman yeterli; diğer dil boşsa aynı soru her iki dilde gösterilir.' | t }}</p>
+  <p class="ipucu"> {{ 'Soruyu Türkçe ya da İngilizce yazman yeterli; diğer dil boşsa aynı soru her iki dilde gösterilir.' | t }}</p>
 </div>
 
 <div class="tablo-kutu">
@@ -32,7 +32,7 @@
           <td><input [(ngModel)]="s.metinEn"></td>
           <td><input [(ngModel)]="s.takipMetniTr" placeholder="TR"><input [(ngModel)]="s.takipMetniEn" placeholder="EN" style="margin-top:6px"></td>
           <td><span class="rozet" [class.ok]="s.tip === 'Puan'" [class.uyari]="s.tip === 'EvetHayir'">
-            {{ (s.tip === 'Emoji' ? '😀 Emoji' : s.tip === 'Puan' ? '🔢 Puan' : '👍 Evet/Hayır') | t }}</span></td>
+            {{ (s.tip === 'Emoji' ? 'Emoji' : s.tip === 'Puan' ? 'Puan' : 'Evet/Hayır') | t }}</span></td>
           <td><label class="anahtar"><input type="checkbox" [(ngModel)]="s.aktif"><span></span></label></td>
           <td>
             <div class="islem">

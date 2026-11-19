@@ -10,9 +10,9 @@
   </div>
 
   @if (g.dususte) {
-    <div class="uyari-kutu">📉 <b>{{ 'Düşüş eğilimi:' | t }}</b> {{ 'son üç ölçümde skor sürekli azalıyor ya da hepsi düşük. İletişime geçmeyi düşünebilirsin.' | t }}</div>
+    <div class="uyari-kutu"><app-ikon ad="trend" /> <b>{{ 'Düşüş eğilimi:' | t }}</b> {{ 'son üç ölçümde skor sürekli azalıyor ya da hepsi düşük. İletişime geçmeyi düşünebilirsin.' | t }}</div>
   }
-  <div class="bilgi">{{ '🔍 Bu sayfanın görüntülenmesi denetim kaydına işlenir. Anonim bırakılan yorumlar burada gösterilmez.' | t }}</div>
+  <div class="bilgi"><app-ikon ad="shield" /> <span>{{ 'Bu sayfanın görüntülenmesi denetim kaydına işlenir. Anonim bırakılan yorumlar burada gösterilmez.' | t }}</span></div>
 
   <section class="kart">
     <h3>{{ 'Skor geçmişi' | t }}</h3>

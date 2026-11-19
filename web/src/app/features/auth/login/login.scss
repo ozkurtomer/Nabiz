@@ -1,82 +1,68 @@
 :host { display: block; min-height: 100vh; }
+.sahne { display: grid; grid-template-columns: minmax(360px, 46%) 1fr; min-height: 100vh; }
 
-.sahne { display: grid; grid-template-columns: minmax(340px, 46%) 1fr; min-height: 100vh; }
-
-/* ---------- Marka paneli ---------- */
+/* ---------- Marka paneli (açık, kurumsal) ---------- */
 .marka {
-  position: relative; overflow: hidden; color: #fff;
-  background: linear-gradient(145deg, #3b6cf6 0%, #6d4df2 55%, #a14df0 100%);
-  display: flex; align-items: center; padding: 48px;
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 40px 52px;
+  background:
+    linear-gradient(#dfe6f3 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(90deg, #dfe6f3 1px, transparent 1px) 0 0 / 40px 40px,
+    #eef3fb;
+  border-right: 1px solid var(--kenar);
 }
-.marka-ic { position: relative; z-index: 2; max-width: 380px; }
-.logo { width: 72px; height: 72px; margin-bottom: 16px; animation: atis 2.4s ease-in-out infinite; }
-.marka h1 { font-size: 2.6rem; letter-spacing: -.5px; margin: 0 0 12px; }
-.slogan { font-size: 1.2rem; line-height: 1.5; opacity: .95; margin: 0 0 32px; }
-.ozellik { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-.ozellik li { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.14); padding: 10px 14px; border-radius: 12px; backdrop-filter: blur(4px); }
-.ozellik span { font-size: 1.2rem; }
-.dalga { position: absolute; border-radius: 50%; background: rgba(255,255,255,.08); z-index: 1; }
-.dalga1 { width: 420px; height: 420px; right: -140px; bottom: -120px; }
-.dalga2 { width: 260px; height: 260px; left: -80px; top: -80px; }
-@keyframes atis { 0%,100% { transform: scale(1); } 15% { transform: scale(1.12); } 30% { transform: scale(1); } 45% { transform: scale(1.08); } }
+.marka::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(238, 243, 251, 0) 0%, #eef3fb 85%); pointer-events: none; }
+.marka > * { position: relative; z-index: 1; }
+.marka-ust { display: flex; align-items: center; gap: 12px; font-size: 1.2rem; }
+.logo-kutu { width: 38px; height: 38px; border-radius: 9px; background: var(--vurgu); color: #fff; display: inline-grid; place-items: center; }
+.logo-kutu app-ikon { --ikon-boyut: 21px; }
+.marka-orta { max-width: 460px; }
+.marka h1 { font-size: 2.2rem; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 14px; }
+.slogan { color: var(--metin2); font-size: 1.05rem; line-height: 1.6; margin: 0 0 28px; }
+.ozellik { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.ozellik li { display: flex; align-items: flex-start; gap: 12px; color: var(--metin2); }
+.ozellik li app-ikon { color: var(--vurgu); --ikon-boyut: 20px; margin-top: 1px; }
+.marka-alt { color: var(--soluk); font-size: .85rem; }
 
 /* ---------- Form paneli ---------- */
-.panel { position: relative; display: flex; align-items: center; justify-content: center; padding: 32px 24px; background: var(--arka); }
-.dil { position: absolute; top: 20px; right: 24px; display: flex; gap: 4px; }
-.dil button { border: none; background: none; padding: 6px 10px; border-radius: 8px; color: var(--soluk); font-weight: 600; }
-.dil button.secili { background: var(--yuzey); color: var(--vurgu); box-shadow: 0 1px 4px #0002; }
+.panel { position: relative; display: flex; align-items: center; justify-content: center; padding: 32px 24px; background: var(--yuzey); }
+.dil { position: absolute; top: 20px; right: 24px; display: inline-flex; border: 1px solid var(--kenar-guclu); border-radius: 8px; overflow: hidden; }
+.dil button { border: none; border-radius: 0; padding: 4px 11px; font-size: .8rem; background: transparent; color: var(--soluk); }
+.dil button.secili { background: var(--vurgu-soft); color: var(--vurgu); }
 
-.kutu { width: 100%; max-width: 400px; }
-.kutu h2 { font-size: 1.7rem; margin: 0 0 6px; }
-.alt { color: var(--soluk); margin: 0 0 28px; }
-
-.alan { display: block; margin-bottom: 18px; }
-.alan > span { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
-.girdi {
-  display: flex; align-items: center; gap: 10px; padding: 0 12px; height: 48px;
-  background: var(--yuzey); border: 1.5px solid var(--kenar); border-radius: 12px;
-  transition: border-color .15s, box-shadow .15s;
-}
-.girdi:focus-within { border-color: var(--vurgu); box-shadow: 0 0 0 4px #3b6cf622; }
-.girdi svg { width: 20px; height: 20px; color: var(--soluk); flex: none; }
-.girdi input { flex: 1; border: none; outline: none; background: none; padding: 0; height: 100%; font-size: 1rem; color: inherit; min-width: 0; }
-.goz { border: none; background: none; padding: 4px; font-size: 1.05rem; cursor: pointer; opacity: .75; }
-.goz:hover { opacity: 1; }
-
-.hata-kutu { background: #fef3f2; color: var(--hata); border: 1px solid #fecdca; padding: 10px 12px; border-radius: 10px; margin: 0 0 16px; font-size: .9rem; }
+.kutu { width: 100%; max-width: 380px; }
+.kutu h2 { font-size: 1.6rem; margin-bottom: 6px; }
+.alt { color: var(--soluk); margin: 0 0 26px; line-height: 1.55; }
+.alan { display: block; margin-bottom: 16px; }
+.alan > span { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 6px; color: var(--metin2); }
+.girdi { display: flex; align-items: center; gap: 10px; padding: 0 12px; height: 44px; background: var(--yuzey); border: 1px solid var(--kenar-guclu); border-radius: 8px; transition: border-color .12s, box-shadow .12s; }
+.girdi:focus-within { border-color: var(--vurgu); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vurgu) 16%, transparent); }
+.girdi app-ikon { color: var(--soluk); --ikon-boyut: 18px; }
+.girdi input { flex: 1; border: none; outline: none; box-shadow: none; background: none; padding: 0; height: 100%; font-size: .95rem; min-width: 0; }
+.goz { border: none; background: none; padding: 4px; color: var(--soluk); }
+.goz:hover:not(:disabled) { background: none; color: var(--metin); }
+.hata-kutu { background: var(--hata-soft); color: var(--hata); border: 1px solid #f3c9c4; padding: 9px 12px; border-radius: 8px; margin: 0 0 14px; font-size: .88rem; }
 .titre { animation: titre .35s; }
-@keyframes titre { 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+@keyframes titre { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
 
-.giris {
-  width: 100%; height: 50px; border: none; border-radius: 12px; font-size: 1.05rem; font-weight: 600; color: #fff; cursor: pointer;
-  background: linear-gradient(135deg, #3b6cf6, #6d4df2); box-shadow: 0 6px 16px #3b6cf655;
-  transition: transform .1s, box-shadow .15s, opacity .15s; display: flex; align-items: center; justify-content: center;
-}
-.giris:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px #3b6cf666; }
-.giris:disabled { opacity: .55; box-shadow: none; cursor: default; }
-.donen { width: 20px; height: 20px; border: 3px solid #fff5; border-top-color: #fff; border-radius: 50%; animation: don .7s linear infinite; }
+.giris { width: 100%; height: 44px; font-size: .98rem; }
+.donen { width: 18px; height: 18px; border: 2.5px solid #fff6; border-top-color: #fff; border-radius: 50%; animation: don .7s linear infinite; }
 @keyframes don { to { transform: rotate(360deg); } }
-
-.ayrac { display: flex; align-items: center; gap: 12px; margin: 26px 0 14px; color: var(--soluk); font-size: .8rem; }
+.mod { display: block; width: 100%; margin-top: 10px; border: none; background: none; color: var(--vurgu); padding: 8px; box-shadow: none; }
+.mod:hover:not(:disabled) { background: none; text-decoration: underline; }
+.ayrac { display: flex; align-items: center; gap: 12px; margin: 22px 0 14px; color: var(--soluk); font-size: .78rem; }
 .ayrac::before, .ayrac::after { content: ''; flex: 1; height: 1px; background: var(--kenar); }
 .demo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.demo-btn { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--kenar); background: var(--yuzey); font-weight: 600; transition: border-color .15s, transform .1s; }
-.demo-btn:hover:not(:disabled) { border-color: var(--vurgu); transform: translateY(-1px); }
-.ikon { font-size: 1.2rem; }
+.demo-btn { justify-content: flex-start; padding: 10px 12px; }
+.demo-btn app-ikon { color: var(--vurgu); }
 
-/* ---------- Mobil ---------- */
-@media (max-width: 800px) {
-  .sahne { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  .marka { padding: 28px 24px; }
-  .marka-ic { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .logo { width: 48px; height: 48px; margin: 0; }
-  .marka h1 { font-size: 1.8rem; margin: 0; }
-  .slogan, .ozellik { display: none; }
-  .panel { align-items: flex-start; padding-top: 28px; }
-}
-
-.mod { display: block; width: 100%; margin-top: 14px; border: none; background: none; color: var(--vurgu); padding: 6px; }
-.mod:hover:not(:disabled) { transform: none; text-decoration: underline; }
 .gitti { text-align: center; }
 .gitti .alt { margin-bottom: 20px; }
-.mail-ikon { font-size: 3.2rem; margin-bottom: 8px; }
+.buyuk-ikon { width: 60px; height: 60px; margin: 0 auto 16px; border-radius: 50%; background: var(--vurgu-soft); color: var(--vurgu); display: grid; place-items: center; --ikon-boyut: 28px; }
+
+@media (max-width: 860px) {
+  .sahne { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .marka { padding: 22px 24px; }
+  .marka-orta, .marka-alt { display: none; }
+  .marka::after { display: none; }
+  .panel { align-items: flex-start; padding-top: 32px; }
+}

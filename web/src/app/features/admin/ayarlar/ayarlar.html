@@ -8,7 +8,7 @@
 
 @if (durum(); as d) {
   <section class="kart sistem">
-    <h3>{{ '🩺 Sistem durumu' | t }}</h3>
+    <h3><app-ikon ad="activity" /> {{ 'Sistem durumu' | t }}</h3>
     <div class="durum-izgara">
       <div class="d" [class.ok]="d.veritabani" [class.kotu]="!d.veritabani"><small>{{ 'Veritabanı' | t }}</small><b>{{ (d.veritabani ? 'Çalışıyor' : 'Hata') | t }}</b></div>
       <div class="d" [class.ok]="d.smtpAyarli" [class.kotu]="!d.smtpAyarli"><small>{{ 'SMTP (mail)' | t }}</small><b>{{ (d.smtpAyarli ? 'Ayarlı' : 'Ayarlı değil') | t }}</b></div>
@@ -23,40 +23,40 @@
 }
 
   <section class="kart test-mail">
-    <h3>📧 {{ 'E-posta testi' | t }}</h3>
+    <h3> {{ 'E-posta testi' | t }}</h3>
     <p class="aciklama">{{ 'Şirket SMTP ayarlarının çalıştığını doğrulamak için gerçek bir test e-postası gönderir. Adres boşsa kendi hesabının e-posta adresine gider.' | t }}</p>
     <div class="form">
       <label class="genis">{{ 'Test adresi (isteğe bağlı)' | t }} <input type="email" [(ngModel)]="testAdres" placeholder="ornek@sirket.com"></label>
-      <button class="birincil" (click)="testMailGonder()" [disabled]="testBekliyor()">{{ (testBekliyor() ? 'Gönderiliyor…' : '📧 Test maili gönder') | t }}</button>
+      <button class="birincil" (click)="testMailGonder()" [disabled]="testBekliyor()"><app-ikon ad="send" /> {{ (testBekliyor() ? 'Gönderiliyor…' : 'Test maili gönder') | t }}</button>
     </div>
     @if (testSonuc(); as r) {
       @if (r.basarili && r.sandbox) {
-        <div class="bilgi uyari-kutu"><span>⚠️</span><div>
+        <div class="bilgi uyari-kutu"><app-ikon ad="alert" /><div>
           <b>{{ 'Mail gerçek gelen kutusuna gitmedi.' | t }}</b>
           {{ 'Şu an sahte test sunucusuna (Mailpit) bağlısın; mailler orada yakalanır:' | t }}
           <a href="http://localhost:8025" target="_blank" rel="noopener">http://localhost:8025</a><br>
           <small>{{ 'Gerçek bir kutuya mail göndermek için docs/MAIL-TEST.md rehberindeki SMTP ayarlarını yap.' | t }}</small>
         </div></div>
       } @else if (r.basarili) {
-        <div class="bilgi ok-kutu"><span>✅</span><div>
+        <div class="bilgi ok-kutu"><app-ikon ad="check-circle" /><div>
           {{ 'Gönderildi:' | t }} <b>{{ r.mesaj }}</b> <small>({{ r.sunucu }})</small><br>
           <small>{{ 'Gelen kutunu ve spam klasörünü kontrol et. Mail gelmediyse SMTP sunucusu maili kabul etmiş ama teslim etmemiş olabilir.' | t }}</small>
         </div></div>
       } @else {
-        <div class="bilgi hata-kutu"><span>❌</span><div>{{ 'Gönderilemedi:' | t }} {{ r.mesaj }} <small>({{ r.sunucu }})</small></div></div>
+        <div class="bilgi hata-kutu"><app-ikon ad="x-circle" /><div>{{ 'Gönderilemedi:' | t }} {{ r.mesaj }} <small>({{ r.sunucu }})</small></div></div>
       }
     }
   </section>
 
 <div class="izgara">
   <section class="kart">
-    <div class="kafa"><span class="ikon">😞</span><div><h3>{{ 'Emoji eşiği' | t }}</h3><small>{{ '1-5 arası skala' | t }}</small></div></div>
+    <div class="kafa"><span class="ikon"><app-ikon ad="sliders" /></span><div><h3>{{ 'Emoji eşiği' | t }}</h3><small>{{ '1-5 arası skala' | t }}</small></div></div>
     <p>{{ 'Bu değer ve altındaki cevaplar İK\'ya uyarı olarak düşer.' | t }}</p>
     <div class="deger"><input type="range" min="1" max="5" [(ngModel)]="a.emojiEsik"><b>{{ a.emojiEsik }}</b></div>
   </section>
 
   <section class="kart">
-    <div class="kafa"><span class="ikon">🔢</span><div><h3>{{ 'Puan eşiği' | t }}</h3><small>{{ '1-10 arası skala' | t }}</small></div></div>
+    <div class="kafa"><span class="ikon"><app-ikon ad="sliders" /></span><div><h3>{{ 'Puan eşiği' | t }}</h3><small>{{ '1-10 arası skala' | t }}</small></div></div>
     <p>{{ 'Bu değer ve altındaki puanlar İK\'ya uyarı olarak düşer.' | t }}</p>
     <div class="deger"><input type="range" min="1" max="10" [(ngModel)]="a.puanEsik"><b>{{ a.puanEsik }}</b></div>
   </section>
@@ -64,7 +64,7 @@
 </div>
 
 <section class="kart demo">
-  <div class="kafa"><span class="ikon">🧪</span><div><h3>{{ 'Deneme verisi' | t }}</h3><small>{{ 'Raporları gerçek cevap gelmeden görmek için' | t }}</small></div></div>
+  <div class="kafa"><span class="ikon"><app-ikon ad="flask" /></span><div><h3>{{ 'Deneme verisi' | t }}</h3><small>{{ 'Raporları gerçek cevap gelmeden görmek için' | t }}</small></div></div>
   <p>{{ 'Son 60 gün için tüm kullanıcılara sahte paket gönderimleri ve cevaplar üretir. "Temizle" yalnızca bu sahte verileri siler, gerçek cevaplara dokunmaz.' | t }}</p>
   <div class="islem">
     <button (click)="demoUret()" [disabled]="demoMesgul()">{{ 'Demo veri üret' | t }}</button>

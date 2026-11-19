@@ -7,10 +7,11 @@ import { I18n } from '../../core/services/i18n';
 import { NotifyService } from '../../core/services/notify.service';
 import { UyariService } from '../../core/services/uyari.service';
 import { TPipe } from '../../shared/t.pipe';
+import { Ikon } from '../../shared/ikon/ikon';
 
 @Component({
   selector: 'app-uyarilar',
-  imports: [TPipe, FormsModule, DatePipe, RouterLink],
+  imports: [Ikon, TPipe, FormsModule, DatePipe, RouterLink],
   templateUrl: './uyarilar.html',
   styleUrl: './uyarilar.scss',
 })

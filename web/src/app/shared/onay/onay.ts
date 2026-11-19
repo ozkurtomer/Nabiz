@@ -1,10 +1,11 @@
 import { Component, ElementRef, HostListener, effect, inject, viewChild } from '@angular/core';
 import { OnayService } from '../../core/services/onay.service';
 import { TPipe } from '../t.pipe';
+import { Ikon } from '../ikon/ikon';
 
 @Component({
   selector: 'app-onay',
-  imports: [TPipe],
+  imports: [Ikon, TPipe],
   templateUrl: './onay.html',
   styleUrl: './onay.scss',
 })

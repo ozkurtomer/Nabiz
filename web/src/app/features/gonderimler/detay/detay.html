@@ -6,8 +6,8 @@
       <h2>{{ d.parti.paket }}</h2>
       <p>{{ d.parti.zaman | date: 'dd.MM.yyyy HH:mm' }} · {{ d.parti.hedef }} · {{ d.parti.soruSayisi }} {{ 'soru' | t }}</p>
     </div>
-    <button (click)="csvIndir()">{{ '⬇ CSV indir' | t }}</button>
-    @if (d.parti.hatali) { <button class="birincil" (click)="tekrarDene()">{{ '↻ Gitmeyen' | t }} {{ d.parti.hatali }} {{ 'maili tekrar dene' | t }}</button> }
+    <button (click)="csvIndir()">{{ 'CSV indir' | t }}</button>
+    @if (d.parti.hatali) { <button class="birincil" (click)="tekrarDene()">{{ 'Gitmeyen' | t }} {{ d.parti.hatali }} {{ 'maili tekrar dene' | t }}</button> }
   </div>
 
   <div class="kpi-satir">
@@ -40,7 +40,7 @@
 
   @if (d.anonimYorumlar.length) {
     <section class="kart anonim-kart">
-      <h3>{{ '🕶️ Anonim yorumlar' | t }}</h3>
+      <h3>{{ 'Anonim yorumlar' | t }}</h3>
       <p class="aciklama">{{ 'Bu yorumları bırakan kişiler kimliklerinin gizli kalmasını seçti; kimse (İK dahil) yorumu kişiyle ilişkilendiremez.' | t }}</p>
       @for (a of d.anonimYorumlar; track $index) { <blockquote><small>{{ a.soru }}</small>“{{ a.yorum }}”</blockquote> }
     </section>
@@ -73,7 +73,7 @@
               @for (c of k.cevaplar; track c.soruId) {
                 <div class="cevap-satiri">
                   <span class="deger skor {{ c.dusuk ? 'kotu' : skorSinifi(c.skor) }}">{{ cevapGoster(c.tip, c.deger) }}</span>
-                  <div><b>{{ c.soru }}</b>@if (c.yorum) { <blockquote>“{{ c.yorum }}”</blockquote> } @else if (c.yorumAnonim) { <small>{{ '🕶️ Anonim yorum bırakıldı (aşağıda)' | t }}</small> }</div>
+                  <div><b>{{ c.soru }}</b>@if (c.yorum) { <blockquote>“{{ c.yorum }}”</blockquote> } @else if (c.yorumAnonim) { <small>{{ 'Anonim yorum bırakıldı (aşağıda)' | t }}</small> }</div>
                 </div>
               }
             </td></tr>

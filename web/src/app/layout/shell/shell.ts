@@ -5,10 +5,11 @@ import { AuthService } from '../../core/services/auth.service';
 import { I18n } from '../../core/services/i18n';
 import { KullaniciService } from '../../core/services/kullanici.service';
 import { TPipe } from '../../shared/t.pipe';
+import { Ikon } from '../../shared/ikon/ikon';
 
 @Component({
   selector: 'app-shell',
-  imports: [TPipe, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [Ikon, TPipe, RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })

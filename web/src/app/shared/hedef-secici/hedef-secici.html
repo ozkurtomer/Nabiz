@@ -1,7 +1,7 @@
 <div class="sekmeler">
-  <button type="button" [class.aktif]="tip() === 'Hepsi'" (click)="tipSec('Hepsi')">{{ '👥 Herkes' | t }}</button>
-  <button type="button" [class.aktif]="tip() === 'Departman'" (click)="tipSec('Departman')">{{ '🏢 Departman' | t }}</button>
-  <button type="button" [class.aktif]="tip() === 'Kisi'" (click)="tipSec('Kisi')">{{ '🙋 Kişi seç' | t }}</button>
+  <button type="button" [class.aktif]="tip() === 'Hepsi'" (click)="tipSec('Hepsi')"><app-ikon ad="users" /> {{ 'Herkes' | t }}</button>
+  <button type="button" [class.aktif]="tip() === 'Departman'" (click)="tipSec('Departman')"><app-ikon ad="building" /> {{ 'Departman' | t }}</button>
+  <button type="button" [class.aktif]="tip() === 'Kisi'" (click)="tipSec('Kisi')"><app-ikon ad="user" /> {{ 'Kişi seç' | t }}</button>
 </div>
 
 @if (tip() === 'Departman') {
@@ -28,4 +28,4 @@
   </div>
 }
 
-<p class="ozet">{{ '📨 Hedef:' | t }} <b>{{ hedefSayisi() }}</b> {{ 'kişi' | t }}</p>
+<p class="ozet"><app-ikon ad="mail" /> {{ 'Hedef:' | t }} <b>{{ hedefSayisi() }}</b> {{ 'kişi' | t }}</p>

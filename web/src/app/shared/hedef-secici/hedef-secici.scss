@@ -3,7 +3,7 @@
 .sekmeler button { border-radius: 999px; padding: 7px 14px; }
 .sekmeler button.aktif { background: var(--vurgu); border-color: var(--vurgu); color: #fff; }
 .tam { width: 100%; max-width: 320px; }
-.kisi-kutu { border: 1.5px solid var(--kenar); border-radius: 12px; overflow: hidden; background: var(--yuzey); }
+.kisi-kutu { border: 1px solid var(--kenar-guclu); border-radius: 10px; overflow: hidden; background: var(--yuzey); }
 .kisi-ust { display: flex; gap: 8px; padding: 10px; border-bottom: 1px solid var(--kenar); flex-wrap: wrap; }
 .kisi-ust input { flex: 1; min-width: 160px; }
 .liste { max-height: 220px; overflow-y: auto; }

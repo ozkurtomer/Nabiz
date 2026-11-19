@@ -6,7 +6,7 @@
 </div>
 
 <section class="kart yeni">
-  <h3>{{ '🚀 Yeni gönderim' | t }}</h3>
+  <h3><app-ikon ad="send" /> {{ 'Yeni gönderim' | t }}</h3>
 
   <div class="form">
     <label class="genis">{{ 'Paket' | t }}
@@ -24,9 +24,9 @@
 
   <h4 class="alt">{{ 'Ne zaman?' | t }}</h4>
   <div class="modlar">
-    <button type="button" [class.aktif]="mod() === 'hemen'" (click)="mod.set('hemen')"><span>⚡</span><b>{{ 'Hemen' | t }}</b><small>{{ 'Şimdi gönder' | t }}</small></button>
-    <button type="button" [class.aktif]="mod() === 'birkez'" (click)="mod.set('birkez')"><span>🕘</span><b>{{ 'Bir kez' | t }}</b><small>{{ 'Seçtiğin tarih ve saatte' | t }}</small></button>
-    <button type="button" [class.aktif]="mod() === 'tekrar'" (click)="mod.set('tekrar')"><span>🔁</span><b>{{ 'Tekrarlayan' | t }}</b><small>{{ 'Her N günde bir' | t }}</small></button>
+    <button type="button" [class.aktif]="mod() === 'hemen'" (click)="mod.set('hemen')"><app-ikon ad="zap" /><b>{{ 'Hemen' | t }}</b><small>{{ 'Şimdi gönder' | t }}</small></button>
+    <button type="button" [class.aktif]="mod() === 'birkez'" (click)="mod.set('birkez')"><app-ikon ad="clock" /><b>{{ 'Bir kez' | t }}</b><small>{{ 'Seçtiğin tarih ve saatte' | t }}</small></button>
+    <button type="button" [class.aktif]="mod() === 'tekrar'" (click)="mod.set('tekrar')"><app-ikon ad="repeat" /><b>{{ 'Tekrarlayan' | t }}</b><small>{{ 'Her N günde bir' | t }}</small></button>
   </div>
 
   @if (mod() !== 'hemen') {
@@ -37,15 +37,15 @@
         <label>{{ 'Kaç günde bir' | t }} <input type="number" min="1" [(ngModel)]="siklikGun" style="width:110px"></label>
       }
     </div>
-    @if (gecmisZaman()) { <p class="bilgi">{{ '⏱️ Seçilen zaman geçti; gönderim hemen (yaklaşık 1 dakika içinde) yapılır.' | t }}</p> }
+    @if (gecmisZaman()) { <p class="bilgi"><app-ikon ad="clock" /> <span>{{ 'Seçilen zaman geçti; gönderim hemen (yaklaşık 1 dakika içinde) yapılır.' | t }}</span></p> }
   }
 
   <div class="islem">
     <button class="birincil" (click)="gonder()" [disabled]="gonderiliyor() || !paketId() || !hedefHazir() || (mod() !== 'hemen' && (!baslangic || !saat || (mod() === 'tekrar' && siklikGun < 1)))">
       @switch (mod()) {
-        @case ('hemen') { {{ (gonderiliyor() ? 'Gönderiliyor…' : '✉ Şimdi gönder') | t }} }
-        @case ('birkez') { {{ '🕘 Zamanla' | t }} }
-        @case ('tekrar') { {{ '🔁 Tekrarlayan gönderim kur' | t }} }
+        @case ('hemen') { <app-ikon ad="send" /> {{ (gonderiliyor() ? 'Gönderiliyor…' : 'Şimdi gönder') | t }} }
+        @case ('birkez') { <app-ikon ad="clock" /> {{ 'Zamanla' | t }} }
+        @case ('tekrar') { <app-ikon ad="repeat" /> {{ 'Tekrarlayan gönderim kur' | t }} }
       }
     </button>
   </div>
@@ -66,12 +66,12 @@
               @else { {{ p.siklikGun === 1 ? ('Her gün' | t) : (('{0} günde bir' | t: p.siklikGun)) }} · {{ p.saat }}<small>{{ p.baslangic | date: 'dd.MM.yyyy' }} {{ 'tarihinden itibaren' | t }}</small> }
             </td>
             <td>
-              @if (!p.aktif) { <span class="rozet ok">{{ 'Gönderildi ✓' | t }}</span> }
+              @if (!p.aktif) { <span class="rozet ok">{{ 'Gönderildi ' | t }}</span> }
               @else if (p.siklikGun === 0) { <span class="rozet uyari">{{ 'Bekliyor' | t }}</span> }
               @else { <span class="rozet ok">{{ 'Aktif' | t }}</span>@if (p.sonCalisma) { <small>{{ 'Son:' | t }} {{ p.sonCalisma | date: 'dd.MM.yyyy HH:mm' }}</small> } }
             </td>
             <td><div class="islem">
-              @if (p.aktif) { <button class="kucuk" (click)="planSimdi(p)">{{ '✉ Şimdi gönder' | t }}</button> }
+              @if (p.aktif) { <button class="kucuk" (click)="planSimdi(p)">{{ 'Şimdi gönder' | t }}</button> }
               <button class="kucuk tehlike" (click)="planSil(p)">{{ (p.siklikGun === 0 && p.aktif ? 'İptal' : 'Sil') | t }}</button>
             </div></td>
           </tr>

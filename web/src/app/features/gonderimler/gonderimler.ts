@@ -14,6 +14,7 @@ import { skorSinifi } from '../../core/utils/cevap';
 import { sec } from '../../core/utils/dil';
 import { HedefSecici } from '../../shared/hedef-secici/hedef-secici';
 import { TPipe } from '../../shared/t.pipe';
+import { Ikon } from '../../shared/ikon/ikon';
 
 /** Ne zaman gönderilecek: hemen / bir kez (zamanlı) / tekrarlayan. */
 type Mod = 'hemen' | 'birkez' | 'tekrar';
@@ -21,7 +22,7 @@ type Mod = 'hemen' | 'birkez' | 'tekrar';
 /** Gönderim oluşturma, zamanlanmış gönderimler ve gönderim geçmişi tek ekranda. */
 @Component({
   selector: 'app-gonderimler',
-  imports: [TPipe, FormsModule, DatePipe, RouterLink, HedefSecici],
+  imports: [Ikon, TPipe, FormsModule, DatePipe, RouterLink, HedefSecici],
   templateUrl: './gonderimler.html',
   styleUrl: './gonderimler.scss',
 })
@@ -83,7 +84,7 @@ export class Gonderimler implements OnInit {
     const tarih = new Date(`${this.baslangic}T${this.saat}`).toLocaleString(this.i18n.dil() === 'en' ? 'en-GB' : 'tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
     if (this.mod() === 'hemen') {
-      if (!await this.onay.sor({ baslik: 'Paket şimdi gönderilsin mi?', mesaj: '"{0}" paketi {1} gönderilecek. E-postalar hemen gider.', degerler: [this.ad(p), hedef], evet: '✉ Şimdi gönder', ikon: '🚀' })) return;
+      if (!await this.onay.sor({ baslik: 'Paket şimdi gönderilsin mi?', mesaj: '"{0}" paketi {1} gönderilecek. E-postalar hemen gider.', degerler: [this.ad(p), hedef], evet: 'Şimdi gönder' })) return;
       this.gonderiliyor.set(true);
       this.api.anlik({ paketId: p.id, hedefTipi: this.hedefTipi(), hedefDeger: deger }).subscribe({
         next: r => {
@@ -105,7 +106,7 @@ export class Gonderimler implements OnInit {
       baslik: birKez ? 'Gönderim zamanlansın mı?' : 'Tekrarlayan gönderim kurulsun mu?',
       mesaj: '"{0}" paketi {1}, {2} gönderilecek.{3}',
       degerler: [this.ad(p), hedef, ozet, this.gecmisZaman() ? ' ' + this.i18n.t('Seçilen zaman geçtiği için ilk gönderim hemen yapılacak.') : ''],
-      evet: birKez ? '🕘 Zamanla' : '🔁 Kur', ikon: birKez ? '🕘' : '🔁',
+      evet: birKez ? 'Zamanla' : 'Kur',
     })) return;
     this.gonderiliyor.set(true);
     this.planApi.ekle({
@@ -118,7 +119,7 @@ export class Gonderimler implements OnInit {
   }
 
   async planSimdi(p: Plan) {
-    if (!await this.onay.sor({ baslik: 'Şimdi gönderilsin mi?', mesaj: '"{0}" paketi → {1}. E-postalar hemen gider.', degerler: [p.paketAd, p.hedefAciklama], evet: '✉ Şimdi gönder', ikon: '✉️' })) return;
+    if (!await this.onay.sor({ baslik: 'Şimdi gönderilsin mi?', mesaj: '"{0}" paketi → {1}. E-postalar hemen gider.', degerler: [p.paketAd, p.hedefAciklama], evet: 'Şimdi gönder' })) return;
     this.planApi.simdiGonder(p.id).subscribe(r => {
       this.notify.bilgi('{0}/{1} e-posta gönderildi.', r.basarili, r.toplam);
       if (r.hatali) this.notify.hata('{0} e-posta gitmedi: {1}', r.hatali, r.ilkHata);

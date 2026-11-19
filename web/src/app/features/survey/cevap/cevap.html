@@ -1,34 +1,38 @@
 <div class="sayfa">
-  <header class="ust"><span class="logo">♡</span><strong>Nabız</strong>
+  <header class="ust">
+    <span class="marka-kucuk"><span class="logo-kutu"><app-ikon ad="activity" /></span><strong>Nabız</strong></span>
     <span class="bosluk"></span>
-    <button class="hayalet kucuk" [class.secili]="i18n.dil() === 'tr'" (click)="i18n.degistir('tr')">TR</button>
-    <button class="hayalet kucuk" [class.secili]="i18n.dil() === 'en'" (click)="i18n.degistir('en')">EN</button>
+    <div class="dil" role="group" [attr.aria-label]="'Dil' | t">
+      <button [class.secili]="i18n.dil() === 'tr'" (click)="i18n.degistir('tr')">TR</button>
+      <button [class.secili]="i18n.dil() === 'en'" (click)="i18n.degistir('en')">EN</button>
+    </div>
   </header>
 
   <section class="kart cevap-kart">
     @if (yukleniyor()) {
-      <p class="bos">{{ i18n.t('yukleniyor') }}</p>
+      <p class="bos">{{ 'Yükleniyor…' | t }}</p>
     } @else if (hataVar() || !sayfa()) {
       <div class="tamam">
-        <div class="buyuk">🔗</div>
-        <h2>{{ i18n.dil() === 'tr' ? 'Bu bağlantı geçersiz' : 'This link is not valid' }}</h2>
-        <p>{{ i18n.dil() === 'tr' ? 'Link hatalı ya da süresi dolmuş olabilir.' : 'The link may be wrong or expired.' }}</p>
+        <div class="rozet-ikon uyari"><app-ikon ad="link" /></div>
+        <h2>{{ 'Bu bağlantı geçersiz' | t }}</h2>
+        <p>{{ 'Link hatalı ya da süresi dolmuş olabilir.' | t }}</p>
       </div>
     } @else if (tamamlandi()) {
       <div class="tamam">
-        <div class="onay">✓</div>
-        <h2>{{ i18n.dil() === 'tr' ? 'Teşekkürler!' : 'Thank you!' }}</h2>
-        <p>{{ i18n.t('tamamlandi') }}</p>
-        @if (auth.girisYapti()) { <button class="birincil" (click)="panele()">{{ i18n.dil() === 'tr' ? 'Panele dön' : 'Back to dashboard' }}</button> }
+        <div class="rozet-ikon ok"><app-ikon ad="check" /></div>
+        <h2>{{ 'Teşekkürler!' | t }}</h2>
+        <p>{{ 'Cevabın tamamlandı, teşekkürler!' | t }}</p>
+        @if (auth.girisYapti()) { <button class="birincil" (click)="panele()">{{ 'Panele dön' | t }}</button> }
       </div>
     } @else if (adim() === 0) {
       <div class="karsilama">
-        <div class="buyuk">👋</div>
-        <p class="selam">{{ i18n.dil() === 'tr' ? 'Merhaba' : 'Hi' }} {{ sayfa()!.kullaniciAd.split(' ')[0] }}</p>
+        <div class="rozet-ikon"><app-ikon ad="tasks" /></div>
+        <p class="selam">{{ 'Merhaba' | t }} {{ sayfa()!.kullaniciAd.split(' ')[0] }}</p>
         <h2>{{ paketAdi() }}</h2>
         @if (aciklama()) { <p class="aciklama">{{ aciklama() }}</p> }
-        <p class="meta">{{ sorular().length }} {{ i18n.dil() === 'tr' ? 'kısa soru' : 'quick questions' }} · {{ i18n.dil() === 'tr' ? 'yaklaşık' : 'about' }} {{ (sorular().length * 0.3) | number: '1.0-0' }} {{ i18n.dil() === 'tr' ? 'dk' : 'min' }}</p>
-        <button class="birincil buyuk-btn" (click)="basla()">{{ i18n.dil() === 'tr' ? 'Başlayalım' : 'Let\'s start' }} →</button>
+        <p class="meta">{{ sorular().length }} {{ 'kısa soru' | t }} · {{ 'yaklaşık' | t }} {{ (sorular().length * 0.3) | number: '1.0-0' }} {{ 'dk' | t }}</p>
+        <button class="birincil buyuk-btn" (click)="basla()">{{ 'Başlayalım' | t }} <app-ikon ad="arrow-right" /></button>
+        <p class="gizlilik"><app-ikon ad="lock" /> {{ 'Cevapların güvenle saklanır. Yorumunu anonim bırakabilirsin; kimse yorumu seninle ilişkilendiremez.' | t }}</p>
       </div>
     } @else if (soru(); as s) {
       <div class="ilerleme"><div class="dolu" [style.width.%]="yuzde()"></div></div>
@@ -49,31 +53,31 @@
           <div class="puan-satir">
             @for (n of puanlar; track n) { <button class="puan" [class.secili]="mevcut()?.deger === n" (click)="sec(n)">{{ n }}</button> }
           </div>
-          <div class="uclar"><small>{{ i18n.dil() === 'tr' ? 'Hiç' : 'Not at all' }}</small><small>{{ i18n.dil() === 'tr' ? 'Çok' : 'Very much' }}</small></div>
+          <div class="uclar"><small>{{ 'Hiç' | t }}</small><small>{{ 'Çok' | t }}</small></div>
         }
         @case ('EvetHayir') {
           <div class="eh">
-            <button class="eh-btn evet" [class.secili]="mevcut()?.deger === 1" (click)="sec(1)">👍 {{ i18n.t('evet') }}</button>
-            <button class="eh-btn hayir" [class.secili]="mevcut()?.deger === 0" (click)="sec(0)">👎 {{ i18n.t('hayir') }}</button>
+            <button class="eh-btn evet" [class.secili]="mevcut()?.deger === 1" (click)="sec(1)">{{ 'Evet' | t }}</button>
+            <button class="eh-btn hayir" [class.secili]="mevcut()?.deger === 0" (click)="sec(0)">{{ 'Hayır' | t }}</button>
           </div>
         }
       }
 
       @if (mevcut()) {
-        @if (dusuk()) { <p class="takip">💬 {{ takipMetni() }}</p> }
-        <textarea [ngModel]="mevcut()!.yorum" (ngModelChange)="yorumYaz($event)" [placeholder]="i18n.t('yorum')"></textarea>
+        @if (dusuk()) { <p class="takip"><app-ikon ad="info" /> {{ takipMetni() }}</p> }
+        <textarea [ngModel]="mevcut()!.yorum" (ngModelChange)="yorumYaz($event)" [placeholder]="'Ne oldu? (isteğe bağlı)' | t"></textarea>
         @if (mevcut()!.yorum) {
           <label class="anonim">
             <input type="checkbox" [ngModel]="mevcut()!.anonimYorum" (ngModelChange)="anonimDegistir($event)">
-            <span>🕶️ {{ i18n.dil() === 'tr' ? 'Yorumum anonim kalsın (kimse yorumu benimle ilişkilendiremez)' : 'Keep my comment anonymous (nobody can link it to me)' }}</span>
+            <span>{{ 'Yorumum anonim kalsın (kimse yorumu benimle ilişkilendiremez)' | t }}</span>
           </label>
         }
       }
 
       <div class="gezinme">
-        <button (click)="geri()">← {{ i18n.dil() === 'tr' ? 'Geri' : 'Back' }}</button>
+        <button (click)="geri()"><app-ikon ad="arrow-left" /> {{ 'Geri' | t }}</button>
         <button class="birincil" (click)="ileri()" [disabled]="!mevcut() || gonderiliyor()">
-          {{ sonAdim() ? (i18n.t('tamamla') + ' ✓') : (i18n.dil() === 'tr' ? 'İleri →' : 'Next →') }}
+          {{ (sonAdim() ? 'Tamamla' : 'İleri') | t }} <app-ikon [ad]="sonAdim() ? 'check' : 'arrow-right'" />
         </button>
       </div>
     }

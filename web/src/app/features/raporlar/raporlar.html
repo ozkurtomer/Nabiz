@@ -92,7 +92,7 @@
     <section class="kart">
       <div class="baslik-satir">
         <h3>{{ 'Kim ne demiş?' | t }}</h3>
-        <button class="kucuk" (click)="csvIndir()">{{ '⬇ CSV indir (Excel)' | t }}</button>
+        <button class="kucuk" (click)="csvIndir()">{{ 'CSV indir (Excel)' | t }}</button>
         <label class="ac"><span class="anahtar"><input type="checkbox" [(ngModel)]="sadeceYorumlu" (change)="yukle()"><span></span></span> {{ 'Sadece yorumlular' | t }}</label>
       </div>
       <div class="tablo-kutu ic">
@@ -102,7 +102,7 @@
             @for (c of cevaplar(); track c.cevapId) {
               <tr>
                 <td>{{ c.tarih | date: 'dd.MM HH:mm' }}</td>
-                <td>@if (c.kisi) { <b>{{ c.kisi }}</b><small>{{ c.departman }}</small> } @else { <span class="rozet gri">{{ '🕶️ Anonim' | t }}</span> }</td>
+                <td>@if (c.kisi) { <b>{{ c.kisi }}</b><small>{{ c.departman }}</small> } @else { <span class="rozet gri">{{ 'Anonim' | t }}</span> }</td>
                 <td><small>{{ c.paket }}</small>{{ c.soru }}</td>
                 <td><span class="skor {{ c.dusuk ? 'kotu' : skorSinifi(c.skor) }}">{{ cevapGoster(c.tip, c.deger) }}</span></td>
                 <td class="yorum">{{ c.yorum }}</td>

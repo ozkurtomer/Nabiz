@@ -5,12 +5,13 @@ import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
 import { I18n } from '../../../core/services/i18n';
 import { TPipe } from '../../../shared/t.pipe';
+import { Ikon } from '../../../shared/ikon/ikon';
 
 interface DemoHesap { etiket: string; ikon: string; email: string; sifre: string; }
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, TPipe],
+  imports: [Ikon, FormsModule, TPipe],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -22,8 +23,8 @@ export class Login {
 
   readonly demoGiris = environment.demoGiris;
   readonly demoHesaplar: DemoHesap[] = [
-    { etiket: 'İK', ikon: '🤝', email: 'ik@nabiz.local', sifre: 'Demo123!' },
-    { etiket: 'Çalışan', ikon: '🙂', email: 'calisan@nabiz.local', sifre: 'Demo123!' },
+    { etiket: 'İK', ikon: 'shield', email: 'ik@nabiz.local', sifre: 'Demo123!' },
+    { etiket: 'Çalışan', ikon: 'user', email: 'calisan@nabiz.local', sifre: 'Demo123!' },
   ];
 
   email = '';
