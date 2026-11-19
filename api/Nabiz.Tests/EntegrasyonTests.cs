@@ -254,6 +254,7 @@ public class EntegrasyonTests
         Assert.True(tamam.Basarili);
         Assert.Equal("ik@x", Assert.Single(kutu.Giden).Kime);        // adres boşsa kendi adresine
         Assert.Equal("smtp.test:25", tamam.Sunucu);
+        Assert.False(tamam.Sandbox);                                   // gerçek SMTP: sahte değil
 
         var hatali = await new SistemService(uow, new Ayarlar(), new Zaman(), new HataliMail(), new Ben(101, Rol.IK), new DenetimYok()).TestMailiGonderAsync("baska@x.com", default);
         Assert.False(hatali.Basarili);

@@ -76,4 +76,5 @@ public record MobilGirisYanit(string Url, string Token);
 // ---- Profil dili ve test maili
 public record ProfilDilIstek(string Dil);
 public record TestMailIstek(string? Adres);
-public record TestMailYanit(bool Basarili, string Mesaj, string Sunucu);
+/// <param name="Sandbox">true: SMTP sahte test sunucusu (Mailpit); mail gerçek gelen kutusuna gitmez.</param>
+public record TestMailYanit(bool Basarili, string Mesaj, string Sunucu, bool Sandbox);

@@ -3,10 +3,10 @@ import { SoruTipi } from '../models/models';
 export const EMOJILER = ['😞', '🙁', '😐', '🙂', '😄'];
 
 /** Cevap değerini okunur biçime çevirir (emoji / x/10 / Evet-Hayır). */
-export function cevapGoster(tip: SoruTipi, deger: number): string {
+export function cevapGoster(tip: SoruTipi, deger: number, dil: 'tr' | 'en' = 'tr'): string {
   if (tip === 'Emoji') return EMOJILER[deger - 1] ?? String(deger);
   if (tip === 'Puan') return `${deger}/10`;
-  return deger === 1 ? 'Evet' : 'Hayır';
+  return dil === 'en' ? (deger === 1 ? 'Yes' : 'No') : (deger === 1 ? 'Evet' : 'Hayır');
 }
 
 /** 0-100 skoru renk sınıfına çevirir (<40 kötü, <70 orta, ≥70 iyi). */

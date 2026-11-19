@@ -1,3 +1,4 @@
+import { SoruTipi } from '../../core/models/models';
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -6,7 +7,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { PaketService } from '../../core/services/paket.service';
 import { RaporService } from '../../core/services/rapor.service';
 import { I18n } from '../../core/services/i18n';
-import { cevapGoster, skorSinifi } from '../../core/utils/cevap';
+import { cevapGoster as cevapGosterFn, skorSinifi } from '../../core/utils/cevap';
 import { sec } from '../../core/utils/dil';
 import { indir } from '../../core/utils/indir';
 import { DagilimGrafigi } from '../../shared/dagilim/dagilim';
@@ -32,7 +33,7 @@ export class Raporlar implements OnInit {
   readonly departmanSecenekleri = signal<string[]>([]);
   readonly yukleniyor = signal(true);
   readonly skorSinifi = skorSinifi;
-  readonly cevapGoster = cevapGoster;
+  readonly cevapGoster = (tip: SoruTipi, deger: number) => cevapGosterFn(tip, deger, this.i18n.dil());
 
   hizli = 30;
   baslangic = '';

@@ -1,6 +1,9 @@
 /** Kaynak metin Türkçedir (anahtar); değer İngilizce karşılığıdır. Eksik anahtar Türkçe gösterilir. */
 export const EN: Record<string, string> = {
   "İK": "HR",
+  "Mail gerçek gelen kutusuna gitmedi.": "The email did not reach a real inbox.",
+  "Şu an sahte test sunucusuna (Mailpit) bağlısın; mailler orada yakalanır:": "You are connected to a fake test server (Mailpit); emails are captured there:",
+  "Gerçek bir kutuya mail göndermek için docs/MAIL-TEST.md rehberindeki SMTP ayarlarını yap.": "To send to a real inbox, configure SMTP as described in docs/MAIL-TEST.md.",
   "Giriş yap": "Sign in",
   "E-posta": "Email",
   "Şifre": "Password",

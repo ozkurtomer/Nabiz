@@ -1,13 +1,15 @@
+import { SoruTipi } from '../../../core/models/models';
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PartiDetay, PartiKisi } from '../../../core/models/models';
 import { GonderimService } from '../../../core/services/gonderim.service';
 import { NotifyService } from '../../../core/services/notify.service';
-import { cevapGoster, skorSinifi } from '../../../core/utils/cevap';
+import { cevapGoster as cevapGosterFn, skorSinifi } from '../../../core/utils/cevap';
 import { indir } from '../../../core/utils/indir';
 import { DagilimGrafigi } from '../../../shared/dagilim/dagilim';
 import { TPipe } from '../../../shared/t.pipe';
+import { I18n } from '../../../core/services/i18n';
 
 type Filtre = 'hepsi' | 'cevap' | 'bekleyen' | 'dusuk' | 'hata';
 
@@ -19,6 +21,7 @@ type Filtre = 'hepsi' | 'cevap' | 'bekleyen' | 'dusuk' | 'hata';
   styleUrl: './detay.scss',
 })
 export class GonderimDetay implements OnInit {
+  readonly i18n = inject(I18n);
   private api = inject(GonderimService);
   private notify = inject(NotifyService);
 
@@ -28,7 +31,7 @@ export class GonderimDetay implements OnInit {
   readonly filtre = signal<Filtre>('hepsi');
   readonly acik = signal<Set<number>>(new Set());
   readonly skorSinifi = skorSinifi;
-  readonly cevapGoster = cevapGoster;
+  readonly cevapGoster = (tip: SoruTipi, deger: number) => cevapGosterFn(tip, deger, this.i18n.dil());
 
   readonly sekmeler = computed(() => {
     const k = this.detay()?.kisiler ?? [];

@@ -46,16 +46,18 @@ public class SistemService(IUnitOfWork uow, IUygulamaAyarlari ayar, IZaman zaman
         catch (FormatException) { throw new DogrulamaHatasi("Geçerli bir e-posta adresi gir."); }
 
         var sunucu = string.IsNullOrWhiteSpace(ayar.SmtpSunucu) ? "—" : ayar.SmtpSunucu;
+        // Mailpit/MailHog gibi geliştirme SMTP'leri mailleri yakalar, gerçek kutuya iletmez
+        var sandbox = sunucu.Contains("mailpit", StringComparison.OrdinalIgnoreCase) || sunucu.Contains("mailhog", StringComparison.OrdinalIgnoreCase) || sunucu.EndsWith(":1025");
         TestMailYanit yanit;
         try
         {
             var (konu, html) = EmailSablonu.Test(dil, sunucu);
             await mail.GonderAsync(hedef, konu, html, ct);
-            yanit = new TestMailYanit(true, hedef, sunucu);
+            yanit = new TestMailYanit(true, hedef, sunucu, sandbox);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
-            yanit = new TestMailYanit(false, ex.GetBaseException().Message, sunucu);
+            yanit = new TestMailYanit(false, ex.GetBaseException().Message, sunucu, sandbox);
         }
         await denetim.KaydetAsync("Test maili gönderildi", $"{hedef} · {(yanit.Basarili ? "✓" : "✗")} · {sunucu}", ct);
         return yanit;

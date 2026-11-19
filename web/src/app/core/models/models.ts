@@ -84,4 +84,4 @@ export interface SistemDurumu {
 }
 export interface Denetim { id: number; zaman: string; kullanici: string; eylem: string; detay?: string; }
 
-export interface TestMailYanit { basarili: boolean; mesaj: string; sunucu: string; }
+export interface TestMailYanit { basarili: boolean; mesaj: string; sunucu: string; sandbox: boolean; }
