@@ -1,0 +1,57 @@
+:host { display: block; min-height: 100vh; background: radial-gradient(circle at 20% 0%, #e6e9ff 0%, var(--arka) 55%); }
+.sayfa { max-width: 680px; margin: 0 auto; padding: 16px; }
+.ust { display: flex; align-items: center; gap: 8px; padding: 8px 4px 20px; color: var(--vurgu); font-size: 1.15rem; }
+.ust .logo { font-size: 1.4rem; }
+.bosluk { flex: 1; }
+.ust button.secili { background: var(--vurgu-soft); color: var(--vurgu); }
+.cevap-kart { padding: 32px 28px; text-align: center; box-shadow: var(--golge-buyuk); position: relative; overflow: hidden; }
+.cevap-kart::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, var(--vurgu), var(--vurgu2)); }
+.buyuk { font-size: 3rem; }
+.selam { margin: 6px 0; color: var(--soluk); }
+.aciklama { color: var(--soluk); max-width: 420px; margin: 8px auto; }
+.meta { color: var(--soluk); font-size: .9rem; margin: 14px 0 24px; }
+.buyuk-btn { padding: 14px 36px; font-size: 1.05rem; }
+
+.ilerleme { height: 6px; background: var(--vurgu-soft); border-radius: 999px; overflow: hidden; margin: 6px 0 12px; }
+.dolu { height: 100%; background: linear-gradient(90deg, var(--vurgu), var(--vurgu2)); border-radius: 999px; transition: width .35s; }
+.sayac { margin: 0 0 12px; color: var(--soluk); font-size: .85rem; font-weight: 600; }
+.soru { font-size: 1.6rem; line-height: 1.3; margin-bottom: 28px; }
+
+.emoji-satir { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
+.emoji { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 4px; border-radius: 16px; background: var(--yuzey2); }
+.yuz { font-size: 2.6rem; line-height: 1; transition: transform .15s; }
+.emoji:hover .yuz { transform: scale(1.2); }
+.emoji small { font-weight: 600; }
+.emoji.secili { background: var(--vurgu-soft); border-color: var(--vurgu); box-shadow: 0 0 0 4px color-mix(in srgb, var(--vurgu) 20%, transparent); }
+.emoji.secili .yuz { transform: scale(1.25); }
+
+.puan-satir { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.puan { font-size: 1.3rem; padding: 14px 0; border-radius: 14px; background: var(--yuzey2); }
+.puan.secili { background: linear-gradient(135deg, var(--vurgu), var(--vurgu2)); color: #fff; border-color: transparent; transform: scale(1.06); }
+.uclar { display: flex; justify-content: space-between; margin: 8px 4px 20px; }
+
+.eh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.eh-btn { font-size: 1.3rem; padding: 22px 0; border-radius: 16px; background: var(--yuzey2); }
+.eh-btn.evet.secili { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+.eh-btn.hayir.secili { background: var(--hata-soft); border-color: var(--hata); color: var(--hata); }
+
+textarea { text-align: left; margin-top: 4px; }
+.gezinme { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; }
+.gezinme button { min-width: 120px; padding: 12px 20px; }
+
+.tamam { padding: 12px 0; animation: giris .4s ease; }
+.tamam p { color: var(--soluk); margin: 8px 0 24px; }
+.onay { width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%; display: grid; place-items: center; font-size: 2.6rem; color: #fff; background: linear-gradient(135deg, #12a05c, #3ddc97); box-shadow: 0 10px 24px #12a05c55; animation: pop .5s cubic-bezier(.2,1.6,.4,1); }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes giris { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.bos { padding: 28px; color: var(--soluk); }
+
+@media (max-width: 520px) {
+  .cevap-kart { padding: 26px 16px; }
+  .soru { font-size: 1.3rem; }
+  .yuz { font-size: 2rem; }
+  .emoji small { font-size: .65rem; }
+}
+
+.takip { background: var(--vurgu-soft); border-radius: 12px; padding: 10px 14px; margin: 4px 0 10px; text-align: left; color: var(--vurgu); font-weight: 600; animation: giris .3s ease; }
+.anonim { display: flex; align-items: center; gap: 10px; text-align: left; margin-top: 10px; font-size: .9rem; color: var(--soluk); cursor: pointer; }

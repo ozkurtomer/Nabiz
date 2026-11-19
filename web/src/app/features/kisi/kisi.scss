@@ -1,0 +1,14 @@
+.geri { display: inline-block; margin-bottom: 12px; text-decoration: none; font-weight: 600; }
+.kisi-baslik { display: flex; align-items: center; gap: 16px; }
+.avatar.buyuk { width: 56px; height: 56px; font-size: 1.4rem; }
+.ort { text-align: right; }
+.ort small { display: block; color: var(--soluk); }
+.skor { display: inline-block; text-align: center; padding: 3px 14px; border-radius: 999px; font-weight: 700; font-size: 1.3rem; }
+td .skor { font-size: .9rem; padding: 2px 10px; }
+.skor.kotu { background: var(--hata-soft); color: var(--hata); } .skor.orta { background: var(--uyari-soft); color: var(--uyari); } .skor.iyi { background: var(--ok-soft); color: var(--ok); }
+.uyari-kutu { background: var(--hata-soft); color: var(--hata); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
+.kart { margin-bottom: 16px; }
+.ic { box-shadow: none; }
+td small { display: block; }
+.yorum { font-style: italic; }
+.bos { text-align: center; color: var(--soluk); padding: 24px; }

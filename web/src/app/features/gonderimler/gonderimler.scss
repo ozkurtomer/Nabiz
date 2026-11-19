@@ -1,0 +1,13 @@
+.yeni { margin-bottom: 24px; }
+.genis { flex: 1; min-width: 260px; }
+.genis select { width: 100%; }
+.sorular { color: var(--soluk); margin: 4px 0; padding-left: 20px; }
+.islem { margin-top: 16px; }
+.alt-baslik { margin: 0 0 12px; }
+td small { display: block; }
+.kucuk-r { margin-left: 6px; padding: 1px 8px; font-size: .7rem; }
+.oran { height: 6px; width: 140px; background: var(--vurgu-soft); border-radius: 999px; overflow: hidden; margin-bottom: 4px; }
+.dolu { height: 100%; background: linear-gradient(90deg, var(--vurgu), var(--vurgu2)); }
+.skor { display: inline-block; min-width: 44px; text-align: center; padding: 3px 10px; border-radius: 999px; font-weight: 700; }
+.skor.kotu { background: var(--hata-soft); color: var(--hata); } .skor.orta { background: var(--uyari-soft); color: var(--uyari); } .skor.iyi { background: var(--ok-soft); color: var(--ok); }
+a { text-decoration: none; }

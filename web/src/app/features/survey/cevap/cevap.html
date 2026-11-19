@@ -1,0 +1,81 @@
+<div class="sayfa">
+  <header class="ust"><span class="logo">♡</span><strong>Nabız</strong>
+    <span class="bosluk"></span>
+    <button class="hayalet kucuk" [class.secili]="i18n.dil() === 'tr'" (click)="i18n.degistir('tr')">TR</button>
+    <button class="hayalet kucuk" [class.secili]="i18n.dil() === 'en'" (click)="i18n.degistir('en')">EN</button>
+  </header>
+
+  <section class="kart cevap-kart">
+    @if (yukleniyor()) {
+      <p class="bos">{{ i18n.t('yukleniyor') }}</p>
+    } @else if (hataVar() || !sayfa()) {
+      <div class="tamam">
+        <div class="buyuk">🔗</div>
+        <h2>{{ i18n.dil() === 'tr' ? 'Bu bağlantı geçersiz' : 'This link is not valid' }}</h2>
+        <p>{{ i18n.dil() === 'tr' ? 'Link hatalı ya da süresi dolmuş olabilir.' : 'The link may be wrong or expired.' }}</p>
+      </div>
+    } @else if (tamamlandi()) {
+      <div class="tamam">
+        <div class="onay">✓</div>
+        <h2>{{ i18n.dil() === 'tr' ? 'Teşekkürler!' : 'Thank you!' }}</h2>
+        <p>{{ i18n.t('tamamlandi') }}</p>
+        @if (auth.girisYapti()) { <button class="birincil" (click)="panele()">{{ i18n.dil() === 'tr' ? 'Panele dön' : 'Back to dashboard' }}</button> }
+      </div>
+    } @else if (adim() === 0) {
+      <div class="karsilama">
+        <div class="buyuk">👋</div>
+        <p class="selam">{{ i18n.dil() === 'tr' ? 'Merhaba' : 'Hi' }} {{ sayfa()!.kullaniciAd.split(' ')[0] }}</p>
+        <h2>{{ sayfa()!.paketAd }}</h2>
+        @if (sayfa()!.aciklama) { <p class="aciklama">{{ sayfa()!.aciklama }}</p> }
+        <p class="meta">{{ sorular().length }} {{ i18n.dil() === 'tr' ? 'kısa soru' : 'quick questions' }} · {{ i18n.dil() === 'tr' ? 'yaklaşık' : 'about' }} {{ (sorular().length * 0.3) | number: '1.0-0' }} {{ i18n.dil() === 'tr' ? 'dk' : 'min' }}</p>
+        <button class="birincil buyuk-btn" (click)="basla()">{{ i18n.dil() === 'tr' ? 'Başlayalım' : 'Let\'s start' }} →</button>
+      </div>
+    } @else if (soru(); as s) {
+      <div class="ilerleme"><div class="dolu" [style.width.%]="yuzde()"></div></div>
+      <p class="sayac">{{ adim() }} / {{ sorular().length }}</p>
+      <h2 class="soru">{{ i18n.dil() === 'tr' ? s.metinTr : s.metinEn }}</h2>
+
+      @switch (s.tip) {
+        @case ('Emoji') {
+          <div class="emoji-satir">
+            @for (e of emojiler; track e.v) {
+              <button class="emoji" [class.secili]="mevcut()?.deger === e.v" (click)="sec(e.v)">
+                <span class="yuz">{{ e.s }}</span><small>{{ i18n.dil() === 'tr' ? e.tr : e.en }}</small>
+              </button>
+            }
+          </div>
+        }
+        @case ('Puan') {
+          <div class="puan-satir">
+            @for (n of puanlar; track n) { <button class="puan" [class.secili]="mevcut()?.deger === n" (click)="sec(n)">{{ n }}</button> }
+          </div>
+          <div class="uclar"><small>{{ i18n.dil() === 'tr' ? 'Hiç' : 'Not at all' }}</small><small>{{ i18n.dil() === 'tr' ? 'Çok' : 'Very much' }}</small></div>
+        }
+        @case ('EvetHayir') {
+          <div class="eh">
+            <button class="eh-btn evet" [class.secili]="mevcut()?.deger === 1" (click)="sec(1)">👍 {{ i18n.t('evet') }}</button>
+            <button class="eh-btn hayir" [class.secili]="mevcut()?.deger === 0" (click)="sec(0)">👎 {{ i18n.t('hayir') }}</button>
+          </div>
+        }
+      }
+
+      @if (mevcut()) {
+        @if (dusuk()) { <p class="takip">💬 {{ takipMetni() }}</p> }
+        <textarea [ngModel]="mevcut()!.yorum" (ngModelChange)="yorumYaz($event)" [placeholder]="i18n.t('yorum')"></textarea>
+        @if (mevcut()!.yorum) {
+          <label class="anonim">
+            <input type="checkbox" [ngModel]="mevcut()!.anonimYorum" (ngModelChange)="anonimDegistir($event)">
+            <span>🕶️ {{ i18n.dil() === 'tr' ? 'Yorumum anonim kalsın (kimse yorumu benimle ilişkilendiremez)' : 'Keep my comment anonymous (nobody can link it to me)' }}</span>
+          </label>
+        }
+      }
+
+      <div class="gezinme">
+        <button (click)="geri()">← {{ i18n.dil() === 'tr' ? 'Geri' : 'Back' }}</button>
+        <button class="birincil" (click)="ileri()" [disabled]="!mevcut() || gonderiliyor()">
+          {{ sonAdim() ? (i18n.t('tamamla') + ' ✓') : (i18n.dil() === 'tr' ? 'İleri →' : 'Next →') }}
+        </button>
+      </div>
+    }
+  </section>
+</div>

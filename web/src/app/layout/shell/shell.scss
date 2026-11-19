@@ -1,0 +1,41 @@
+:host { display: block; }
+svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+.duzen { display: grid; grid-template-columns: 264px 1fr; min-height: 100vh; }
+
+.yan {
+  position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 8px;
+  padding: 20px 14px; background: var(--yuzey); border-right: 1px solid var(--kenar); z-index: 30;
+}
+.logo-alan { display: flex; align-items: center; gap: 12px; padding: 4px 10px 20px; }
+.logo-alan svg { width: 42px; height: 42px; stroke: none; fill: initial; }
+.logo-alan strong { display: block; font-size: 1.2rem; }
+
+nav { flex: 1; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+nav a {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px;
+  color: var(--soluk); text-decoration: none; font-weight: 600; transition: background .15s, color .15s;
+}
+nav a:hover { background: var(--yuzey2); color: var(--metin); }
+nav a.aktif { background: var(--vurgu-soft); color: var(--vurgu); }
+.grup { padding: 16px 12px 6px; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--soluk); }
+
+.alt { border-top: 1px solid var(--kenar); padding-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+.dil { display: flex; gap: 4px; padding-left: 4px; }
+.dil .secili { background: var(--vurgu-soft); color: var(--vurgu); }
+.kullanici { display: flex; align-items: center; gap: 10px; padding: 6px; }
+.bilgi-alan { flex: 1; min-width: 0; line-height: 1.25; }
+.bilgi-alan b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.icerik { padding: 32px clamp(16px, 4vw, 48px); max-width: 1200px; width: 100%; min-width: 0; }
+.mobil-ust, .perde { display: none; }
+
+@media (max-width: 900px) {
+  .duzen { grid-template-columns: 1fr; }
+  .mobil-ust { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--yuzey); border-bottom: 1px solid var(--kenar); position: sticky; top: 0; z-index: 20; }
+  .marka { font-size: 1.1rem; color: var(--vurgu); }
+  .yan { position: fixed; left: 0; top: 0; width: 272px; transform: translateX(-100%); transition: transform .25s; box-shadow: var(--golge-buyuk); }
+  .yan.acik { transform: none; }
+  .perde { display: block; position: fixed; inset: 0; background: #0006; z-index: 25; }
+  .icerik { padding: 20px 16px; }
+}

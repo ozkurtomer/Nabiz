@@ -1,0 +1,102 @@
+/* ============ Nabız tasarım sistemi ============ */
+:root {
+  --arka: #f4f5fb; --yuzey: #ffffff; --yuzey2: #f8f9fd;
+  --metin: #141a2a; --soluk: #667085; --kenar: #e4e7ef;
+  --vurgu: #4f5df0; --vurgu2: #7a4df2; --vurgu-soft: #eceeff;
+  --ok: #12a05c; --ok-soft: #e3f7ed; --uyari: #d97706; --uyari-soft: #fef3e0;
+  --hata: #d92d20; --hata-soft: #fdecea; --bilgi-soft: #eaf0ff;
+  --golge: 0 1px 2px #1018280d, 0 4px 16px #1018280a;
+  --golge-buyuk: 0 12px 32px #10182822;
+  --r: 14px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--arka); color: var(--metin);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { margin: 0; letter-spacing: -.01em; }
+a { color: var(--vurgu); }
+small { color: var(--soluk); }
+
+/* ---------- Form elemanları ---------- */
+input, select, textarea {
+  font: inherit; color: inherit; background: var(--yuzey); padding: 9px 12px;
+  border: 1.5px solid var(--kenar); border-radius: 10px; outline: none; max-width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--vurgu); box-shadow: 0 0 0 4px color-mix(in srgb, var(--vurgu) 18%, transparent); }
+input::placeholder, textarea::placeholder { color: var(--soluk); opacity: .7; }
+textarea { width: 100%; min-height: 96px; resize: vertical; }
+select { padding-right: 28px; cursor: pointer; }
+input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--vurgu); cursor: pointer; padding: 0; }
+
+/* ---------- Düğmeler ---------- */
+button {
+  font: inherit; font-weight: 600; color: inherit; cursor: pointer; padding: 9px 16px;
+  background: var(--yuzey); border: 1.5px solid var(--kenar); border-radius: 10px;
+  transition: transform .1s, box-shadow .15s, border-color .15s, background .15s, opacity .15s;
+}
+button:hover:not(:disabled) { border-color: var(--vurgu); transform: translateY(-1px); }
+button:disabled { opacity: .5; cursor: default; }
+button.birincil {
+  color: #fff; border-color: transparent;
+  background: linear-gradient(135deg, var(--vurgu), var(--vurgu2)); box-shadow: 0 4px 12px #4f5df044;
+}
+button.birincil:hover:not(:disabled) { box-shadow: 0 6px 16px #4f5df066; }
+button.tehlike { color: var(--hata); }
+button.tehlike:hover:not(:disabled) { border-color: var(--hata); background: var(--hata-soft); }
+button.kucuk { padding: 5px 11px; font-size: .85rem; border-radius: 8px; }
+button.hayalet { border-color: transparent; background: transparent; }
+button.hayalet:hover:not(:disabled) { background: var(--vurgu-soft); transform: none; }
+
+/* ---------- Yerleşim parçaları ---------- */
+.sayfa-baslik { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.sayfa-baslik h2 { font-size: 1.6rem; }
+.sayfa-baslik p { margin: 4px 0 0; color: var(--soluk); }
+.kart { background: var(--yuzey); border: 1px solid var(--kenar); border-radius: var(--r); padding: 20px; box-shadow: var(--golge); }
+.kart + .kart { margin-top: 16px; }
+.kart > h3 { font-size: 1.05rem; margin-bottom: 14px; }
+.dar { max-width: 520px; margin-left: auto; margin-right: auto; }
+.form { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+.form label { display: flex; flex-direction: column; gap: 6px; font-size: .82rem; font-weight: 600; color: var(--soluk); }
+.form label input, .form label select { color: var(--metin); font-weight: 400; }
+.arac-cubugu { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+.arac-cubugu .bosluk { flex: 1; }
+.arama { display: flex; align-items: center; gap: 8px; padding: 0 12px; height: 40px; background: var(--yuzey); border: 1.5px solid var(--kenar); border-radius: 10px; min-width: 240px; }
+.arama:focus-within { border-color: var(--vurgu); }
+.arama input { border: none; box-shadow: none !important; padding: 0; flex: 1; background: none; }
+.arama svg { width: 18px; height: 18px; color: var(--soluk); }
+.islem { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* ---------- Tablo ---------- */
+.tablo-kutu { background: var(--yuzey); border: 1px solid var(--kenar); border-radius: var(--r); box-shadow: var(--golge); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--soluk); padding: 12px 16px; background: var(--yuzey2); border-bottom: 1px solid var(--kenar); white-space: nowrap; }
+td { padding: 12px 16px; border-bottom: 1px solid var(--kenar); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--yuzey2); }
+td input:not([type=checkbox]), td select { width: 100%; min-width: 120px; padding: 7px 10px; }
+.bos { text-align: center; color: var(--soluk); padding: 36px 16px; }
+
+/* ---------- Rozetler ve bildirim kutuları ---------- */
+.rozet { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; background: var(--vurgu-soft); color: var(--vurgu); white-space: nowrap; }
+.rozet.ok { background: var(--ok-soft); color: var(--ok); }
+.rozet.uyari { background: var(--uyari-soft); color: var(--uyari); }
+.rozet.hata { background: var(--hata-soft); color: var(--hata); }
+.rozet.gri { background: var(--yuzey2); color: var(--soluk); border: 1px solid var(--kenar); }
+.bilgi { display: flex; align-items: center; gap: 12px; background: var(--bilgi-soft); border: 1px solid color-mix(in srgb, var(--vurgu) 25%, transparent); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; }
+.hata { color: var(--hata); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: inline-grid; place-items: center; flex: none; font-weight: 700; font-size: .9rem; color: #fff; background: linear-gradient(135deg, var(--vurgu), var(--vurgu2)); }
+.kisi { display: flex; align-items: center; gap: 12px; }
+.kisi b { display: block; }
+
+/* ---------- Anahtar (toggle) ---------- */
+.anahtar { position: relative; display: inline-block; width: 42px; height: 24px; flex: none; }
+.anahtar input { opacity: 0; width: 0; height: 0; position: absolute; }
+.anahtar span { position: absolute; inset: 0; background: var(--kenar); border-radius: 999px; transition: .2s; cursor: pointer; }
+.anahtar span::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 3px #0003; }
+.anahtar input:checked + span { background: var(--ok); }
+.anahtar input:checked + span::before { transform: translateX(18px); }

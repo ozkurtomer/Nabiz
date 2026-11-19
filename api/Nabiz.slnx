@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Nabiz.Api/Nabiz.Api.csproj" />
+  <Project Path="Nabiz.Application/Nabiz.Application.csproj" />
+  <Project Path="Nabiz.Domain/Nabiz.Domain.csproj" />
+  <Project Path="Nabiz.Infrastructure/Nabiz.Infrastructure.csproj" />
+  <Project Path="Nabiz.Tests/Nabiz.Tests.csproj" />
+</Solution>

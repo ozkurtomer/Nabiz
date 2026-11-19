@@ -1,0 +1,63 @@
+# Nabız - yerel deneme ortamı:  docker compose up --build
+#   Web:  http://localhost:4200      API: http://localhost:5277/saglik      Mail kutusu (Mailpit): http://localhost:8025
+#   Giriş: admin@nabiz.local / Admin123!   (demo kullanıcılar: ik@, yonetici@, calisan@nabiz.local / Demo123!)
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64          # Apple Silicon'da Rosetta ile çalışır (Docker Desktop'ta Rosetta açık olmalı)
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Nabiz_Dev123!"
+    ports:
+      - "1433:1433"                # Azure Data Studio / SSMS ile bağlanmak için (kullanıcı: sa)
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  # Yerel deneme için sahte SMTP sunucusu: giden tüm e-postaları yakalar, http://localhost:8025 adresinde gösterir.
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"   # web arayüzü
+      - "1025:1025"   # SMTP
+
+  api:
+    build: ./api
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Nabiz: "Server=db,1433;Database=Nabiz;User Id=sa;Password=Nabiz_Dev123!;TrustServerCertificate=True"
+      Jwt__Key: "docker-yerel-deneme-gizli-anahtari-en-az-32-karakter"
+      Cors__Origins__0: "http://localhost:4200"
+      Baslangic__OtomatikMigration: "true"
+      Baslangic__DemoVeri: "true"
+      Baslangic__IlkAdmin__Email: "admin@nabiz.local"
+      Baslangic__IlkAdmin__Sifre: "Admin123!"
+      Uygulama__PublicUrl: "http://localhost:4200"
+      Mobil__Anahtar: "demo-mobil-anahtar"
+      Smtp__Host: "mailpit"
+      Smtp__Port: "1025"
+      Smtp__Gonderen: "nabiz@nabiz.local"
+      Personel__YoneticiKolon: "Yonetici"
+      Personel__AktifKolon: "Aktif"
+    ports:
+      - "5277:8080"
+
+  web:
+    build: ./web
+    depends_on:
+      - api
+    ports:
+      - "4200:80"
+
+volumes:
+  mssql-data:

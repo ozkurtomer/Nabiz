@@ -1,0 +1,45 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>{{ i18n.t('sorular') }}</h2>
+    <p>Soru havuzu. Sorular tek başına değil, <b>Paketler</b> içinde birleştirilerek çalışanlara gönderilir.</p>
+  </div>
+</div>
+
+<div class="kart yeni">
+  <h3>✨ Yeni soru ekle</h3>
+  <div class="form">
+    <label class="genis">Türkçe <input [(ngModel)]="yeni.metinTr" placeholder="Bugün keyfin yerinde mi?"></label>
+    <label class="genis">English <input [(ngModel)]="yeni.metinEn" placeholder="Are you feeling good today?"></label>
+    <label class="genis">Düşük cevapta takip sorusu (TR, isteğe bağlı) <input [(ngModel)]="yeni.takipMetniTr" placeholder="Seni en çok ne zorladı?"></label>
+    <label class="genis">Follow-up when low (EN, optional) <input [(ngModel)]="yeni.takipMetniEn" placeholder="What made it hard?"></label>
+    <label>Tip
+      <select [(ngModel)]="yeni.tip">
+        <option value="Emoji">😀 Emoji</option><option value="Puan">🔢 1-10 puan</option><option value="EvetHayir">👍 Evet/Hayır</option>
+      </select>
+    </label>
+    <button class="birincil" (click)="ekle()" [disabled]="!yeni.metinTr.trim() || !yeni.metinEn.trim()">Ekle</button>
+  </div>
+</div>
+
+<div class="tablo-kutu">
+  <table>
+    <thead><tr><th>Türkçe</th><th>English</th><th>Takip sorusu (düşük puanda)</th><th>Tip</th><th>Aktif</th><th></th></tr></thead>
+    <tbody>
+      @for (s of liste(); track s.id) {
+        <tr>
+          <td><input [(ngModel)]="s.metinTr"></td>
+          <td><input [(ngModel)]="s.metinEn"></td>
+          <td><input [(ngModel)]="s.takipMetniTr" placeholder="TR"><input [(ngModel)]="s.takipMetniEn" placeholder="EN" style="margin-top:6px"></td>
+          <td><span class="rozet" [class.ok]="s.tip === 'Puan'" [class.uyari]="s.tip === 'EvetHayir'">
+            {{ s.tip === 'Emoji' ? '😀 Emoji' : s.tip === 'Puan' ? '🔢 Puan' : '👍 Evet/Hayır' }}</span></td>
+          <td><label class="anahtar"><input type="checkbox" [(ngModel)]="s.aktif"><span></span></label></td>
+          <td>
+            <div class="islem">
+              <button class="kucuk birincil" (click)="kaydet(s)">{{ i18n.t('kaydet') }}</button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

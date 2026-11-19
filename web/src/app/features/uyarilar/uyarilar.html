@@ -1,0 +1,51 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>{{ i18n.t('uyarilar') }}</h2>
+    <p>Düşük puan veren çalışanları takip et, destek olmak için harekete geç.</p>
+  </div>
+</div>
+
+<div class="sekmeler">
+  @for (s of sekmeler; track s.d) {
+    <button class="sekme" [class.aktif]="filtre() === s.d" (click)="filtre.set(s.d)">
+      {{ s.ad }} <span class="sayac">{{ sayi(s.d) }}</span>
+    </button>
+  }
+</div>
+
+@if (yukleniyor()) {
+  <p class="bos">{{ i18n.t('yukleniyor') }}</p>
+} @else if (gorunen().length === 0) {
+  <div class="kart bos-kart">
+    <div class="buyuk">🎉</div>
+    <h3>Her şey yolunda</h3>
+    <p>Bu filtrede gösterilecek uyarı yok.</p>
+  </div>
+} @else {
+  <div class="liste">
+    @for (u of gorunen(); track u.id) {
+      <article class="kart uyari">
+        <div class="ust">
+          <div class="kisi">
+            <span class="avatar">{{ u.kullaniciAd.charAt(0) }}</span>
+            <div><a [routerLink]="['/kisi', u.kullaniciId]" class="isim"><b>{{ u.kullaniciAd }}</b></a><small>{{ u.departman || '—' }} · {{ u.olusturma + 'Z' | date: 'dd.MM.yyyy HH:mm' }}</small></div>
+          </div>
+          @if (u.sonDonemUyariSayisi >= 3) { <span class="rozet hata" title="Son 30 günde birden çok uyarı">🔁 30 günde {{ u.sonDonemUyariSayisi }} uyarı</span> }
+          <span class="rozet" [class]="'rozet ' + rozet(u.durum)">{{ u.durum === 'Kapandi' ? 'Kapandı' : u.durum }}</span>
+        </div>
+        <p class="soru">{{ u.soru }}</p>
+        <div class="cevap">
+          <span class="puan">{{ u.deger }}</span>
+          @if (u.yorum) { <blockquote>“{{ u.yorum }}”</blockquote> } @else if (u.yorumAnonim) { <small>🕶️ Anonim yorum bıraktı (içeriği gösterilmez)</small> } @else { <small>Yorum bırakılmadı.</small> }
+        </div>
+        <div class="islem-satir">
+          <select [(ngModel)]="u.durum">
+            <option value="Yeni">Yeni</option><option value="Takipte">Takipte</option><option value="Kapandi">Kapandı</option>
+          </select>
+          <input class="not" [(ngModel)]="u.ikNotu" placeholder="İK notu ekle…">
+          <button class="birincil" (click)="kaydet(u)">{{ i18n.t('kaydet') }}</button>
+        </div>
+      </article>
+    }
+  </div>
+}

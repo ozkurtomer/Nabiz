@@ -1,0 +1,89 @@
+<div class="sahne">
+  <aside class="marka">
+    <div class="marka-ic">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="rgba(255,255,255,.18)"/>
+        <path d="M8 34h13l5-12 8 24 6-18 4 6h12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h1>Nabız</h1>
+      <p class="slogan">Ekibinin nabzını tut.<br>Küçük bir soru, büyük bir fark.</p>
+      <ul class="ozellik">
+        <li><span>⚡</span> Tek dokunuşla cevap</li>
+        <li><span>🔒</span> Şifresiz, güvenli giriş</li>
+        <li><span>📈</span> Anlık moral takibi</li>
+      </ul>
+    </div>
+    <div class="dalga dalga1"></div>
+    <div class="dalga dalga2"></div>
+  </aside>
+
+  <main class="panel">
+    <div class="dil">
+      <button type="button" [class.secili]="i18n.dil() === 'tr'" (click)="i18n.degistir('tr')">TR</button>
+      <button type="button" [class.secili]="i18n.dil() === 'en'" (click)="i18n.degistir('en')">EN</button>
+    </div>
+
+    @if (linkGitti()) {
+      <div class="kutu gitti">
+        <div class="mail-ikon">📬</div>
+        <h2>{{ i18n.dil() === 'tr' ? 'E-postanı kontrol et' : 'Check your email' }}</h2>
+        <p class="alt">
+          {{ i18n.dil() === 'tr' ? 'Hesabın varsa' : 'If an account exists for' }} <b>{{ email }}</b>
+          {{ i18n.dil() === 'tr' ? 'adresine 15 dakika geçerli bir giriş linki gönderdik.' : 'we sent a sign-in link valid for 15 minutes.' }}
+        </p>
+        <button type="button" class="hayalet" (click)="yeniden()">← {{ i18n.dil() === 'tr' ? 'Farklı e-posta dene' : 'Try another email' }}</button>
+      </div>
+    } @else {
+      <form class="kutu" (ngSubmit)="gir()" [class.titre]="hata()">
+        <h2>{{ i18n.dil() === 'tr' ? 'Tekrar hoş geldin 👋' : 'Welcome back 👋' }}</h2>
+        <p class="alt">
+          {{ sifreModu()
+            ? (i18n.dil() === 'tr' ? 'E-posta ve şifrenle giriş yap.' : 'Sign in with your email and password.')
+            : (i18n.dil() === 'tr' ? 'E-posta adresini yaz, sana giriş linki gönderelim. Şifre yok.' : 'Enter your email and we will send you a sign-in link. No password.') }}
+        </p>
+
+        <label class="alan">
+          <span>{{ i18n.t('email') }}</span>
+          <div class="girdi">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            <input name="email" type="email" autocomplete="username" placeholder="ad@sirket.com" [(ngModel)]="email" required autofocus>
+          </div>
+        </label>
+
+        @if (sifreModu()) {
+          <label class="alan">
+            <span>{{ i18n.t('sifre') }}</span>
+            <div class="girdi">
+              <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+              <input name="sifre" [type]="sifreGorunur() ? 'text' : 'password'" autocomplete="current-password" placeholder="••••••••" [(ngModel)]="sifre" required>
+              <button type="button" class="goz" (click)="sifreGorunur.set(!sifreGorunur())" [attr.aria-label]="sifreGorunur() ? 'Şifreyi gizle' : 'Şifreyi göster'">{{ sifreGorunur() ? '🙈' : '👁️' }}</button>
+            </div>
+          </label>
+        }
+
+        @if (hata()) { <p class="hata-kutu" role="alert">{{ i18n.t('girisHata') }}</p> }
+
+        <button class="giris" type="submit" [disabled]="bekliyor() || !email.trim() || (sifreModu() && !sifre)">
+          @if (bekliyor()) { <span class="donen"></span> }
+          @else if (sifreModu()) { {{ i18n.t('giris') }} → }
+          @else { {{ i18n.dil() === 'tr' ? 'Giriş linki gönder' : 'Send sign-in link' }} ✉️ }
+        </button>
+
+        <button type="button" class="mod" (click)="sifreModu.set(!sifreModu())">
+          {{ sifreModu()
+            ? (i18n.dil() === 'tr' ? '← E-posta linkiyle giriş' : '← Sign in with email link')
+            : (i18n.dil() === 'tr' ? 'Şifreyle giriş yap' : 'Sign in with password') }}
+        </button>
+
+        @if (demoGiris) {
+          <div class="ayrac"><span>{{ i18n.dil() === 'tr' ? 'veya demo hesapla dene' : 'or try a demo account' }}</span></div>
+          <div class="demo">
+            @for (h of demoHesaplar; track h.email) {
+              <button type="button" class="demo-btn" (click)="demoIleGir(h)" [disabled]="bekliyor()"><span class="ikon">{{ h.ikon }}</span>{{ h.etiket }}</button>
+            }
+          </div>
+        }
+      </form>
+    }
+  </main>
+</div>

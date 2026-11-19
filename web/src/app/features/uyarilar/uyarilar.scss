@@ -1,0 +1,22 @@
+.sekmeler { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.sekme { border-radius: 999px; padding: 7px 14px; display: inline-flex; align-items: center; gap: 8px; }
+.sekme.aktif { background: var(--vurgu); border-color: var(--vurgu); color: #fff; }
+.sayac { background: #0000001a; border-radius: 999px; padding: 0 8px; font-size: .78rem; }
+.sekme:not(.aktif) .sayac { background: var(--vurgu-soft); color: var(--vurgu); }
+.liste { display: grid; gap: 14px; }
+.uyari { margin: 0 !important; }
+.ust { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.kisi b { display: block; line-height: 1.2; }
+.soru { margin: 14px 0 10px; font-weight: 600; }
+.cevap { display: flex; align-items: center; gap: 14px; background: var(--yuzey2); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+.puan { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 1.3rem; font-weight: 800; background: var(--hata-soft); color: var(--hata); flex: none; }
+blockquote { margin: 0; font-style: italic; }
+.islem-satir { display: flex; gap: 10px; flex-wrap: wrap; }
+.not { flex: 1; min-width: 180px; }
+.bos-kart { text-align: center; padding: 48px 20px; }
+.bos-kart .buyuk { font-size: 3rem; }
+.bos-kart p { color: var(--soluk); margin: 6px 0 0; }
+.bos { text-align: center; color: var(--soluk); padding: 36px; }
+
+.isim { color: inherit; text-decoration: none; }
+.isim:hover { color: var(--vurgu); text-decoration: underline; }

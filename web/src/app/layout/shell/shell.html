@@ -1,0 +1,87 @@
+<div class="duzen">
+  <header class="mobil-ust">
+    <button class="hayalet menu-btn" (click)="menuAcik.set(!menuAcik())" aria-label="Menü">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <strong class="marka">Nabız</strong>
+  </header>
+
+  @if (menuAcik()) { <div class="perde" (click)="menuAcik.set(false)"></div> }
+
+  <aside class="yan" [class.acik]="menuAcik()">
+    <div class="logo-alan">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="18" fill="url(#g)"/>
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f5df0"/><stop offset="1" stop-color="#7a4df2"/></linearGradient></defs>
+        <path d="M10 34h11l5-12 8 24 6-18 4 6h10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div><strong>Nabız</strong><small>Ekip moral takibi</small></div>
+    </div>
+
+    <nav>
+      <a routerLink="/sorularim" routerLinkActive="aktif">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        Sorularım
+      </a>
+      @if (auth.rolVar('Admin', 'IK', 'Yonetici')) {
+        <a routerLink="/raporlar" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 3 5-7"/></svg>
+          Raporlar
+        </a>
+      }
+      @if (auth.rolVar('Admin', 'IK')) {
+        <a routerLink="/gonderimler" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Gönderimler
+        </a>
+        <a routerLink="/uyarilar" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          {{ i18n.t('uyarilar') }}
+        </a>
+        <a routerLink="/paketler" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+          Paketler
+        </a>
+      }
+      @if (auth.rolVar('Admin')) {
+        <div class="grup">Yönetim</div>
+        <a routerLink="/kullanicilar" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          {{ i18n.t('kullanicilar') }}
+        </a>
+        <a routerLink="/sorular" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          {{ i18n.t('sorular') }}
+        </a>
+        <a routerLink="/planlar" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          {{ i18n.t('planlar') }}
+        </a>
+        <a routerLink="/denetim" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          Denetim kaydı
+        </a>
+        <a routerLink="/ayarlar" routerLinkActive="aktif">
+          <svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+          {{ i18n.t('ayarlar') }}
+        </a>
+      }
+    </nav>
+
+    <div class="alt">
+      <div class="dil">
+        <button class="kucuk hayalet" [class.secili]="i18n.dil() === 'tr'" (click)="i18n.degistir('tr')">TR</button>
+        <button class="kucuk hayalet" [class.secili]="i18n.dil() === 'en'" (click)="i18n.degistir('en')">EN</button>
+      </div>
+      <div class="kullanici">
+        <span class="avatar">{{ bas() }}</span>
+        <div class="bilgi-alan"><b>{{ auth.ad() }}</b><small>{{ rolAdi() }}</small></div>
+        <button class="hayalet kucuk" (click)="auth.cikis()" [attr.title]="i18n.t('cikis')" [attr.aria-label]="i18n.t('cikis')">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="icerik"><router-outlet /></main>
+</div>

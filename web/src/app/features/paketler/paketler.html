@@ -1,0 +1,69 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>Soru paketleri</h2>
+    <p>Sorular paketler halinde gönderilir. Çalışan tek linkle paketteki tüm soruları adım adım cevaplar.</p>
+  </div>
+  @if (auth.rolVar('Admin')) { <button class="birincil" (click)="yeni()">＋ Yeni paket</button> }
+</div>
+
+@if (form(); as f) {
+  <section class="kart duzenle">
+    <h3>{{ f.id ? 'Paketi düzenle' : 'Yeni paket' }}</h3>
+    <div class="form">
+      <label class="genis">Paket adı <input [ngModel]="f.ad" (ngModelChange)="adGuncelle($event)" placeholder="Motivasyon Paketi"></label>
+      <label class="genis">Açıklama (isteğe bağlı) <input [ngModel]="f.aciklama" (ngModelChange)="aciklamaGuncelle($event)" placeholder="Kısa bir açıklama"></label>
+      <label class="aktif">Aktif <span class="anahtar"><input type="checkbox" [ngModel]="f.aktif" (ngModelChange)="aktifGuncelle($event)"><span></span></span></label>
+    </div>
+
+    <div class="iki">
+      <div>
+        <h4>Pakette ({{ secilenSorular().length }})</h4>
+        @for (s of secilenSorular(); track s.id; let i = $index) {
+          <div class="secili-soru">
+            <span class="no">{{ i + 1 }}</span>
+            <span class="metin">{{ s.metinTr }}<small>{{ s.tip }}</small></span>
+            <button class="kucuk hayalet" (click)="tasi(i, -1)" [disabled]="i === 0" title="Yukarı">↑</button>
+            <button class="kucuk hayalet" (click)="tasi(i, 1)" [disabled]="i === secilenSorular().length - 1" title="Aşağı">↓</button>
+            <button class="kucuk hayalet" (click)="cikar(s.id)" title="Çıkar">✕</button>
+          </div>
+        } @empty { <p class="bos">Sağdaki havuzdan soru ekle.</p> }
+      </div>
+      <div>
+        <h4>Soru havuzu</h4>
+        <input class="ara" [ngModel]="ara()" (ngModelChange)="ara.set($event)" placeholder="Soru ara…">
+        <div class="havuz">
+          @for (s of eklenebilir(); track s.id) {
+            <button class="havuz-soru" (click)="ekle(s.id)"><span>＋</span><span class="metin">{{ s.metinTr }}<small>{{ s.tip }}</small></span></button>
+          } @empty { <p class="bos">Eklenecek soru kalmadı.</p> }
+        </div>
+      </div>
+    </div>
+
+    <div class="islem">
+      <button class="birincil" (click)="kaydet()" [disabled]="!f.ad.trim() || f.secili.length === 0">{{ i18n.t('kaydet') }}</button>
+      <button (click)="vazgec()">Vazgeç</button>
+    </div>
+  </section>
+}
+
+<div class="izgara">
+  @for (p of liste(); track p.id) {
+    <article class="kart paket" [class.pasif]="!p.aktif">
+      <div class="baslik">
+        <h3>{{ p.ad }}</h3>
+        <span class="rozet" [class.gri]="!p.aktif" [class.ok]="p.aktif">{{ p.aktif ? 'Aktif' : 'Pasif' }}</span>
+      </div>
+      @if (p.aciklama) { <p class="aciklama">{{ p.aciklama }}</p> }
+      <ol>
+        @for (s of p.sorular; track s.id) { <li>{{ s.metinTr }}</li> }
+      </ol>
+      <div class="islem">
+        <button class="kucuk" (click)="dene(p)" title="Paketi e-posta atmadan kendine gönderip cevapla">▶ Dene</button>
+        @if (auth.rolVar('Admin')) {
+          <button class="kucuk" (click)="duzenle(p)">Düzenle</button>
+          <button class="kucuk tehlike" (click)="sil(p)">Sil</button>
+        }
+      </div>
+    </article>
+  }
+</div>

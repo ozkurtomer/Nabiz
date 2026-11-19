@@ -1,0 +1,42 @@
+<a routerLink="/uyarilar" class="geri">← Geri</a>
+
+@if (gecmis(); as g) {
+  <div class="sayfa-baslik">
+    <div class="kisi-baslik">
+      <span class="avatar buyuk">{{ g.ad.charAt(0) }}</span>
+      <div><h2>{{ g.ad }}</h2><p>{{ g.departman || '—' }} · {{ g.email }}</p></div>
+    </div>
+    @if (g.ortalamaSkor != null) { <div class="ort"><small>Ortalama skor</small><b class="skor {{ skorSinifi(g.ortalamaSkor) }}">{{ g.ortalamaSkor }}</b></div> }
+  </div>
+
+  @if (g.dususte) {
+    <div class="uyari-kutu">📉 <b>Düşüş eğilimi:</b> son üç ölçümde skor sürekli azalıyor ya da hepsi düşük. İletişime geçmeyi düşünebilirsin.</div>
+  }
+  <div class="bilgi">🔍 Bu sayfanın görüntülenmesi denetim kaydına işlenir. Anonim bırakılan yorumlar burada gösterilmez.</div>
+
+  <section class="kart">
+    <h3>Skor geçmişi</h3>
+    @if (g.noktalar.length < 2) { <p class="bos">Grafik için en az iki tamamlanmış cevap gerekir.</p> } @else { <app-trend-grafik [noktalar]="trend()" /> }
+  </section>
+
+  <section class="kart">
+    <h3>Son cevaplar</h3>
+    <div class="tablo-kutu ic">
+      <table>
+        <thead><tr><th>Tarih</th><th>Paket / soru</th><th>Cevap</th><th>Yorum</th></tr></thead>
+        <tbody>
+          @for (c of g.cevaplar; track $index) {
+            <tr>
+              <td>{{ c.tarih | date: 'dd.MM.yyyy HH:mm' }}</td>
+              <td><small>{{ c.paket }}</small>{{ c.soru }}</td>
+              <td><span class="skor {{ c.dusuk ? 'kotu' : skorSinifi(c.skor) }}">{{ cevapGoster(c.tip, c.deger) }}</span></td>
+              <td class="yorum">{{ c.yorum }}</td>
+            </tr>
+          } @empty { <tr><td colspan="4" class="bos">Henüz tamamlanmış cevap yok.</td></tr> }
+        </tbody>
+      </table>
+    </div>
+  </section>
+} @else if (hata()) {
+  <div class="kart"><h3>Bu sayfaya erişim yok</h3><p>Kişi bazlı geçmişi yalnızca İK ve Admin görebilir.</p></div>
+} @else { <p class="bos">Yükleniyor…</p> }

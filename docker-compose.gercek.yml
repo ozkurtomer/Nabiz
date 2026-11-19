@@ -1,0 +1,28 @@
+# Nabız - GERÇEK ortam (şirket SQL Server'ı + şirket SMTP'si). Demo verisi ve Mailpit yok.
+#
+#   1) cp .env.gercek.example .env.gercek   ve değerleri doldur
+#   2) docker compose down                  (demo yığını açıksa; portlar çakışmasın)
+#   3) docker compose -f docker-compose.gercek.yml --env-file .env.gercek up --build -d
+#
+# Not: API konteyneri şirket SQL Server'ına ve SMTP'ye ağdan ulaşabilmeli (gerekiyorsa VPN açık olsun).
+services:
+  api:
+    build: ./api
+    env_file: .env.gercek
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Baslangic__DemoVeri: "false"
+    ports:
+      - "5277:8080"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./web
+      args:
+        DEMO_GIRIS: "false"      # giriş ekranında demo butonları görünmesin
+    depends_on:
+      - api
+    ports:
+      - "4200:80"
+    restart: unless-stopped

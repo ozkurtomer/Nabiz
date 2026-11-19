@@ -1,0 +1,133 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>Raporlar</h2>
+    <p>
+      @if (rapor(); as r) { <b>{{ r.kapsam }}</b> · {{ r.baslangic | date: 'dd.MM.yyyy' }} – {{ r.bitis | date: 'dd.MM.yyyy' }} } @else { Moral ve cevap analizleri }
+    </p>
+  </div>
+</div>
+
+<div class="kart filtre">
+  <div class="hizli">
+    @for (g of [7, 30, 90]; track g) {
+      <button [class.aktif]="hizli === g" (click)="hizliSec(g)">Son {{ g }} gün</button>
+    }
+  </div>
+  <div class="form">
+    <label>Başlangıç <input type="date" [(ngModel)]="baslangic" (change)="hizli = 0"></label>
+    <label>Bitiş <input type="date" [(ngModel)]="bitis" (change)="hizli = 0"></label>
+    @if (auth.rolVar('Admin', 'IK')) {
+      <label>Departman
+        <select [(ngModel)]="departman" (change)="yukle()">
+          <option value="">Tümü</option>
+          @for (d of departmanSecenekleri(); track d) { <option [value]="d">{{ d }}</option> }
+        </select>
+      </label>
+      <label>Paket
+        <select [(ngModel)]="paketId" (change)="yukle()">
+          <option [ngValue]="0">Tümü</option>
+          @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ p.ad }}</option> }
+        </select>
+      </label>
+    }
+    <button class="birincil" (click)="yukle()">Uygula</button>
+  </div>
+</div>
+
+@if (rapor(); as r) {
+  @if (r.kisitli) {
+    <div class="bilgi">🔒 Gizlilik: Yalnızca kendi ekibini görürsün ve sonuçlar isimsizdir. {{ r.minGrup }} kişiden az cevap veren kırılımlar gizlenir.</div>
+  }
+
+  @if (r.yetersizVeri) {
+    <div class="kart bos-kart"><div class="buyuk">🔒</div><h3>Yeterli veri yok</h3>
+      <p>Ekibinden en az {{ r.minGrup }} kişi cevap verdiğinde sonuçlar görünür. Bu, kişilerin kimliğini korumak içindir.</p></div>
+  } @else {
+    <div class="kpi-satir">
+      <div class="kpi"><small>Ortalama skor</small>
+        @if (r.ozet.ortalamaSkor != null) { <b class="skor {{ skorSinifi(r.ozet.ortalamaSkor) }}">{{ r.ozet.ortalamaSkor }}<span>/100</span></b> } @else { <b>—</b> }
+        @if (fark(r.ozet.ortalamaSkor, r.oncekiOzet?.ortalamaSkor); as f) { <span class="fark" [class.art]="f > 0" [class.azal]="f < 0">{{ f > 0 ? '▲ +' : '▼ ' }}{{ f }} <small>önceki döneme göre</small></span> }</div>
+      <div class="kpi"><small>Cevap oranı</small><b>%{{ r.ozet.cevapOrani }}</b><span class="alt">{{ r.ozet.cevaplayan }} / {{ r.ozet.gonderilen }} gönderim</span>
+        @if (fark(r.ozet.cevapOrani, r.oncekiOzet?.cevapOrani); as f) { <span class="fark" [class.art]="f > 0" [class.azal]="f < 0">{{ f > 0 ? '▲ +' : '▼ ' }}{{ f }} puan <small>önceki döneme göre</small></span> }</div>
+      <div class="kpi"><small>Düşük puan</small><b class="skor kotu">{{ r.ozet.dusukPuan }}</b><span class="alt">uyarı eşiği altı cevap</span></div>
+    </div>
+
+    <section class="kart">
+      <h3>Cevapların ağırlığı</h3>
+      @if (toplamDuygu() === 0) { <p class="bos">Seçilen aralıkta cevap yok.</p> } @else {
+        <div class="duygu">
+          <div class="olumlu" [style.flex]="r.ozet.olumlu || 0.0001"></div>
+          <div class="notr" [style.flex]="r.ozet.notr || 0.0001"></div>
+          <div class="olumsuz" [style.flex]="r.ozet.olumsuz || 0.0001"></div>
+        </div>
+        <div class="duygu-etiket">
+          <span><i class="n olumlu"></i> Olumlu <b>%{{ yuzde(r.ozet.olumlu) }}</b> <small>({{ r.ozet.olumlu }})</small></span>
+          <span><i class="n notr"></i> Nötr <b>%{{ yuzde(r.ozet.notr) }}</b> <small>({{ r.ozet.notr }})</small></span>
+          <span><i class="n olumsuz"></i> Olumsuz <b>%{{ yuzde(r.ozet.olumsuz) }}</b> <small>({{ r.ozet.olumsuz }})</small></span>
+        </div>
+      }
+    </section>
+
+    <section class="kart">
+      <h3>Günlük moral trendi</h3>
+      <app-trend-grafik [noktalar]="r.trend" />
+    </section>
+
+    <div class="iki">
+      <section class="kart">
+        <h3>Departman karşılaştırma</h3>
+        @for (d of r.departmanlar; track d.departman) {
+          <div class="dep">
+            <div class="dep-ust"><b>{{ d.departman }}</b>
+              @if (d.gizli) { <small>🔒 gizli (az katılım)</small> } @else {
+                <span>@if (fark(d.ortalamaSkor, d.oncekiOrtalamaSkor); as f) { <small class="fark" [class.art]="f > 0" [class.azal]="f < 0">{{ f > 0 ? '▲' : '▼' }} {{ f > 0 ? '+' : '' }}{{ f }}</small> }
+                <span class="skor {{ skorSinifi(d.ortalamaSkor) }}">{{ d.ortalamaSkor ?? '—' }}</span></span> }</div>
+            @if (!d.gizli) {
+              <div class="cubuk"><div class="dolgu {{ skorSinifi(d.ortalamaSkor) }}" [style.width.%]="d.ortalamaSkor ?? 0"></div></div>
+              <small>Katılım %{{ d.cevapOrani }} ({{ d.cevaplayan }}/{{ d.gonderilen }})</small>
+            }
+          </div>
+        } @empty { <p class="bos">Veri yok.</p> }
+      </section>
+
+      <section class="kart">
+        <h3>Soru bazlı sonuçlar</h3>
+        @for (s of r.sorular; track s.soruId) {
+          <div class="soru">
+            <div class="dep-ust"><b>{{ s.soru }}</b>
+              @if (s.gizli) { <small>🔒 gizli</small> } @else { <span class="skor {{ skorSinifi(s.ortalamaSkor) }}">{{ s.ortalamaSkor }}</span> }</div>
+            @if (!s.gizli) { <small>{{ s.cevapSayisi }} cevap</small><app-dagilim [tip]="s.tip" [veri]="s.dagilim" /> }
+          </div>
+        } @empty { <p class="bos">Veri yok.</p> }
+      </section>
+    </div>
+
+    <section class="kart">
+      <div class="baslik-satir">
+        <h3>{{ r.kisitli ? 'Ekipten yorumlar' : 'Kim ne demiş?' }}</h3>
+        @if (!r.kisitli) {
+          <button class="kucuk" (click)="csvIndir()">⬇ CSV indir (Excel)</button>
+          <label class="ac"><span class="anahtar"><input type="checkbox" [(ngModel)]="sadeceYorumlu" (change)="yukle()"><span></span></span> Sadece yorumlular</label>
+        }
+      </div>
+      <div class="tablo-kutu ic">
+        <table>
+          <thead><tr><th>Tarih</th>@if (!r.kisitli) { <th>Kişi</th> }<th>Paket / soru</th><th>Cevap</th><th>Yorum</th></tr></thead>
+          <tbody>
+            @for (c of cevaplar(); track c.cevapId) {
+              <tr>
+                <td>{{ c.tarih | date: 'dd.MM HH:mm' }}</td>
+                @if (!r.kisitli) { <td><b>{{ c.kisi }}</b><small>{{ c.departman }}</small></td> }
+                <td><small>{{ c.paket }}</small>{{ c.soru }}</td>
+                <td><span class="skor {{ c.dusuk ? 'kotu' : skorSinifi(c.skor) }}">{{ cevapGoster(c.tip, c.deger) }}</span></td>
+                <td class="yorum">{{ c.yorum }}</td>
+              </tr>
+            } @empty { <tr><td [attr.colspan]="r.kisitli ? 4 : 5" class="bos">Bu aralıkta gösterilecek cevap yok.</td></tr> }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+} @else if (yukleniyor()) {
+  <p class="bos">Yükleniyor…</p>
+}

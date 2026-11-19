@@ -1,0 +1,17 @@
+<svg [attr.viewBox]="'0 0 ' + G + ' ' + Y" preserveAspectRatio="none" role="img" aria-label="Günlük ortalama skor grafiği">
+  @for (c of cizgiler; track c) {
+    <line [attr.x1]="SOL" [attr.x2]="G - SAG" [attr.y1]="y(c)" [attr.y2]="y(c)" class="izgara"/>
+    <text [attr.x]="SOL - 6" [attr.y]="y(c) + 4" class="eksen" text-anchor="end">{{ c }}</text>
+  }
+  @for (yol of yollar(); track $index) { <path [attr.d]="yol" class="cizgi"/> }
+  @for (p of dolu(); track p.gun) {
+    @if (p.cy !== null) {
+      <circle [attr.cx]="p.cx" [attr.cy]="p.cy" r="4" class="nokta">
+        <title>{{ p.gun | date: 'dd.MM.yyyy' }} · skor {{ p.ortalamaSkor }} · {{ p.cevapSayisi }} cevap</title>
+      </circle>
+    }
+  }
+  @for (p of etiketler(); track p.gun) {
+    <text [attr.x]="p.cx" [attr.y]="Y - 6" class="eksen" text-anchor="middle">{{ p.gun | date: 'dd.MM' }}</text>
+  }
+</svg>

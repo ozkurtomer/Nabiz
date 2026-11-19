@@ -1,0 +1,48 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>{{ i18n.t('planlar') }}</h2>
+    <p>Tekrarlayan gönderimler: hangi paket, kime, hangi gün ve saatte gidecek. Tek seferlik göndermek için <b>Gönderimler</b> sayfasını kullan.</p>
+  </div>
+</div>
+
+<div class="kart yeni">
+  <h3>📅 Yeni plan</h3>
+  <div class="form">
+    <label class="genis">Paket
+      <select [(ngModel)]="paketId">
+        @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ p.ad }} ({{ p.sorular.length }} soru)</option> }
+      </select>
+    </label>
+    <label>Başlangıç <input type="date" [(ngModel)]="baslangic"></label>
+    <label>Kaç günde bir <input type="number" min="1" [(ngModel)]="siklikGun" style="width:100px"></label>
+    <label>Saat <input type="time" [(ngModel)]="saat"></label>
+  </div>
+  <h4 style="margin:18px 0 10px">Kime?</h4>
+  <app-hedef-secici [kullanicilar]="kullanicilar()" [(tip)]="hedefTipi" [(deger)]="hedefDeger" />
+  <div class="islem" style="margin-top:16px">
+    <button class="birincil" (click)="ekle()" [disabled]="!paketId || (hedefTipi() !== 'Hepsi' && !hedefDeger())">Plan ekle</button>
+  </div>
+</div>
+
+<div class="tablo-kutu">
+  <table>
+    <thead><tr><th>Paket</th><th>Kime</th><th>Başlangıç</th><th>Sıklık</th><th>Saat</th><th></th></tr></thead>
+    <tbody>
+      @for (p of liste(); track p.id) {
+        <tr>
+          <td><b>{{ p.paketAd }}</b></td>
+          <td><span class="rozet">{{ p.hedefAciklama }}</span></td>
+          <td>{{ p.baslangic | date: 'dd.MM.yyyy' }}</td>
+          <td>{{ p.siklikGun === 1 ? 'Her gün' : p.siklikGun + ' günde bir' }}</td>
+          <td>{{ p.saat }}</td>
+          <td><div class="islem">
+            <button class="kucuk" (click)="simdiGonder(p)">✉ Şimdi gönder</button>
+            <button class="kucuk tehlike" (click)="sil(p)">Sil</button>
+          </div></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6" class="bos">Henüz plan yok.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>

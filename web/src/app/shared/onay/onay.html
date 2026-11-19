@@ -1,0 +1,13 @@
+@if (onay.acik(); as o) {
+  <div class="perde" (click)="onay.kapat(false)">
+    <div class="pencere" role="alertdialog" aria-modal="true" aria-labelledby="onay-baslik" (click)="$event.stopPropagation()">
+      <div class="ikon" [class.tehlike]="o.tur === 'tehlike'">{{ o.ikon ?? (o.tur === 'tehlike' ? '🗑️' : '❓') }}</div>
+      <h3 id="onay-baslik">{{ o.baslik }}</h3>
+      @if (o.mesaj) { <p>{{ o.mesaj }}</p> }
+      <div class="dugmeler">
+        <button (click)="onay.kapat(false)">{{ o.hayir ?? 'Vazgeç' }}</button>
+        <button #evet class="birincil" [class.tehlike-btn]="o.tur === 'tehlike'" (click)="onay.kapat(true)">{{ o.evet ?? 'Evet' }}</button>
+      </div>
+    </div>
+  </div>
+}

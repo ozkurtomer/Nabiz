@@ -1,0 +1,82 @@
+:host { display: block; min-height: 100vh; }
+
+.sahne { display: grid; grid-template-columns: minmax(340px, 46%) 1fr; min-height: 100vh; }
+
+/* ---------- Marka paneli ---------- */
+.marka {
+  position: relative; overflow: hidden; color: #fff;
+  background: linear-gradient(145deg, #3b6cf6 0%, #6d4df2 55%, #a14df0 100%);
+  display: flex; align-items: center; padding: 48px;
+}
+.marka-ic { position: relative; z-index: 2; max-width: 380px; }
+.logo { width: 72px; height: 72px; margin-bottom: 16px; animation: atis 2.4s ease-in-out infinite; }
+.marka h1 { font-size: 2.6rem; letter-spacing: -.5px; margin: 0 0 12px; }
+.slogan { font-size: 1.2rem; line-height: 1.5; opacity: .95; margin: 0 0 32px; }
+.ozellik { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.ozellik li { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.14); padding: 10px 14px; border-radius: 12px; backdrop-filter: blur(4px); }
+.ozellik span { font-size: 1.2rem; }
+.dalga { position: absolute; border-radius: 50%; background: rgba(255,255,255,.08); z-index: 1; }
+.dalga1 { width: 420px; height: 420px; right: -140px; bottom: -120px; }
+.dalga2 { width: 260px; height: 260px; left: -80px; top: -80px; }
+@keyframes atis { 0%,100% { transform: scale(1); } 15% { transform: scale(1.12); } 30% { transform: scale(1); } 45% { transform: scale(1.08); } }
+
+/* ---------- Form paneli ---------- */
+.panel { position: relative; display: flex; align-items: center; justify-content: center; padding: 32px 24px; background: var(--arka); }
+.dil { position: absolute; top: 20px; right: 24px; display: flex; gap: 4px; }
+.dil button { border: none; background: none; padding: 6px 10px; border-radius: 8px; color: var(--soluk); font-weight: 600; }
+.dil button.secili { background: var(--yuzey); color: var(--vurgu); box-shadow: 0 1px 4px #0002; }
+
+.kutu { width: 100%; max-width: 400px; }
+.kutu h2 { font-size: 1.7rem; margin: 0 0 6px; }
+.alt { color: var(--soluk); margin: 0 0 28px; }
+
+.alan { display: block; margin-bottom: 18px; }
+.alan > span { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
+.girdi {
+  display: flex; align-items: center; gap: 10px; padding: 0 12px; height: 48px;
+  background: var(--yuzey); border: 1.5px solid var(--kenar); border-radius: 12px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.girdi:focus-within { border-color: var(--vurgu); box-shadow: 0 0 0 4px #3b6cf622; }
+.girdi svg { width: 20px; height: 20px; color: var(--soluk); flex: none; }
+.girdi input { flex: 1; border: none; outline: none; background: none; padding: 0; height: 100%; font-size: 1rem; color: inherit; min-width: 0; }
+.goz { border: none; background: none; padding: 4px; font-size: 1.05rem; cursor: pointer; opacity: .75; }
+.goz:hover { opacity: 1; }
+
+.hata-kutu { background: #fef3f2; color: var(--hata); border: 1px solid #fecdca; padding: 10px 12px; border-radius: 10px; margin: 0 0 16px; font-size: .9rem; }
+.titre { animation: titre .35s; }
+@keyframes titre { 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+
+.giris {
+  width: 100%; height: 50px; border: none; border-radius: 12px; font-size: 1.05rem; font-weight: 600; color: #fff; cursor: pointer;
+  background: linear-gradient(135deg, #3b6cf6, #6d4df2); box-shadow: 0 6px 16px #3b6cf655;
+  transition: transform .1s, box-shadow .15s, opacity .15s; display: flex; align-items: center; justify-content: center;
+}
+.giris:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px #3b6cf666; }
+.giris:disabled { opacity: .55; box-shadow: none; cursor: default; }
+.donen { width: 20px; height: 20px; border: 3px solid #fff5; border-top-color: #fff; border-radius: 50%; animation: don .7s linear infinite; }
+@keyframes don { to { transform: rotate(360deg); } }
+
+.ayrac { display: flex; align-items: center; gap: 12px; margin: 26px 0 14px; color: var(--soluk); font-size: .8rem; }
+.ayrac::before, .ayrac::after { content: ''; flex: 1; height: 1px; background: var(--kenar); }
+.demo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.demo-btn { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--kenar); background: var(--yuzey); font-weight: 600; transition: border-color .15s, transform .1s; }
+.demo-btn:hover:not(:disabled) { border-color: var(--vurgu); transform: translateY(-1px); }
+.ikon { font-size: 1.2rem; }
+
+/* ---------- Mobil ---------- */
+@media (max-width: 800px) {
+  .sahne { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .marka { padding: 28px 24px; }
+  .marka-ic { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .logo { width: 48px; height: 48px; margin: 0; }
+  .marka h1 { font-size: 1.8rem; margin: 0; }
+  .slogan, .ozellik { display: none; }
+  .panel { align-items: flex-start; padding-top: 28px; }
+}
+
+.mod { display: block; width: 100%; margin-top: 14px; border: none; background: none; color: var(--vurgu); padding: 6px; }
+.mod:hover:not(:disabled) { transform: none; text-decoration: underline; }
+.gitti { text-align: center; }
+.gitti .alt { margin-bottom: 20px; }
+.mail-ikon { font-size: 3.2rem; margin-bottom: 8px; }

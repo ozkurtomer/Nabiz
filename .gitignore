@@ -1,0 +1,26 @@
+# Sırlar - ASLA commit'lenmez
+.env
+.env.gercek
+*.pfx
+
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+.vs/
+TestResults/
+
+# Node / Angular
+node_modules/
+web/dist/
+web/.angular/
+web/out-tsc/
+npm-debug.log*
+
+# IDE / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db

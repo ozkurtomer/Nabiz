@@ -1,0 +1,35 @@
+.geri { display: inline-block; margin-bottom: 12px; text-decoration: none; font-weight: 600; }
+.alt-baslik { margin: 28px 0 12px; }
+.kpi-satir { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
+.kpi { background: var(--yuzey); border: 1px solid var(--kenar); border-radius: var(--r); padding: 16px 18px; box-shadow: var(--golge); }
+.kpi small { display: block; color: var(--soluk); font-weight: 600; }
+.kpi b { font-size: 1.9rem; letter-spacing: -.02em; }
+.soru-izgara { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.soru-kart { margin: 0 !important; }
+.soru { font-weight: 600; margin: 0 0 6px; }
+.ust { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.skor { display: inline-block; min-width: 44px; text-align: center; padding: 3px 10px; border-radius: 999px; font-weight: 700; }
+.skor.kotu { background: var(--hata-soft); color: var(--hata); } .skor.orta { background: var(--uyari-soft); color: var(--uyari); } .skor.iyi { background: var(--ok-soft); color: var(--ok); }
+.kpi b.skor { font-size: 1.6rem; }
+.sekmeler { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.sekme { border-radius: 999px; padding: 7px 14px; display: inline-flex; gap: 8px; align-items: center; }
+.sekme.aktif { background: var(--vurgu); border-color: var(--vurgu); color: #fff; }
+.sayac { background: #0000001a; border-radius: 999px; padding: 0 8px; font-size: .78rem; }
+.sekme:not(.aktif) .sayac { background: var(--vurgu-soft); color: var(--vurgu); }
+.blok { display: block; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tikla { cursor: pointer; }
+.ozet { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.mini { background: var(--yuzey2); border: 1px solid var(--kenar); border-radius: 8px; padding: 2px 8px; font-size: .9rem; }
+.mini.kotu { background: var(--hata-soft); border-color: var(--hata); color: var(--hata); }
+.ok-i { color: var(--soluk); font-size: .75rem; margin-left: 4px; }
+.detay-satir td { background: var(--yuzey2); padding: 14px 20px; }
+.cevap-satiri { display: flex; gap: 14px; align-items: flex-start; padding: 8px 0; }
+.cevap-satiri .deger { min-width: 64px; }
+blockquote { margin: 4px 0 0; color: var(--soluk); font-style: italic; }
+
+.isim { color: inherit; text-decoration: none; }
+.isim:hover { color: var(--vurgu); text-decoration: underline; }
+.anonim-kart { margin: 20px 0; }
+.anonim-kart .aciklama { color: var(--soluk); margin: 0 0 12px; }
+.anonim-kart blockquote { margin: 0 0 10px; padding-left: 12px; border-left: 3px solid var(--vurgu); font-style: italic; }
+.anonim-kart blockquote small { display: block; font-style: normal; }

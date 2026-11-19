@@ -1,0 +1,22 @@
+.perde {
+  position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 16px;
+  background: rgba(20, 26, 42, .45); backdrop-filter: blur(3px); animation: perde .15s ease;
+}
+.pencere {
+  width: 100%; max-width: 400px; text-align: center; padding: 28px 24px 22px;
+  background: var(--yuzey); border-radius: 18px; box-shadow: var(--golge-buyuk);
+  animation: acil .22s cubic-bezier(.2, 1.3, .4, 1);
+}
+.ikon {
+  width: 60px; height: 60px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 1.7rem; background: var(--vurgu-soft);
+}
+.ikon.tehlike { background: var(--hata-soft); }
+h3 { margin: 0 0 8px; font-size: 1.15rem; }
+p { margin: 0; color: var(--soluk); line-height: 1.5; }
+.dugmeler { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
+.dugmeler button { padding: 11px 14px; }
+.tehlike-btn { background: linear-gradient(135deg, #e5483b, #d92d20) !important; box-shadow: 0 4px 12px #d92d2044 !important; }
+@keyframes perde { from { opacity: 0; } to { opacity: 1; } }
+@keyframes acil { from { opacity: 0; transform: scale(.92) translateY(8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 420px) { .dugmeler { grid-template-columns: 1fr; } .dugmeler button:first-child { order: 2; } }

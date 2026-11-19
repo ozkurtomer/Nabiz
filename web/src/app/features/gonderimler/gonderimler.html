@@ -1,0 +1,57 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>Gönderimler</h2>
+    <p>Bir paketi hemen gönder, sonra kimin ne cevap verdiğini gönderim bazında incele.</p>
+  </div>
+</div>
+
+<section class="kart yeni">
+  <h3>🚀 Anlık gönder</h3>
+  <div class="form">
+    <label class="genis">Paket
+      <select [(ngModel)]="paketId">
+        @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ p.ad }} ({{ p.sorular.length }} soru)</option> }
+      </select>
+    </label>
+  </div>
+  @if (secilenPaket(); as p) {
+    <ol class="sorular">@for (s of p.sorular; track s.id) { <li>{{ s.metinTr }}</li> }</ol>
+  }
+  <h4 style="margin:14px 0 10px">Kime?</h4>
+  <app-hedef-secici [kullanicilar]="kullanicilar()" [(tip)]="hedefTipi" [(deger)]="hedefDeger" />
+  <div class="islem">
+    <button class="birincil" (click)="gonder()" [disabled]="gonderiliyor() || !paketId || (hedefTipi() !== 'Hepsi' && !hedefDeger())">
+      {{ gonderiliyor() ? 'Gönderiliyor…' : '✉ Şimdi gönder' }}
+    </button>
+  </div>
+</section>
+
+<h3 class="alt-baslik">Gönderim geçmişi</h3>
+<div class="tablo-kutu">
+  <table>
+    <thead><tr><th>Tarih</th><th>Paket</th><th>Kime</th><th>Cevap</th><th>Ort. skor</th><th></th></tr></thead>
+    <tbody>
+      @for (p of liste(); track p.id) {
+        <tr>
+          <td>{{ p.zaman | date: 'dd.MM.yyyy HH:mm' }}</td>
+          <td>
+            <b>{{ p.paket }}</b>
+            <small>{{ p.soruSayisi }} soru
+              <span class="rozet kucuk-r" [class.ok]="p.anlik && !p.demo" [class.gri]="!p.anlik && !p.demo" [class.uyari]="p.demo || p.test">
+                {{ p.demo ? 'Demo' : p.test ? 'Test' : p.anlik ? 'Anlık' : 'Plan' }}</span></small>
+          </td>
+          <td>{{ p.hedef }}</td>
+          <td>
+            <div class="oran"><div class="dolu" [style.width.%]="p.cevapOrani"></div></div>
+            <small>{{ p.cevaplayan }}/{{ p.gonderilen }} (%{{ p.cevapOrani }})
+              @if (p.hatali) { · <span class="hata">{{ p.hatali }} mail hatası</span> }</small>
+          </td>
+          <td>@if (p.ortalamaSkor != null) { <span class="skor {{ skorSinifi(p.ortalamaSkor) }}">{{ p.ortalamaSkor }}</span> } @else { — }</td>
+          <td><a [routerLink]="['/gonderimler', p.id]"><button class="kucuk">Cevapları gör →</button></a></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6" class="bos">Henüz gönderim yok. Yukarıdan bir paket gönder.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>

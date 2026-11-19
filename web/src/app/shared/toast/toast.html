@@ -1,0 +1,5 @@
+<div class="kutu" aria-live="polite">
+  @for (b of notify.liste(); track b.id) {
+    <div class="toast" [class.hata]="b.tur === 'hata'" (click)="notify.kapat(b.id)">{{ b.mesaj }}</div>
+  }
+</div>

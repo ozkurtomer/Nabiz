@@ -1,0 +1,15 @@
+:host { display: block; }
+.sekmeler { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.sekmeler button { border-radius: 999px; padding: 7px 14px; }
+.sekmeler button.aktif { background: var(--vurgu); border-color: var(--vurgu); color: #fff; }
+.tam { width: 100%; max-width: 320px; }
+.kisi-kutu { border: 1.5px solid var(--kenar); border-radius: 12px; overflow: hidden; background: var(--yuzey); }
+.kisi-ust { display: flex; gap: 8px; padding: 10px; border-bottom: 1px solid var(--kenar); flex-wrap: wrap; }
+.kisi-ust input { flex: 1; min-width: 160px; }
+.liste { max-height: 220px; overflow-y: auto; }
+.satir { display: flex; align-items: center; gap: 10px; padding: 8px 12px; cursor: pointer; font-size: .95rem; }
+.satir:hover { background: var(--yuzey2); }
+.ad { flex: 1; font-weight: 600; }
+.bos { text-align: center; color: var(--soluk); padding: 16px; margin: 0; }
+.ozet { margin: 10px 0 0; color: var(--soluk); }
+.ozet b { color: var(--vurgu); }

@@ -1,0 +1,48 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>{{ i18n.t('kullanicilar') }}</h2>
+    <p>Kullanıcılar personel tablosundan otomatik gelir (her saat başı senkronize edilir). Burada yalnızca rol ve erişim yönetilir.</p>
+  </div>
+  <button class="birincil" (click)="aktar()">↻ Şimdi senkronize et</button>
+</div>
+
+<div class="arac-cubugu">
+  <div class="arama">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input [(ngModel)]="ara" (keyup.enter)="yukle()" placeholder="Ad veya e-posta ara…">
+  </div>
+  <button (click)="yukle()">Ara</button>
+  <span class="bosluk"></span>
+  <small>{{ liste().length }} kullanıcı</small>
+</div>
+
+<div class="tablo-kutu">
+  <table>
+    <thead><tr><th>Kullanıcı</th><th>Departman</th><th>Rol</th><th>Aktif</th><th></th></tr></thead>
+    <tbody>
+      @for (k of liste(); track k.id) {
+        <tr>
+          <td>
+            <div class="kisi">
+              <span class="avatar">{{ k.ad.charAt(0) }}</span>
+              <div><b>{{ k.ad }}</b><small>{{ k.email }}</small></div>
+            </div>
+          </td>
+          <td>{{ k.departman || '—' }}</td>
+          <td>
+            <select [(ngModel)]="k.rol">
+              <option value="Calisan">Çalışan</option><option value="IK">İK</option>
+              <option value="Yonetici">Yönetici</option><option value="Admin">Admin</option>
+            </select>
+          </td>
+          <td><label class="anahtar"><input type="checkbox" [(ngModel)]="k.aktif"><span></span></label></td>
+          <td><button class="kucuk birincil" (click)="kaydet(k)">{{ i18n.t('kaydet') }}</button></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="5" class="bos">
+          {{ yukleniyor() ? i18n.t('yukleniyor') : 'Kullanıcı yok. Personel tablosu ayarlarını kontrol edip "Şimdi senkronize et"e bas.' }}
+        </td></tr>
+      }
+    </tbody>
+  </table>
+</div>
