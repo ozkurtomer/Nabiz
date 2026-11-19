@@ -85,7 +85,7 @@ public static class EmailSablonu
 """));
     }
 
-    /// <summary>İK'ya düşük puan uyarısı (kişi bilgisi içerir; yalnızca İK/Admin'e gider).</summary>
+    /// <summary>İK'ya düşük puan uyarısı (kişi bilgisi içerir; yalnızca İK'ya gider).</summary>
     public static (string Konu, string Html) IkUyari(Kullanici ik, Kullanici kisi, IReadOnlyList<(Soru Soru, Cevap Cevap)> dusukler, string link)
     {
         var satirlar = string.Concat(dusukler.Select(x =>

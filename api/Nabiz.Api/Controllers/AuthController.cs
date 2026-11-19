@@ -8,7 +8,7 @@ namespace Nabiz.Api.Controllers;
 [ApiController, Route("api/auth"), AllowAnonymous]
 public class AuthController(IAuthService auth) : ControllerBase
 {
-    /// <summary>E-posta + şifre (şifresi olan hesaplar: ilk admin ve demo).</summary>
+    /// <summary>E-posta + şifre (şifresi olan hesaplar: ilk İK hesabı ve demo).</summary>
     [HttpPost("login")]
     public Task<LoginYanit> Login(LoginIstek istek, CancellationToken ct) => auth.LoginAsync(istek, ct);
 

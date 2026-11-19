@@ -6,7 +6,7 @@ using Nabiz.Application.Services;
 
 namespace Nabiz.Api.Controllers;
 
-[ApiController, Route("api/ayarlar"), Authorize(Roles = Roller.Admin)]
+[ApiController, Route("api/ayarlar"), Authorize(Roles = Roller.IK)]
 public class AyarlarController(IAyarService ayarlar) : ControllerBase
 {
     [HttpGet]

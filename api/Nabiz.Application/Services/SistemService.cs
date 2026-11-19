@@ -10,7 +10,7 @@ public interface ISistemService
     Task<SistemDurumuDto> DurumAsync(CancellationToken ct);
 }
 
-/// <summary>Yönetici için "her şey yolunda mı?" özeti: veritabanı, son 24 saat mail sonuçları, açık özellikler.</summary>
+/// <summary>İK için "her şey yolunda mı?" özeti: veritabanı, son 24 saat mail sonuçları, açık özellikler.</summary>
 public class SistemService(IUnitOfWork uow, IUygulamaAyarlari ayar, IZaman zaman) : ISistemService
 {
     public const string SonSenkronAnahtari = "SonPersonelSenkron";

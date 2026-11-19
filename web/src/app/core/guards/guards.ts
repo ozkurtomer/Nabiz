@@ -11,8 +11,8 @@ export const girisGerekli: CanActivateFn = (_r, state) => {
 export const rolGerekli = (...roller: Rol[]): CanActivateFn => () =>
   inject(AuthService).rolVar(...roller) || inject(Router).createUrlTree(['/']);
 
-/** Açılış sayfası role göre: çalışan → Sorularım, diğerleri → Raporlar. */
+/** Açılış sayfası role göre: çalışan → Sorularım, İK → Raporlar. */
 export const anasayfaYonlendir: CanActivateFn = () => {
   const auth = inject(AuthService);
-  return inject(Router).createUrlTree([auth.rolVar('Admin', 'IK', 'Yonetici') ? '/raporlar' : '/sorularim']);
+  return inject(Router).createUrlTree([auth.rolVar('IK') ? '/raporlar' : '/sorularim']);
 };

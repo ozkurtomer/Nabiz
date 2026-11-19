@@ -6,8 +6,8 @@ using Nabiz.Application.Services;
 
 namespace Nabiz.Api.Controllers;
 
-/// <summary>Sistem durumu ve denetim kaydı (yalnızca Admin).</summary>
-[ApiController, Route("api/sistem"), Authorize(Roles = Roller.Admin)]
+/// <summary>Sistem durumu ve denetim kaydı (yalnızca İK).</summary>
+[ApiController, Route("api/sistem"), Authorize(Roles = Roller.IK)]
 public class SistemController(ISistemService sistem, IDenetimService denetim) : ControllerBase
 {
     [HttpGet("durum")]

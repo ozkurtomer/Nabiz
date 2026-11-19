@@ -61,7 +61,7 @@ public interface IWebhookGonderici
 }
 
 
-public record PersonelKaydi(string PersonelId, string Ad, string? Email, string? Departman, string? YoneticiPersonelId);
+public record PersonelKaydi(string PersonelId, string Ad, string? Email, string? Departman);
 
 /// <summary>Mevcut personel tablosunu salt okunur okur.</summary>
 public interface IPersonelKaynagi

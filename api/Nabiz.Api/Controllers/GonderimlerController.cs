@@ -6,8 +6,8 @@ using Nabiz.Application.Services;
 
 namespace Nabiz.Api.Controllers;
 
-/// <summary>Anlık (plansız) gönderim ve gönderim bazlı cevap raporları. Kişi bazlı veri içerdiği için yalnızca Admin/İK.</summary>
-[ApiController, Route("api/gonderimler"), Authorize(Roles = Roller.AdminIK)]
+/// <summary>Anlık (plansız) gönderim ve gönderim bazlı cevap raporları. Kişi bazlı veri içerdiği için yalnızca İK.</summary>
+[ApiController, Route("api/gonderimler"), Authorize(Roles = Roller.IK)]
 public class GonderimlerController(IGonderimService gonderim) : ControllerBase
 {
     [HttpPost("anlik")]

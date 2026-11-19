@@ -21,9 +21,7 @@ export class Login {
 
   readonly demoGiris = environment.demoGiris;
   readonly demoHesaplar: DemoHesap[] = [
-    { etiket: 'Admin', ikon: '🛠️', email: 'admin@nabiz.local', sifre: 'Admin123!' },
     { etiket: 'İK', ikon: '🤝', email: 'ik@nabiz.local', sifre: 'Demo123!' },
-    { etiket: 'Yönetici', ikon: '📊', email: 'yonetici@nabiz.local', sifre: 'Demo123!' },
     { etiket: 'Çalışan', ikon: '🙂', email: 'calisan@nabiz.local', sifre: 'Demo123!' },
   ];
 

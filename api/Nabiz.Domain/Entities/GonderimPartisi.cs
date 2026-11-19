@@ -12,11 +12,11 @@ public class GonderimPartisi
     public string? HedefDeger { get; set; }
     public DateTime Zaman { get; set; }
     public int? PlanId { get; set; }
-    /// <summary>true: yönetici elle anlık gönderdi, false: plan çalıştırdı.</summary>
+    /// <summary>true: İK elle anlık gönderdi, false: plan çalıştırdı.</summary>
     public bool Anlik { get; set; }
     /// <summary>Deneme amaçlı üretilmiş sahte veri (silinebilir).</summary>
     public bool Demo { get; set; }
-    /// <summary>Yönetici kendine denemek için ürettiği, e-posta atılmayan gönderim.</summary>
+    /// <summary>İK kendine denemek için ürettiği, e-posta atılmayan gönderim.</summary>
     public bool Test { get; set; }
     public int? OlusturanKullaniciId { get; set; }
 }

@@ -19,9 +19,16 @@ Hatırlatmalar yalnızca **hafta içi 09:00-18:00** (şirket saat diliminde) gö
 ## Teams / Slack bildirimi
 Teams'te "Workflows → Webhook isteği alındığında" (ya da Slack'te Incoming Webhook) ile bir adres oluşturup `Bildirim__WebhookUrl` olarak ver. Gönderilen mesajda **kişi bilgisi yoktur**, yalnızca "yeni düşük puan uyarısı" ve panel linki bulunur.
 
-## Gizlilik özeti
-- İK/Admin kişi bazlı veriyi görebilir; her erişim **Denetim kaydı** sayfasına işlenir.
-- Yönetici yalnızca kendi ekibini ve isimsiz görür; minimum grup büyüklüğünün (Ayarlar, varsayılan 3) altındaki kırılımlar gizlenir.
+## Roller ve gizlilik
+Yalnızca iki rol vardır:
+
+| Rol | Yapabildiği |
+|---|---|
+| **Çalışan** | Mail linkiyle ya da "Sorularım" sayfasından kendisine gelen paketleri cevaplar. Başkasının verisini göremez. |
+| **İK** | Raporlar, gönderimler (hemen / bir kez / tekrarlayan), uyarılar, paket ve soru yönetimi, kullanıcı rolleri, ayarlar, denetim kaydı, demo veri. |
+
+- İK rolü, **Kullanıcılar** sayfasından bir çalışana verilir. İlk İK hesabı `Baslangic:IlkIK` ayarıyla açılışta oluşturulur.
+- İK kişi bazlı veriyi görebilir; her erişim **Denetim kaydı** sayfasına işlenir.
 - Çalışan yorumunu **anonim** bırakabilir: İK dahil kimse o yorumu kişiyle ilişkilendiremez.
 - Cevap linkleri kişiye özel, tahmin edilemez token'lardır; paylaşılmamalıdır.
 

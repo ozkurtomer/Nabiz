@@ -3,7 +3,7 @@ using Nabiz.Domain.Enums;
 
 namespace Nabiz.Infrastructure.Persistence;
 
-/// <summary>Başlangıç soru havuzu ve hazır paket şablonları. Admin panelinden düzenlenebilir, yenileri eklenebilir.</summary>
+/// <summary>Başlangıç soru havuzu ve hazır paket şablonları. İK panelinden düzenlenebilir, yenileri eklenebilir.</summary>
 public static class SoruSeed
 {
     public static readonly Soru[] Sorular =

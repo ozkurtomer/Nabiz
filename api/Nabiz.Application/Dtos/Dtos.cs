@@ -36,7 +36,7 @@ public record UyariDto(int Id, DateTime Olusturma, UyariDurumu Durum, string? Ik
 public record UyariGuncelleIstek(UyariDurumu Durum, string? IkNotu);
 
 // ---- Ayar
-public record AyarlarDto(int EmojiEsik, int PuanEsik, int MinGrupBuyuklugu);
+public record AyarlarDto(int EmojiEsik, int PuanEsik);
 
 // ---- Gönderim (anlık gönderim + gönderim raporu)
 public record GonderimSonucu(int Toplam, int Basarili, int Hatali, string? IlkHata);
@@ -53,16 +53,16 @@ public record PartiDetayDto(PartiDto Parti, List<SoruDagilimi> Sorular, List<Par
 // ---- Raporlar
 public record RaporOzet(int Gonderilen, int Cevaplayan, double CevapOrani, double? OrtalamaSkor, int Olumlu, int Notr, int Olumsuz, int DusukPuan);
 public record TrendNoktasi(DateTime Gun, double? OrtalamaSkor, int CevapSayisi);
-public record DepartmanSatiri(string Departman, int Gonderilen, int Cevaplayan, double CevapOrani, double? OrtalamaSkor, int Olumlu, int Notr, int Olumsuz, bool Gizli, double? OncekiOrtalamaSkor = null);
-public record SoruSatiri(int SoruId, string Soru, SoruTipi Tip, int CevapSayisi, double? OrtalamaSkor, List<DagilimNoktasi> Dagilim, bool Gizli);
+public record DepartmanSatiri(string Departman, int Gonderilen, int Cevaplayan, double CevapOrani, double? OrtalamaSkor, int Olumlu, int Notr, int Olumsuz, double? OncekiOrtalamaSkor = null);
+public record SoruSatiri(int SoruId, string Soru, SoruTipi Tip, int CevapSayisi, double? OrtalamaSkor, List<DagilimNoktasi> Dagilim);
 public record RaporDto(
-    DateTime Baslangic, DateTime Bitis, string Kapsam, bool Kisitli, int MinGrup, bool YetersizVeri,
+    DateTime Baslangic, DateTime Bitis, string Kapsam,
     RaporOzet Ozet, RaporOzet? OncekiOzet, List<TrendNoktasi> Trend, List<DepartmanSatiri> Departmanlar, List<SoruSatiri> Sorular);
 public record CevapSatiri(int CevapId, DateTime Tarih, string? Kisi, string? Departman, string Paket, string Soru, SoruTipi Tip, int Deger, double Skor, string? Yorum, bool Dusuk);
 public record RaporFiltre(DateTime? Baslangic, DateTime? Bitis, string? Departman, int? PaketId);
 public record DemoVeriSonucu(int Gonderim, int Silinen);
 
-// ---- Kişi geçmişi (İK/Admin)
+// ---- Kişi geçmişi (İK)
 public record KisiNoktasi(DateTime Tarih, string Paket, double Skor, bool Dusuk);
 public record KisiGecmisCevap(DateTime Tarih, string Paket, string Soru, SoruTipi Tip, int Deger, double Skor, string? Yorum, bool Dusuk);
 public record KisiGecmisiDto(int KullaniciId, string Ad, string Email, string? Departman, double? OrtalamaSkor, bool Dususte, List<KisiNoktasi> Noktalar, List<KisiGecmisCevap> Cevaplar);

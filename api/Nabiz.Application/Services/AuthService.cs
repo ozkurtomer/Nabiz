@@ -8,7 +8,7 @@ namespace Nabiz.Application.Services;
 
 public interface IAuthService
 {
-    /// <summary>E-posta + şifre (yalnızca şifresi olan hesaplar: ilk admin, demo).</summary>
+    /// <summary>E-posta + şifre (yalnızca şifresi olan hesaplar: ilk İK hesabı, demo).</summary>
     Task<LoginYanit> LoginAsync(LoginIstek istek, CancellationToken ct);
     /// <summary>Şifresiz giriş: e-postaya tek kullanımlık (15 dk) giriş linki gönderir. Hesap yoksa da sessizce başarılı döner.</summary>
     Task GirisLinkiGonderAsync(string email, CancellationToken ct);

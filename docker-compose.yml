@@ -1,6 +1,6 @@
 # Nabız - yerel deneme ortamı:  docker compose up --build
 #   Web:  http://localhost:4200      API: http://localhost:5277/saglik      Mail kutusu (Mailpit): http://localhost:8025
-#   Giriş: admin@nabiz.local / Admin123!   (demo kullanıcılar: ik@, yonetici@, calisan@nabiz.local / Demo123!)
+#   Demo giriş: ik@nabiz.local (İK) ve calisan@nabiz.local (Çalışan), şifre: Demo123!
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -40,14 +40,11 @@ services:
       Cors__Origins__0: "http://localhost:4200"
       Baslangic__OtomatikMigration: "true"
       Baslangic__DemoVeri: "true"
-      Baslangic__IlkAdmin__Email: "admin@nabiz.local"
-      Baslangic__IlkAdmin__Sifre: "Admin123!"
       Uygulama__PublicUrl: "http://localhost:4200"
       Mobil__Anahtar: "demo-mobil-anahtar"
       Smtp__Host: "mailpit"
       Smtp__Port: "1025"
       Smtp__Gonderen: "nabiz@nabiz.local"
-      Personel__YoneticiKolon: "Yonetici"
       Personel__AktifKolon: "Aktif"
     ports:
       - "5277:8080"

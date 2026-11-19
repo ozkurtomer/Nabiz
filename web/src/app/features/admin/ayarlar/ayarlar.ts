@@ -26,7 +26,7 @@ export class Ayarlar implements OnInit {
   readonly durum = signal<SistemDurumu | null>(null);
   readonly demoMesgul = signal(false);
 
-  a: AyarlarModel = { emojiEsik: 2, puanEsik: 4, minGrupBuyuklugu: 3 };
+  a: AyarlarModel = { emojiEsik: 2, puanEsik: 4 };
 
   ngOnInit() { this.api.getir().subscribe(r => (this.a = r)); this.sistem.durum().subscribe(d => this.durum.set(d)); }
   kaydet() { this.api.kaydet(this.a).subscribe(() => this.notify.bilgi('Ayarlar kaydedildi.')); }

@@ -1,4 +1,4 @@
-export type Rol = 'Calisan' | 'IK' | 'Yonetici' | 'Admin';
+export type Rol = 'Calisan' | 'IK';
 export type SoruTipi = 'Emoji' | 'Puan' | 'EvetHayir';
 export type HedefTipi = 'Hepsi' | 'Departman' | 'Kisi';
 export type UyariDurumu = 'Yeni' | 'Takipte' | 'Kapandi';
@@ -36,7 +36,7 @@ export interface Uyari {
   kullaniciId: number; kullaniciAd: string; departman?: string; soru: string; deger: number; yorum?: string;
   yorumAnonim: boolean; sonDonemUyariSayisi: number;
 }
-export interface Ayarlar { emojiEsik: number; puanEsik: number; minGrupBuyuklugu: number; }
+export interface Ayarlar { emojiEsik: number; puanEsik: number; }
 
 // ---- Gönderim
 export interface GonderimSonucu { toplam: number; basarili: number; hatali: number; ilkHata?: string; }
@@ -58,10 +58,10 @@ export interface PartiDetay { parti: Parti; sorular: SoruDagilimi[]; kisiler: Pa
 // ---- Raporlar
 export interface RaporOzet { gonderilen: number; cevaplayan: number; cevapOrani: number; ortalamaSkor?: number; olumlu: number; notr: number; olumsuz: number; dusukPuan: number; }
 export interface TrendNoktasi { gun: string; ortalamaSkor?: number; cevapSayisi: number; }
-export interface DepartmanSatiri { departman: string; gonderilen: number; cevaplayan: number; cevapOrani: number; ortalamaSkor?: number; olumlu: number; notr: number; olumsuz: number; gizli: boolean; oncekiOrtalamaSkor?: number; }
-export interface SoruSatiri { soruId: number; soru: string; tip: SoruTipi; cevapSayisi: number; ortalamaSkor?: number; dagilim: Dagilim[]; gizli: boolean; }
+export interface DepartmanSatiri { departman: string; gonderilen: number; cevaplayan: number; cevapOrani: number; ortalamaSkor?: number; olumlu: number; notr: number; olumsuz: number; oncekiOrtalamaSkor?: number; }
+export interface SoruSatiri { soruId: number; soru: string; tip: SoruTipi; cevapSayisi: number; ortalamaSkor?: number; dagilim: Dagilim[]; }
 export interface Rapor {
-  baslangic: string; bitis: string; kapsam: string; kisitli: boolean; minGrup: number; yetersizVeri: boolean;
+  baslangic: string; bitis: string; kapsam: string;
   ozet: RaporOzet; oncekiOzet?: RaporOzet; trend: TrendNoktasi[]; departmanlar: DepartmanSatiri[]; sorular: SoruSatiri[];
 }
 export interface CevapSatiri {

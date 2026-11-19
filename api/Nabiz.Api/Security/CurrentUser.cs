@@ -16,8 +16,6 @@ public class CurrentUser(IHttpContextAccessor accessor) : ICurrentUser
 
 public static class Roller
 {
-    public const string Admin = "Admin";
+    /// <summary>İnsan Kaynakları: raporlar, gönderim, paket/soru/kullanıcı yönetimi, ayarlar ve denetim.</summary>
     public const string IK = "IK";
-    public const string AdminIK = "Admin,IK";
-    public const string Rapor = "Admin,IK,Yonetici";
 }

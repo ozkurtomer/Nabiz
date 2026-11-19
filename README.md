@@ -4,13 +4,13 @@
 
 **Çalışan esenliği ve moral takibi.** Küçük sorular, büyük içgörüler.
 
-Çalışanlara düzenli olarak kısa **soru paketleri** gönderir, cevapları gizlilik kurallarıyla raporlar ve düşük moral işaretlerini İK'ya erken ulaştırır.
+Çalışanlara düzenli olarak kısa **soru paketleri** gönderir, cevapları raporlar ve düşük moral işaretlerini İK'ya erken ulaştırır.
 
 ![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-MSSQL-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-40%20passing-2ea44f)
+![Tests](https://img.shields.io/badge/tests-39%20passing-2ea44f)
 
 <img src="docs/screenshots/raporlar.jpg" alt="Raporlar" width="860">
 
@@ -31,7 +31,7 @@
 | ⚠️ **Düşük puan uyarıları** | Panelde uyarı, **İK'ya e-posta**, isteğe bağlı **Teams/Slack** bildirimi. Üst üste uyarı alanlar öne çıkar. |
 | 👤 **Kişi geçmişi (İK)** | Bir çalışanın zaman içindeki skoru, **düşüş eğilimi** tespiti. |
 | ⬇️ **CSV dışa aktarma** | Excel'in doğrudan açtığı (UTF-8 BOM, `;`) CSV. Formül enjeksiyonuna karşı korumalı. |
-| 🔒 **Gizlilik ve denetim** | Rol bazlı erişim, minimum grup büyüklüğü, anonim yorum, her kişisel veri erişimi **denetim kaydında**. |
+| 🔒 **Gizlilik ve denetim** | İki rol (**İK** ve **Çalışan**), anonim yorum, her kişisel veri erişimi **denetim kaydında**. |
 | 🔗 **Personel senkronu** | Kullanıcılar mevcut personel tablosundan (salt okunur) otomatik gelir. Şifre yönetimi yok. |
 | 🔑 **Şifresiz giriş** | E-postaya gelen 15 dakikalık giriş linki. Mobil uygulamadan **WebView otomatik giriş** ([doküman](docs/MOBIL.md)). |
 | 🩺 **Sistem durumu** | Veritabanı, SMTP, son 24 saat mail sonuçları tek bakışta. |
@@ -66,8 +66,8 @@ docker compose up --build -d
 | Gelen mailler (Mailpit, sahte SMTP) | http://localhost:8025 |
 | API sağlık | http://localhost:5277/saglik |
 
-Giriş ekranındaki **demo butonlarıyla** (Admin / İK / Yönetici / Çalışan) hemen deneyebilirsin.
-`admin@nabiz.local` / `Admin123!` · diğerleri `ik@`, `yonetici@`, `calisan@nabiz.local` / `Demo123!`
+Giriş ekranındaki **demo butonlarıyla** (İK / Çalışan) hemen deneyebilirsin.
+`ik@nabiz.local` (İK) ve `calisan@nabiz.local` (Çalışan), şifre: `Demo123!`
 
 **Denemek için:**
 1. *Gönderimler → Yeni gönderim* ile bir paketi seç, kimlere gideceğini belirle ve **Hemen** gönder (ya da *Bir kez* / *Tekrarlayan* olarak zamanla).
@@ -116,7 +116,7 @@ flowchart LR
 
 Uygulama kendi tablolarını **`nabiz` şemasında** oluşturur; personel tablosuna yalnızca **okuma** yapar. Migration'ı DBA'nın uygulaması gerekiyorsa `Baslangic__OtomatikMigration=false` yapıp SQL betiğini verebilirsin ([docs/OPERASYON.md](docs/OPERASYON.md)).
 
-Personel tablosu eşlemesi (`Personel__*`): `Tablo`, `SicilKolon`, `AdKolon`, `EmailKolon`, `DepartmanKolon`, `YoneticiKolon` (Yönetici rolünün "ekibim" görünümü için), `AktifKolon`.
+Personel tablosu eşlemesi (`Personel__*`): `Tablo`, `SicilKolon`, `AdKolon`, `EmailKolon`, `DepartmanKolon`, `AktifKolon`.
 
 Tüm ayarlar, gizlilik özeti, yedekleme ve izleme: **[docs/OPERASYON.md](docs/OPERASYON.md)** · Mobil WebView girişi: **[docs/MOBIL.md](docs/MOBIL.md)**
 
@@ -125,7 +125,7 @@ Tüm ayarlar, gizlilik özeti, yedekleme ve izleme: **[docs/OPERASYON.md](docs/O
 ```bash
 # API (appsettings.Development.json içindeki bağlantı cümlesini düzenle ya da yalnızca db servisini başlat: docker compose up -d db mailpit)
 cd api && dotnet run --project Nabiz.Api        # http://localhost:5277
-cd api && dotnet test Nabiz.Tests                # 40 test
+cd api && dotnet test Nabiz.Tests                # 39 test
 
 # Web
 cd web && npm install && npm start               # http://localhost:4200 (/api → 5277 proxy)

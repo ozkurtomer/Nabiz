@@ -16,23 +16,20 @@ public class AyarService(IUnitOfWork uow) : IAyarService
 {
     public const string EmojiEsik = nameof(EmojiEsik);
     public const string PuanEsik = nameof(PuanEsik);
-    public const string MinGrup = "MinGrupBuyuklugu";
 
     public async Task<AyarlarDto> GetirAsync(CancellationToken ct)
     {
         var d = await uow.Ayarlar.Query.ToDictionaryAsync(x => x.Anahtar, x => x.Deger, ct);
         int Al(string k, int varsayilan) => d.TryGetValue(k, out var v) && int.TryParse(v, out var n) ? n : varsayilan;
-        return new AyarlarDto(Al(EmojiEsik, 2), Al(PuanEsik, 4), Al(MinGrup, 3));
+        return new AyarlarDto(Al(EmojiEsik, 2), Al(PuanEsik, 4));
     }
 
     public async Task KaydetAsync(AyarlarDto a, CancellationToken ct)
     {
         if (a.EmojiEsik is < 1 or > 5) throw new DogrulamaHatasi("Emoji eşiği 1-5 arasında olmalı.");
         if (a.PuanEsik is < 1 or > 10) throw new DogrulamaHatasi("Puan eşiği 1-10 arasında olmalı.");
-        if (a.MinGrupBuyuklugu < 1) throw new DogrulamaHatasi("Minimum grup büyüklüğü en az 1 olmalı.");
         await Yaz(EmojiEsik, a.EmojiEsik, ct);
         await Yaz(PuanEsik, a.PuanEsik, ct);
-        await Yaz(MinGrup, a.MinGrupBuyuklugu, ct);
         await uow.SaveChangesAsync(ct);
     }
 

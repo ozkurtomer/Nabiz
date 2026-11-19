@@ -1,7 +1,7 @@
 <div class="sayfa-baslik">
   <div>
     <h2>{{ i18n.t('ayarlar') }}</h2>
-    <p>Hangi cevapların İK uyarısı üreteceğini ve gizlilik sınırını belirle.</p>
+    <p>Hangi cevapların İK uyarısı üreteceğini belirle.</p>
   </div>
   <button class="birincil" (click)="kaydet()">{{ i18n.t('kaydet') }}</button>
 </div>
@@ -35,11 +35,6 @@
     <div class="deger"><input type="range" min="1" max="10" [(ngModel)]="a.puanEsik"><b>{{ a.puanEsik }}</b></div>
   </section>
 
-  <section class="kart">
-    <div class="kafa"><span class="ikon">🔒</span><div><h3>Minimum grup büyüklüğü</h3><small>Gizlilik koruması</small></div></div>
-    <p>Yöneticiler, bu sayıdan az kişilik gruplarda sonuç göremez.</p>
-    <div class="deger"><input type="range" min="1" max="20" [(ngModel)]="a.minGrupBuyuklugu"><b>{{ a.minGrupBuyuklugu }}</b></div>
-  </section>
 </div>
 
 <section class="kart demo">

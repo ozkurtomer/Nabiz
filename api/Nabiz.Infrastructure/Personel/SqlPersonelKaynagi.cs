@@ -15,7 +15,6 @@ public class PersonelOptions
     public string AdKolon { get; set; } = "AdSoyad";
     public string EmailKolon { get; set; } = "Email";
     public string? DepartmanKolon { get; set; }
-    public string? YoneticiKolon { get; set; }
     /// <summary>Boş değilse bu bit sütunu 1 olan personel alınır (ör. "Aktif").</summary>
     public string? AktifKolon { get; set; }
 }
@@ -26,7 +25,6 @@ public class PersonelSatiri
     public string Ad { get; set; } = "";
     public string? Email { get; set; }
     public string? Departman { get; set; }
-    public string? YoneticiPersonelId { get; set; }
 }
 
 /// <summary>Personel tablosunu SALT OKUNUR okur; tablo/sütun adları yapılandırmadan gelir.</summary>
@@ -42,13 +40,12 @@ public partial class SqlPersonelKaynagi(NabizDbContext db, IOptions<PersonelOpti
         var sql = $@"SELECT CAST({Id(_o.SicilKolon)} AS nvarchar(100)) AS PersonelId,
                             CAST({Id(_o.AdKolon)} AS nvarchar(200)) AS Ad,
                             CAST({Id(_o.EmailKolon)} AS nvarchar(200)) AS Email,
-                            {Opsiyonel(_o.DepartmanKolon, 200)} AS Departman,
-                            {Opsiyonel(_o.YoneticiKolon, 100)} AS YoneticiPersonelId
+                            {Opsiyonel(_o.DepartmanKolon, 200)} AS Departman
                      FROM {Id(_o.Tablo)}
                      {(string.IsNullOrWhiteSpace(_o.AktifKolon) ? "" : $"WHERE {Id(_o.AktifKolon)} = 1")}";
 
         var satirlar = await db.Database.SqlQueryRaw<PersonelSatiri>(sql).ToListAsync(ct);
-        return satirlar.Select(s => new PersonelKaydi(s.PersonelId, s.Ad, s.Email, s.Departman, s.YoneticiPersonelId)).ToList();
+        return satirlar.Select(s => new PersonelKaydi(s.PersonelId, s.Ad, s.Email, s.Departman)).ToList();
     }
 
     private static string Opsiyonel(string? kolon, int uzunluk) =>

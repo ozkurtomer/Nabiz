@@ -58,7 +58,6 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                     Ad = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Departman = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    YoneticiPersonelId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     SifreHash = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Rol = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Dil = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),

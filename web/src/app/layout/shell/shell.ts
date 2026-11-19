@@ -15,7 +15,7 @@ export class Shell {
   readonly i18n = inject(I18n);
   readonly menuAcik = signal(false);
   readonly bas = computed(() => (this.auth.ad().trim().charAt(0) || '?').toUpperCase());
-  readonly rolAdi = computed(() => ({ Admin: 'Admin', IK: 'İnsan Kaynakları', Yonetici: 'Yönetici', Calisan: 'Çalışan' } as Record<string, string>)[this.auth.rol() ?? ''] ?? '');
+  readonly rolAdi = computed(() => ({ IK: 'İnsan Kaynakları', Calisan: 'Çalışan' } as Record<string, string>)[this.auth.rol() ?? ''] ?? '');
 
   constructor() {
     // Sayfa değişince mobil menüyü kapat

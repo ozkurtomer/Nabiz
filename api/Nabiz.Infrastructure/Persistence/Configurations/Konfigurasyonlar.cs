@@ -12,7 +12,6 @@ public class KullaniciConfig : IEntityTypeConfiguration<Kullanici>
         b.Property(x => x.Ad).HasMaxLength(200).IsRequired();
         b.Property(x => x.Email).HasMaxLength(200).IsRequired();
         b.Property(x => x.Departman).HasMaxLength(200);
-        b.Property(x => x.YoneticiPersonelId).HasMaxLength(100);
         b.Property(x => x.SifreHash).HasMaxLength(100).IsRequired();
         b.Property(x => x.Dil).HasMaxLength(5).IsRequired();
         b.Property(x => x.Rol).HasConversion<string>().HasMaxLength(20);

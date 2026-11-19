@@ -3,7 +3,7 @@
     <h2>Soru paketleri</h2>
     <p>Sorular paketler halinde gönderilir. Çalışan tek linkle paketteki tüm soruları adım adım cevaplar.</p>
   </div>
-  @if (auth.rolVar('Admin')) { <button class="birincil" (click)="yeni()">＋ Yeni paket</button> }
+  @if (auth.rolVar('IK')) { <button class="birincil" (click)="yeni()">＋ Yeni paket</button> }
 </div>
 
 @if (form(); as f) {
@@ -59,7 +59,7 @@
       </ol>
       <div class="islem">
         <button class="kucuk" (click)="dene(p)" title="Paketi e-posta atmadan kendine gönderip cevapla">▶ Dene</button>
-        @if (auth.rolVar('Admin')) {
+        @if (auth.rolVar('IK')) {
           <button class="kucuk" (click)="duzenle(p)">Düzenle</button>
           <button class="kucuk tehlike" (click)="sil(p)">Sil</button>
         }

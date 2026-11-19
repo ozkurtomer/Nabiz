@@ -25,7 +25,6 @@ public class UyariBildirimService(IUnitOfWork uow, IEmailSender mail, IWebhookGo
             try
             {
                 var ik = await uow.Kullanicilar.Query.Where(k => k.Aktif && k.Rol == Rol.IK).ToListAsync(ct);
-                if (ik.Count == 0) ik = await uow.Kullanicilar.Query.Where(k => k.Aktif && k.Rol == Rol.Admin).ToListAsync(ct);
                 var kisi = await uow.Kullanicilar.FindAsync(g.KullaniciId, ct);
                 foreach (var alici in ik)
                 {

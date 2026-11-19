@@ -38,14 +38,13 @@ public class EntegrasyonTests
         return (db, new UnitOfWork(db));
     }
 
-    private static void Veri(NabizDbContext db, int yoneticideEkipBuyuklugu)
+    private static void Veri(NabizDbContext db, int calisanSayisi)
     {
-        db.Kullanicilar.Add(new Kullanici { Id = 100, PersonelId = "M1", Ad = "Müdür", Email = "m@x", Rol = Rol.Yonetici });
         db.Kullanicilar.Add(new Kullanici { Id = 101, PersonelId = "IK1", Ad = "İK", Email = "ik@x", Rol = Rol.IK });
         var parti = new GonderimPartisi { PaketId = 1, HedefTipi = HedefTipi.Hepsi, Zaman = new Zaman().UtcNow.AddHours(-2) };
-        for (var i = 1; i <= yoneticideEkipBuyuklugu; i++)
+        for (var i = 1; i <= calisanSayisi; i++)
         {
-            db.Kullanicilar.Add(new Kullanici { Id = i, PersonelId = "P" + i, Ad = "Kişi" + i, Email = $"k{i}@x", Departman = "Yazılım", YoneticiPersonelId = "M1" });
+            db.Kullanicilar.Add(new Kullanici { Id = i, PersonelId = "P" + i, Ad = "Kişi" + i, Email = $"k{i}@x", Departman = "Yazılım" });
             db.Gonderimler.Add(new Gonderim
             {
                 Parti = parti, KullaniciId = i, Token = "t" + i, Durum = GonderimDurumu.Gonderildi, GonderimZamani = parti.Zaman,
@@ -83,7 +82,7 @@ public class EntegrasyonTests
         db.SaveChanges();
 
         var kutu = new MailKutusu();
-        var servis = new GonderimService(uow, kutu, new Zaman(), new Ayarlar(), new Ben(1, Rol.Admin), new AyarService(uow), new DenetimYok(), Microsoft.Extensions.Logging.Abstractions.NullLogger<GonderimService>.Instance);
+        var servis = new GonderimService(uow, kutu, new Zaman(), new Ayarlar(), new Ben(1, Rol.IK), new AyarService(uow), new DenetimYok(), Microsoft.Extensions.Logging.Abstractions.NullLogger<GonderimService>.Instance);
 
         Assert.Equal(1, await servis.HatirlatmalariGonderAsync(default));
         Assert.Equal("b@x", Assert.Single(kutu.Giden).Kime);
@@ -116,24 +115,6 @@ public class EntegrasyonTests
     private static readonly RaporFiltre Filtre = new(new DateTime(2026, 3, 1), new DateTime(2026, 3, 20), null, null);
 
     [Fact]
-    public async Task Yonetici_isim_goremez_ve_kucuk_ekipte_veri_gizlenir()
-    {
-        var (db, uow) = Ortam(); Veri(db, 2);
-        var rapor = await Rapor(uow, 100, Rol.Yonetici).GetirAsync(Filtre, default);
-        Assert.True(rapor.YetersizVeri);                        // 2 kişi < varsayılan minimum 3
-        Assert.Empty(await Rapor(uow, 100, Rol.Yonetici).CevaplarAsync(Filtre, true, default));
-    }
-
-    [Fact]
-    public async Task Yonetici_yeterli_ekipte_yorumlari_isimsiz_gorur()
-    {
-        var (db, uow) = Ortam(); Veri(db, 4);
-        var liste = await Rapor(uow, 100, Rol.Yonetici).CevaplarAsync(Filtre, false, default);
-        Assert.Equal(4, liste.Count);
-        Assert.All(liste, c => Assert.Null(c.Kisi));
-    }
-
-    [Fact]
     public async Task IK_isimleri_gorur_ama_anonim_yorumun_sahibini_goremez()
     {
         var (db, uow) = Ortam(); Veri(db, 4);
@@ -141,6 +122,18 @@ public class EntegrasyonTests
         Assert.Equal(3, liste.Count(c => c.Kisi is not null));
         var anonim = Assert.Single(liste, c => c.Kisi is null);
         Assert.Equal("yorum1", anonim.Yorum);
+    }
+
+    [Fact]
+    public async Task IK_raporu_tum_calisanlari_ve_departmanlari_kapsar()
+    {
+        var (db, uow) = Ortam(); Veri(db, 3);
+        var rapor = await Rapor(uow, 101, Rol.IK).GetirAsync(Filtre, default);
+        Assert.Equal("Tüm şirket", rapor.Kapsam);
+        Assert.Equal(3, rapor.Ozet.Gonderilen);
+        Assert.Equal(3, rapor.Ozet.Cevaplayan);
+        Assert.Single(rapor.Departmanlar);
+        Assert.Equal(3, rapor.Ozet.DusukPuan);         // emoji 2 ≤ eşik 2
     }
 
     [Fact]
@@ -152,10 +145,11 @@ public class EntegrasyonTests
     }
 
     [Fact]
-    public async Task Kisi_gecmisi_yalnizca_IK_ve_Admin_icin()
+    public async Task Kisi_gecmisi_yalnizca_IK_icin()
     {
         var (db, uow) = Ortam(); Veri(db, 4);
-        await Assert.ThrowsAsync<YetkisizHatasi>(() => Rapor(uow, 100, Rol.Yonetici).KisiGecmisiAsync(2, default));
+        db.Kullanicilar.Add(new Kullanici { Id = 200, PersonelId = "C", Ad = "Çalışan", Email = "c@x", Rol = Rol.Calisan }); db.SaveChanges();
+        await Assert.ThrowsAsync<YetkisizHatasi>(() => Rapor(uow, 200, Rol.Calisan).KisiGecmisiAsync(2, default));
         var g = await Rapor(uow, 101, Rol.IK).KisiGecmisiAsync(2, default);
         Assert.Single(g.Noktalar);
     }
@@ -187,15 +181,15 @@ public class EntegrasyonTests
     {
         var (db, uow) = Ortam();
         db.Kullanicilar.AddRange(new Kullanici { Id = 1, PersonelId = "A", Ad = "A", Email = "a@x" }, new Kullanici { Id = 2, PersonelId = "B", Ad = "B", Email = "b@x" },
-            new Kullanici { Id = 3, PersonelId = "ADMIN", Ad = "Admin", Email = "ad@x", Rol = Rol.Admin });
+            new Kullanici { Id = 3, PersonelId = Kullanici.IlkPersonelId, Ad = "İlk İK", Email = "ad@x", Rol = Rol.IK });
         db.SaveChanges();
-        var kaynak = new SabitPersonel([new PersonelKaydi("A", "A Yeni", "a@x", "BT", null), new PersonelKaydi("C", "C", "c@x", "BT", null)]);
+        var kaynak = new SabitPersonel([new PersonelKaydi("A", "A Yeni", "a@x", "BT"), new PersonelKaydi("C", "C", "c@x", "BT")]);
         var servis = new KullaniciService(uow, kaynak, new DenetimYok(), new Zaman());
 
         var sonuc = await servis.PersonelAktarAsync(default);
         Assert.Equal((1, 1), (sonuc.Yeni, sonuc.Guncel));
         Assert.False((await db.Kullanicilar.FindAsync(2))!.Aktif);      // kaynakta yok → pasif
-        Assert.True((await db.Kullanicilar.FindAsync(3))!.Aktif);       // ilk admin korunur
+        Assert.True((await db.Kullanicilar.FindAsync(3))!.Aktif);       // ilk İK hesabı korunur
         Assert.Equal("A Yeni", (await db.Kullanicilar.FindAsync(1))!.Ad);
     }
 

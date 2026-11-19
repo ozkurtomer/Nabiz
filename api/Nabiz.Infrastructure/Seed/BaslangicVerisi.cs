@@ -11,7 +11,7 @@ namespace Nabiz.Infrastructure.Seed;
 
 public static class BaslangicVerisi
 {
-    /// <summary>Migration'ları uygular, ilk admini ve (isteğe bağlı) demo verisini oluşturur.</summary>
+    /// <summary>Migration'ları uygular, ilk İK hesabını ve (isteğe bağlı) demo verisini oluşturur.</summary>
     public static async Task UygulaAsync(IServiceProvider sp, IConfiguration cfg)
     {
         using var scope = sp.CreateScope();
@@ -27,20 +27,20 @@ public static class BaslangicVerisi
         if (cfg.GetValue<bool>("Baslangic:DemoVeri"))
             await DemoPersonelTablosuAsync(db);
 
-        var admin = cfg.GetSection("Baslangic:IlkAdmin");
-        if (!await db.Kullanicilar.AnyAsync() && !string.IsNullOrWhiteSpace(admin["Email"]) && !string.IsNullOrWhiteSpace(admin["Sifre"]))
+        // Gerçek ortam: kimse yokken ilk İK hesabı (sonra Kullanıcılar sayfasından diğer çalışanlara İK rolü verilebilir)
+        var ilk = cfg.GetSection("Baslangic:IlkIK");
+        if (!await db.Kullanicilar.AnyAsync() && !string.IsNullOrWhiteSpace(ilk["Email"]) && !string.IsNullOrWhiteSpace(ilk["Sifre"]))
         {
-            db.Kullanicilar.Add(YeniKullanici("ADMIN", "Sistem Yöneticisi", admin["Email"]!, "BT", Rol.Admin, admin["Sifre"]!, hasher));
+            db.Kullanicilar.Add(YeniKullanici(Kullanici.IlkPersonelId, "İK Yöneticisi", ilk["Email"]!, "İnsan Kaynakları", Rol.IK, ilk["Sifre"]!, hasher));
             await db.SaveChangesAsync();
-            log.LogInformation("İlk admin oluşturuldu: {Email}", admin["Email"]);
+            log.LogInformation("İlk İK hesabı oluşturuldu: {Email}", ilk["Email"]);
         }
 
-        if (cfg.GetValue<bool>("Baslangic:DemoVeri") && !await db.Kullanicilar.AnyAsync(x => x.PersonelId != "ADMIN"))
+        if (cfg.GetValue<bool>("Baslangic:DemoVeri") && !await db.Kullanicilar.AnyAsync(x => x.PersonelId != Kullanici.IlkPersonelId))
         {
-            // Demo kullanıcıların hepsinin şifresi: Demo123!
+            // Demo hesaplar (şifre: Demo123!): bir İK ve bir çalışan
             db.Kullanicilar.AddRange(
                 YeniKullanici("1001", "Ayşe İK", "ik@nabiz.local", "İnsan Kaynakları", Rol.IK, "Demo123!", hasher),
-                YeniKullanici("1002", "Mehmet Yönetici", "yonetici@nabiz.local", "Yazılım", Rol.Yonetici, "Demo123!", hasher),
                 YeniKullanici("1003", "Elif Çalışan", "calisan@nabiz.local", "Yazılım", Rol.Calisan, "Demo123!", hasher));
             await db.SaveChangesAsync();
             log.LogInformation("Demo kullanıcılar oluşturuldu (şifre: Demo123!).");
@@ -70,16 +70,16 @@ public static class BaslangicVerisi
         await db.Database.ExecuteSqlRawAsync(@"
 IF OBJECT_ID('dbo.Personel') IS NULL
 BEGIN
-    CREATE TABLE dbo.Personel (Sicil nvarchar(50) PRIMARY KEY, AdSoyad nvarchar(200), Email nvarchar(200), Departman nvarchar(200), Yonetici nvarchar(50), Aktif bit);
+    CREATE TABLE dbo.Personel (Sicil nvarchar(50) PRIMARY KEY, AdSoyad nvarchar(200), Email nvarchar(200), Departman nvarchar(200), Aktif bit);
     INSERT INTO dbo.Personel VALUES
-     ('1001', N'Ayşe İK',          'ik@nabiz.local',       N'İnsan Kaynakları', NULL,   1),
-     ('1002', N'Mehmet Yönetici',  'yonetici@nabiz.local', N'Yazılım',          NULL,   1),
-     ('1003', N'Elif Çalışan',     'calisan@nabiz.local',  N'Yazılım',          '1002', 1),
-     ('2001', N'Can Yılmaz',   'can@nabiz.local',   N'Yazılım', '1002', 1),
-     ('2002', N'Deniz Kaya',   'deniz@nabiz.local', N'Yazılım', '1002', 1),
-     ('2003', N'Zeynep Aras',  'zeynep@nabiz.local',N'Satış',   NULL,   1),
-     ('2004', N'Burak Demir',  'burak@nabiz.local', N'Satış',   NULL,   1),
-     ('2005', N'Eski Çalışan', 'eski@nabiz.local',  N'Satış',   NULL,   0);
+     ('1001', N'Ayşe İK',          'ik@nabiz.local',       N'İnsan Kaynakları', 1),
+     ('1002', N'Mehmet Kaya',      'mehmet@nabiz.local',   N'Yazılım',          1),
+     ('1003', N'Elif Çalışan',     'calisan@nabiz.local',  N'Yazılım',          1),
+     ('2001', N'Can Yılmaz',   'can@nabiz.local',   N'Yazılım', 1),
+     ('2002', N'Deniz Kaya',   'deniz@nabiz.local', N'Yazılım', 1),
+     ('2003', N'Zeynep Aras',  'zeynep@nabiz.local',N'Satış',   1),
+     ('2004', N'Burak Demir',  'burak@nabiz.local', N'Satış',   1),
+     ('2005', N'Eski Çalışan', 'eski@nabiz.local',  N'Satış',   0);
 END");
     }
 }

@@ -6,7 +6,7 @@ import { RaporService } from '../../core/services/rapor.service';
 import { cevapGoster, skorSinifi } from '../../core/utils/cevap';
 import { TrendGrafik } from '../../shared/trend-grafik/trend-grafik';
 
-/** Bir çalışanın zaman içindeki skorları (yalnızca İK/Admin; her görüntüleme denetim kaydına işlenir). */
+/** Bir çalışanın zaman içindeki skorları (yalnızca İK; her görüntüleme denetim kaydına işlenir). */
 @Component({
   selector: 'app-kisi',
   imports: [DatePipe, RouterLink, TrendGrafik],

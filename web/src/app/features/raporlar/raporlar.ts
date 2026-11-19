@@ -49,7 +49,7 @@ export class Raporlar implements OnInit {
 
   ngOnInit() {
     this.hizliSec(30);
-    if (this.auth.rolVar('Admin', 'IK')) this.paketApi.liste().subscribe(p => this.paketler.set(p));
+    this.paketApi.liste().subscribe(p => this.paketler.set(p));
   }
 
   hizliSec(gun: number) {
@@ -66,7 +66,7 @@ export class Raporlar implements OnInit {
     this.api.getir(f).subscribe({
       next: r => {
         this.rapor.set(r); this.yukleniyor.set(false);
-        if (!this.departman) this.departmanSecenekleri.set(r.departmanlar.filter(d => !d.gizli).map(d => d.departman).sort());
+        if (!this.departman) this.departmanSecenekleri.set(r.departmanlar.map(d => d.departman).sort());
       },
       error: () => this.yukleniyor.set(false),
     });

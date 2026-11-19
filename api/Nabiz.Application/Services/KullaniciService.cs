@@ -51,7 +51,7 @@ public class KullaniciService(IUnitOfWork uow, IPersonelKaynagi personel, IDenet
             gorulen.Add(s.PersonelId);
             if (mevcut.TryGetValue(s.PersonelId, out var k))
             {
-                k.Ad = s.Ad; k.Departman = s.Departman; k.YoneticiPersonelId = s.YoneticiPersonelId; k.Aktif = true;
+                k.Ad = s.Ad; k.Departman = s.Departman; k.Aktif = true;
                 if (!string.Equals(k.Email, s.Email, StringComparison.OrdinalIgnoreCase) && !epostalar.Contains(s.Email)) k.Email = s.Email;
                 guncel++;
             }
@@ -61,7 +61,7 @@ public class KullaniciService(IUnitOfWork uow, IPersonelKaynagi personel, IDenet
                 uow.Kullanicilar.Add(new Kullanici
                 {
                     PersonelId = s.PersonelId, Ad = s.Ad, Email = s.Email, Departman = s.Departman,
-                    YoneticiPersonelId = s.YoneticiPersonelId, Rol = Rol.Calisan,
+                    Rol = Rol.Calisan,
                 });
                 epostalar.Add(s.Email);
                 yeni++;
@@ -69,7 +69,7 @@ public class KullaniciService(IUnitOfWork uow, IPersonelKaynagi personel, IDenet
         }
         // Personel kaynağında artık bulunmayanları pasifleştir (kaynak boş dönerse hiçbir şey yapma).
         if (gorulen.Count > 0)
-            foreach (var k in mevcut.Values.Where(k => k.Aktif && k.PersonelId != "ADMIN" && !gorulen.Contains(k.PersonelId)))
+            foreach (var k in mevcut.Values.Where(k => k.Aktif && k.PersonelId != Kullanici.IlkPersonelId && !gorulen.Contains(k.PersonelId)))
                 k.Aktif = false;
         var senkron = await uow.Ayarlar.FindAsync(SistemService.SonSenkronAnahtari, ct);
         var simdi = zaman.UtcNow.ToString("o");

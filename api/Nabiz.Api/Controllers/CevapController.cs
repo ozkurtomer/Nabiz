@@ -22,6 +22,6 @@ public class CevapController(ICevapService cevaplar, ICurrentUser kullanici) : C
     public Task<List<BenimSoruDto>> Benim(CancellationToken ct) => cevaplar.BenimAsync(kullanici.Id, ct);
 
     /// <summary>Deneme: paketi e-posta atmadan kendine gönderir ve cevaplama linkini üretir.</summary>
-    [HttpPost("test/{paketId:int}"), Authorize(Roles = Roller.Admin)]
+    [HttpPost("test/{paketId:int}"), Authorize(Roles = Roller.IK)]
     public Task<TestGonderimYanit> TestGonderimi(int paketId, CancellationToken ct) => cevaplar.TestGonderimiOlusturAsync(kullanici.Id, paketId, ct);
 }

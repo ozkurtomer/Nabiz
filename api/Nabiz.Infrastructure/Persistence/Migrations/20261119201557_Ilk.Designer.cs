@@ -12,7 +12,7 @@ using Nabiz.Infrastructure.Persistence;
 namespace Nabiz.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NabizDbContext))]
-    [Migration("20261119193303_Ilk")]
+    [Migration("20261119201557_Ilk")]
     partial class Ilk
     {
         /// <inheritdoc />
@@ -302,10 +302,6 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("SifreHash")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("YoneticiPersonelId")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
