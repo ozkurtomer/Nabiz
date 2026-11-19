@@ -1,3 +1,4 @@
+import { MarkaService } from '../../../core/services/marka.service';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +17,7 @@ interface DemoHesap { etiket: string; ikon: string; email: string; sifre: string
   styleUrl: './login.scss',
 })
 export class Login {
+  readonly marka = inject(MarkaService);
   readonly i18n = inject(I18n);
   private auth = inject(AuthService);
   private router = inject(Router);

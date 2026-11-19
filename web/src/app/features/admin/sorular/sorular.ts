@@ -26,5 +26,5 @@ export class Sorular implements OnInit {
   kaydet(s: Soru) { this.api.guncelle(s.id, s).subscribe(() => this.notify.bilgi('Soru güncellendi.')); }
   ekle() { this.api.ekle(this.yeni).subscribe(() => { this.yeni = this.bos(); this.yukle(); }); }
 
-  private bos(): SoruKaydet { return { metinTr: '', metinEn: '', tip: 'Emoji', aktif: true, takipMetniTr: '', takipMetniEn: '' }; }
+  private bos(): SoruKaydet { return { metinTr: '', metinEn: '', tip: 'Emoji', aktif: true, takipMetniTr: '', takipMetniEn: '', enps: false }; }
 }

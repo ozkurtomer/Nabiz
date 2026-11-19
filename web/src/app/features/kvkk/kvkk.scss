@@ -1,0 +1,9 @@
+.aciklama { color: var(--soluk); margin: 0 0 14px; }
+.onizleme { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 16px; padding: 12px 14px; background: var(--yuzey2); border-radius: 8px; }
+.onizleme span { display: inline-flex; align-items: center; gap: 8px; }
+.blok { display: block; margin-bottom: 14px; font-size: .8rem; font-weight: 600; color: var(--metin2); }
+.blok textarea { width: 100%; margin-top: 6px; font-weight: 400; }
+.renk { display: flex; gap: 8px; align-items: center; }
+.renk input[type=color] { width: 44px; height: 38px; padding: 2px; }
+.hex { width: 110px; }
+h3 { display: flex; align-items: center; gap: 8px; }

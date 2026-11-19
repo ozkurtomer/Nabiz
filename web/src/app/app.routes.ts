@@ -20,6 +20,8 @@ export const routes: Routes = [
       { path: 'denetim', canActivate: [rolGerekli('IK')], loadComponent: () => import('./features/denetim/denetim').then(m => m.DenetimSayfasi) },
       { path: 'kullanicilar', canActivate: [rolGerekli('IK')], loadComponent: () => import('./features/admin/kullanicilar/kullanicilar').then(m => m.Kullanicilar) },
       { path: 'sorular', canActivate: [rolGerekli('IK')], loadComponent: () => import('./features/admin/sorular/sorular').then(m => m.Sorular) },
+      { path: 'aksiyonlar', canActivate: [rolGerekli('IK')], loadComponent: () => import('./features/aksiyonlar/aksiyonlar').then(m => m.Aksiyonlar) },
+      { path: 'kvkk', canActivate: [rolGerekli('IK')], loadComponent: () => import('./features/kvkk/kvkk').then(m => m.Kvkk) },
       { path: 'planlar', redirectTo: 'gonderimler' },
       { path: 'ayarlar', canActivate: [rolGerekli('IK')], loadComponent: () => import('./features/admin/ayarlar/ayarlar').then(m => m.Ayarlar) },
       { path: '', pathMatch: 'full', canActivate: [anasayfaYonlendir], children: [] },

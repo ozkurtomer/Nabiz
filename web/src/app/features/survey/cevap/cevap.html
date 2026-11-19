@@ -1,6 +1,6 @@
 <div class="sayfa">
   <header class="ust">
-    <span class="marka-kucuk"><span class="logo-kutu"><app-ikon ad="activity" /></span><strong>Nabız</strong></span>
+    <span class="marka-kucuk"><span class="logo-kutu"><app-ikon ad="activity" /></span><strong>{{ sayfa()?.sirketAd || 'Nabız' }}</strong></span>
     <span class="bosluk"></span>
     <div class="dil" role="group" [attr.aria-label]="'Dil' | t">
       <button [class.secili]="i18n.dil() === 'tr'" (click)="i18n.degistir('tr')">TR</button>
@@ -32,6 +32,9 @@
         @if (aciklama()) { <p class="aciklama">{{ aciklama() }}</p> }
         <p class="meta">{{ sorular().length }} {{ 'kısa soru' | t }} · {{ 'yaklaşık' | t }} {{ (sorular().length * 0.3) | number: '1.0-0' }} {{ 'dk' | t }}</p>
         <button class="birincil buyuk-btn" (click)="basla()">{{ 'Başlayalım' | t }} <app-ikon ad="arrow-right" /></button>
+        @if (sayfa()!.aydinlatma) {
+          <details class="aydinlatma"><summary><app-ikon ad="shield" /> {{ 'Aydınlatma metni' | t }}</summary><p>{{ sayfa()!.aydinlatma }}</p></details>
+        }
         <p class="gizlilik"><app-ikon ad="lock" /> {{ 'Cevapların güvenle saklanır. Yorumunu anonim bırakabilirsin; kimse yorumu seninle ilişkilendiremez.' | t }}</p>
       </div>
     } @else if (soru(); as s) {

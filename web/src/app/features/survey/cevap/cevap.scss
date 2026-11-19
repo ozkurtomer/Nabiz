@@ -62,3 +62,7 @@ textarea { text-align: left; margin-top: 4px; }
   .yuz { font-size: 2rem; }
   .emoji small { font-size: .65rem; }
 }
+
+.aydinlatma { margin-top: 18px; text-align: left; font-size: .85rem; color: var(--soluk); border: 1px solid var(--kenar); border-radius: 8px; padding: 10px 14px; }
+.aydinlatma summary { cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--metin2); }
+.aydinlatma p { margin: 10px 0 0; line-height: 1.55; }

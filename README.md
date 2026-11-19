@@ -1,6 +1,6 @@
 <div align="center">
 
-# 💓 Nabız
+# Nabız
 
 **Çalışan esenliği ve moral takibi.** Küçük sorular, büyük içgörüler.
 
@@ -10,7 +10,7 @@
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-MSSQL-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-53%20passing-2ea44f)
+![Tests](https://img.shields.io/badge/tests-59%20passing-2ea44f)
 
 <img src="docs/screenshots/raporlar.jpg" alt="Raporlar" width="860">
 
@@ -18,41 +18,37 @@
 
 ---
 
-## ✨ Özellikler
+## Özellikler
 
 | | |
 |---|---|
-| 📦 **Soru paketleri** | Sorular paket halinde gider (Motivasyon, İş Yükü, Oryantasyon, Uzaktan Çalışma, Yönetici Değerlendirme…). 9 hazır şablon, kendi paketini oluştur. |
-| ✉️ **Mail ile gönderim** | Tek ekranda: **Hemen**, **Bir kez** (seçtiğin tarih/saatte) ya da **Tekrarlayan** (her N günde bir). Hedef: **Herkes / Departman / Kişi seç**. Türkçe + İngilizce mail şablonları. |
-| 🔔 **Otomatik hatırlatma** | Cevaplamayanlara hafta içi çalışma saatlerinde nazik hatırlatma (en fazla N kez). |
-| 🙂 **Adım adım cevaplama** | Tek mail linki, **giriş gerekmez**. Emoji / 1-10 puan / Evet-Hayır. Düşük cevapta nazik bir **takip sorusu**; yorum **anonim** bırakılabilir. |
-| 📊 **Raporlar** | Ortalama skor, cevap oranı, olumlu/nötr/olumsuz ağırlık, günlük trend, departman karşılaştırma, soru bazlı dağılım, **önceki dönemle fark**, "kim ne demiş". |
-| 🧾 **Gönderim raporu** | Her gönderimin kendi raporu: soru dağılımı, kim ne cevap vermiş, **kim vermemiş**, gitmeyen mailleri tekrar deneme. |
-| ⚠️ **Düşük puan uyarıları** | Panelde uyarı, **İK'ya e-posta**, isteğe bağlı **Teams/Slack** bildirimi. Üst üste uyarı alanlar öne çıkar. |
-| 👤 **Kişi geçmişi (İK)** | Bir çalışanın zaman içindeki skoru, **düşüş eğilimi** tespiti. |
-| ⬇️ **CSV dışa aktarma** | Excel'in doğrudan açtığı (UTF-8 BOM, `;`) CSV. Formül enjeksiyonuna karşı korumalı. |
-| 🔒 **Gizlilik ve denetim** | İki rol (**İK** ve **Çalışan**), anonim yorum, her kişisel veri erişimi **denetim kaydında**. |
-| 🔗 **Personel senkronu** | Kullanıcılar mevcut personel tablosundan (salt okunur) otomatik gelir. Şifre yönetimi yok. |
-| 🔑 **Şifresiz giriş** | E-postaya gelen 15 dakikalık giriş linki. Mobil uygulamadan **WebView otomatik giriş** ([doküman](docs/MOBIL.md)). |
-| 🩺 **Sistem durumu** | Veritabanı, SMTP, son 24 saat mail sonuçları tek bakışta; **E-posta testi** düğmesiyle SMTP'yi canlı doğrula. |
-| 🌍 **Türkçe + İngilizce** | Tüm arayüz, e-postalar ve hata mesajları iki dilde. Soru ve paketlerde **iki dilden yalnızca birini yazmak yeterli**, diğer dilde aynı metin gösterilir. Kullanıcının dili profilinde saklanır. |
+| **Soru paketleri** | Sorular paket halinde gider (Motivasyon, İş Yükü, Oryantasyon, Uzaktan Çalışma, Yönetici Değerlendirme…). 9 hazır şablon, kendi paketini oluştur. |
+| **Mail ile gönderim** | Tek ekranda: **Hemen**, **Bir kez** (seçtiğin tarih/saatte) ya da **Tekrarlayan** (her N günde bir). Hedef: **Herkes / Departman / Kişi seç**. Türkçe + İngilizce mail şablonları. |
+| **Otomatik hatırlatma** | Cevaplamayanlara hafta içi çalışma saatlerinde nazik hatırlatma (en fazla N kez). |
+| **Adım adım cevaplama** | Tek mail linki, **giriş gerekmez**. Emoji / 1-10 puan / Evet-Hayır. Düşük cevapta nazik bir **takip sorusu**; yorum **anonim** bırakılabilir. |
+| **Raporlar** | Ortalama skor, **eNPS**, departman × hafta **ısı haritası**, **Yazdır / PDF**, cevap oranı, olumlu/nötr/olumsuz ağırlık, günlük trend, departman karşılaştırma, soru bazlı dağılım, **önceki dönemle fark**, "kim ne demiş". |
+| **Gönderim raporu** | Her gönderimin kendi raporu: soru dağılımı, kim ne cevap vermiş, **kim vermemiş**, gitmeyen mailleri tekrar deneme. |
+| **Düşük puan uyarıları** | Panelde uyarı, **İK'ya e-posta**, isteğe bağlı **Teams/Slack** bildirimi. Üst üste uyarı alanlar öne çıkar. |
+| **Kişi geçmişi (İK)** | Bir çalışanın zaman içindeki skoru, **düşüş eğilimi** tespiti. |
+| **CSV dışa aktarma** | Excel'in doğrudan açtığı (UTF-8 BOM, `;`) CSV. Formül enjeksiyonuna karşı korumalı. |
+| **Aksiyon takibi** | Uyarılardan görev aç: sorumlu, öncelik, son tarih, durum; geciken aksiyonlar işaretlenir. |
+| **KVKK araçları** | Saklama süresi + otomatik silme, düzenlenebilir aydınlatma metni, kişi verisi **dışa aktarma** ve **kalıcı silme**. |
+| **Şirket markası** | Şirket adı ve vurgu rengi panelde, cevaplama ekranında ve e-postalarda (white-label). |
+| **Haftalık özet** | Her hafta İK'ya skor, cevap oranı, yeni uyarı ve geciken aksiyon özeti e-postası. |
+| **Gizlilik ve denetim** | İki rol (**İK** ve **Çalışan**), anonim yorum, her kişisel veri erişimi **denetim kaydında**. |
+| **Personel senkronu** | Kullanıcılar mevcut personel tablosundan (salt okunur) otomatik gelir. Şifre yönetimi yok. |
+| **Şifresiz giriş** | E-postaya gelen 15 dakikalık giriş linki. Mobil uygulamadan **WebView otomatik giriş** ([doküman](docs/MOBIL.md)). |
+| **Sistem durumu** | Veritabanı, SMTP, son 24 saat mail sonuçları tek bakışta; **E-posta testi** düğmesiyle SMTP'yi canlı doğrula. |
+| **Türkçe + İngilizce** | Tüm arayüz, e-postalar ve hata mesajları iki dilde. Soru ve paketlerde **iki dilden yalnızca birini yazmak yeterli**, diğer dilde aynı metin gösterilir. Kullanıcının dili profilinde saklanır. |
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/cevaplama.jpg" alt="Cevaplama"><br><sub><b>Çalışan:</b> adım adım cevaplama, düşük cevapta takip sorusu</sub></td>
-    <td width="50%"><img src="docs/screenshots/gonderim-detay.jpg" alt="Gönderim raporu"><br><sub><b>Gönderim raporu:</b> kim ne cevap vermiş, kim vermemiş</sub></td>
-  </tr>
-  <tr>
-    <td><img src="docs/screenshots/gonderim-olustur.jpg" alt="Yeni gönderim"><br><sub><b>Yeni gönderim:</b> Hemen / Bir kez / Tekrarlayan, tek ekranda</sub></td>
-    <td><img src="docs/screenshots/kisi-gecmisi.jpg" alt="Kişi geçmişi"><br><sub><b>Kişi geçmişi (İK):</b> skor trendi ve düşüş eğilimi</sub></td>
-  </tr>
-  <tr>
-    <td><img src="docs/screenshots/giris.jpg" alt="Giriş"><br><sub><b>Giriş:</b> şifresiz, e-posta linkiyle</sub></td>
-    <td></td>
+    <td width="50%"><img src="docs/screenshots/aksiyonlar.jpg" alt="Aksiyonlar"><br><sub><b>Aksiyon takibi:</b> sorumlu, öncelik, son tarih</sub></td>
+    <td width="50%"><img src="docs/screenshots/gonderim-olustur.jpg" alt="Yeni gönderim"><br><sub><b>Yeni gönderim:</b> Hemen / Bir kez / Tekrarlayan, tek ekranda</sub></td>
   </tr>
 </table>
 
-## 🚀 Hızlı başlangıç (Docker)
+## Hızlı başlangıç (Docker)
 
 Gereken: [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Apple Silicon'da *Settings → General → Use Rosetta* açık olmalı).
 
@@ -78,9 +74,9 @@ Giriş ekranındaki **demo butonlarıyla** (İK / Çalışan) hemen deneyebilirs
 
 Sıfırlamak için: `docker compose down -v`
 
-> ⚠️ **Mailler gerçek kutulara gitmez**: varsayılan SMTP, mailleri yakalayan Mailpit'tir. Gerçek teslimatı görmek için [docs/MAIL-TEST.md](docs/MAIL-TEST.md) rehberine bak (Gmail ile 5 dakika; **Ayarlar → E-posta testi** düğmesi sonucu ya da hata nedenini gösterir).
+> **Mailler gerçek kutulara gitmez**: varsayılan SMTP, mailleri yakalayan Mailpit'tir. Gerçek teslimatı görmek için [docs/MAIL-TEST.md](docs/MAIL-TEST.md) rehberine bak (Gmail ile 5 dakika; **Ayarlar → E-posta testi** düğmesi sonucu ya da hata nedenini gösterir).
 
-## 🏗️ Mimari
+## Mimari
 
 ```mermaid
 flowchart LR
@@ -108,7 +104,7 @@ flowchart LR
 | `Nabiz.Tests` | xUnit: iş kuralları ve bellek içi veritabanıyla gizlilik/cevap akışı testleri |
 | `web/` | Angular: `core` (servis, guard, interceptor) · `layout` · `shared` · `features` |
 
-## ⚙️ Gerçek ortama alma
+## Gerçek ortama alma
 
 1. `cp .env.gercek.example .env.gercek` ve doldur: şirket SQL Server bağlantısı, SMTP, `Jwt__Key`, `Uygulama__PublicUrl`, personel tablosu/sütunları.
 2. Demo yığınını kapat: `docker compose down`
@@ -123,12 +119,12 @@ Personel tablosu eşlemesi (`Personel__*`): `Tablo`, `SicilKolon`, `AdKolon`, `E
 
 Tüm ayarlar, gizlilik özeti, yedekleme ve izleme: **[docs/OPERASYON.md](docs/OPERASYON.md)** · Mobil WebView girişi: **[docs/MOBIL.md](docs/MOBIL.md)**
 
-## 🧪 Geliştirme
+## Geliştirme
 
 ```bash
 # API (appsettings.Development.json içindeki bağlantı cümlesini düzenle ya da yalnızca db servisini başlat: docker compose up -d db mailpit)
 cd api && dotnet run --project Nabiz.Api        # http://localhost:5277
-cd api && dotnet test Nabiz.Tests                # 53 test
+cd api && dotnet test Nabiz.Tests                # 59 test
 
 # Web
 cd web && npm install && npm start               # http://localhost:4200 (/api → 5277 proxy)
@@ -142,15 +138,15 @@ dotnet ef migrations add <Ad> -p Nabiz.Infrastructure -s Nabiz.Api -o Persistenc
 dotnet ef database update -p Nabiz.Infrastructure -s Nabiz.Api
 ```
 
-## 🔐 Güvenlik notları
+## Güvenlik notları
 - Sırlar (`.env.gercek`, şifreler, `Jwt__Key`) repoda tutulmaz; `.gitignore` bunları dışarıda bırakır.
 - Canlıya alırken `web/src/environments/environment.ts` içinde `demoGiris` **false** olmalı (`docker-compose.gercek.yml` bunu otomatik yapar) ve demo veri/hesaplar kapalı olmalıdır.
 - Cevap linkleri kişiye özel gizli token'lardır; mail yönlendirmeyle paylaşılırsa başkası cevaplayabilir.
 
-## 🗺️ Durum ve sınırlar
-- ✅ Docker üzerinde uçtan uca doğrulandı (mail, cevaplama, raporlar, gizlilik, CSV, denetim, mobil giriş uç noktası).
-- ⚠️ **Gerçek SMTP ve gerçek personel tablosuyla**, **Teams/Slack webhook** ile ve gerçek bir **mobil uygulamayla** henüz denenmedi; ayarlar ve uçlar hazır.
-- ❌ Push bildirim yok (mobil uygulamanın push altyapısı gerektirir).
+## Durum ve sınırlar
+- Docker üzerinde uçtan uca doğrulandı (mail, cevaplama, raporlar, gizlilik, CSV, denetim, mobil giriş uç noktası).
+- **Gerçek SMTP ve gerçek personel tablosuyla**, **Teams/Slack webhook** ile ve gerçek bir **mobil uygulamayla** henüz denenmedi; ayarlar ve uçlar hazır.
+- Push bildirim yok (mobil uygulamanın push altyapısı gerektirir).
 - Hatırlatma zamanlaması birim testlidir; gerçek zamanlı akışı en az iki günlük bir pilotla doğrulanmalıdır.
 
 ---

@@ -38,3 +38,14 @@ td small { display: block; }
 .fark.art { color: var(--ok); } .fark.azal { color: var(--hata); }
 .fark small { font-weight: 400; color: var(--soluk); }
 td .fark, .dep-ust .fark { display: inline; margin-right: 8px; }
+
+.isi-kutu { overflow-x: auto; }
+.isi { border-collapse: separate; border-spacing: 3px; width: 100%; font-size: .78rem; }
+.isi th { font-weight: 600; color: var(--soluk); text-align: left; padding: 4px 8px; white-space: nowrap; }
+.isi thead th { text-align: center; }
+.isi td.h { text-align: center; min-width: 46px; height: 34px; border-radius: 5px; font-weight: 700; }
+.isi td.bos-h { background: var(--yuzey2); }
+.isi td.iyi { background: color-mix(in srgb, var(--ok) 22%, #fff); color: var(--ok); }
+.isi td.orta { background: color-mix(in srgb, #d98a00 22%, #fff); color: #8a5a00; }
+.isi td.kotu { background: color-mix(in srgb, var(--hata) 22%, #fff); color: var(--hata); }
+@media print { .yazdir-gizle { display: none !important; } }

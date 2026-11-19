@@ -1,0 +1,50 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>{{ 'Gizlilik ve KVKK' | t }}</h2>
+    <p>{{ 'Verinin ne kadar saklanacağını, çalışana ne gösterileceğini ve şirket markanı yönet.' | t }}</p>
+  </div>
+</div>
+
+<div class="bilgi"><app-ikon ad="shield" /> <span>{{ 'Anonim bırakılan yorumların sahibi hiçbir ekranda, dışa aktarmada ya da raporda gösterilmez. Kişi bazlı erişim denetim kaydına işlenir.' | t }}</span></div>
+
+<section class="kart">
+  <h3><app-ikon ad="clock" /> {{ 'Saklama süresi' | t }}</h3>
+  <p class="aciklama">{{ 'Bu süreyi aşan gönderimler ve cevaplar her gün otomatik silinir. 0 = süresiz sakla.' | t }}</p>
+  <div class="form">
+    <label>{{ 'Saklama süresi (ay)' | t }} <input type="number" min="0" max="120" [(ngModel)]="ayar.saklamaAy"></label>
+    <button class="birincil" (click)="kaydet()">{{ i18n.t('kaydet') }}</button>
+  </div>
+  @if (onizleme(); as o) {
+    <div class="onizleme">
+      @if (o.saklamaAy === 0) { <span>{{ 'Süresiz saklama açık: otomatik silme yapılmaz.' | t }}</span> }
+      @else if (o.gonderim === 0) { <span><app-ikon ad="check-circle" /> {{ 'Süresi dolmuş veri yok.' | t }}</span> }
+      @else {
+        <span><app-ikon ad="alert" /> {{ o.kesimTarihi | date: 'dd.MM.yyyy' }} {{ 'öncesine ait' | t }} <b>{{ o.gonderim }}</b> {{ 'gönderim ve' | t }} <b>{{ o.cevap }}</b> {{ 'cevap silinmeyi bekliyor.' | t }}</span>
+        <button class="kucuk tehlike" (click)="temizle()"><app-ikon ad="trash" /> {{ 'Şimdi temizle' | t }}</button>
+      }
+    </div>
+  }
+</section>
+
+<section class="kart">
+  <h3><app-ikon ad="file" /> {{ 'Aydınlatma metni' | t }}</h3>
+  <p class="aciklama">{{ 'Çalışan, soruları cevaplamaya başlamadan önce bu metni görür. Boş bırakırsan varsayılan metin kullanılır.' | t }}</p>
+  <label class="blok">{{ 'Türkçe' | t }}<textarea rows="4" [(ngModel)]="ayar.aydinlatmaTr"></textarea></label>
+  <label class="blok">English<textarea rows="4" [(ngModel)]="ayar.aydinlatmaEn"></textarea></label>
+  <button class="birincil" (click)="kaydet()">{{ i18n.t('kaydet') }}</button>
+</section>
+
+<section class="kart">
+  <h3><app-ikon ad="building" /> {{ 'Şirket markası' | t }}</h3>
+  <p class="aciklama">{{ 'Şirket adı ve rengi giriş, cevaplama sayfaları ve e-postalarda kullanılır.' | t }}</p>
+  <div class="form">
+    <label>{{ 'Şirket adı' | t }} <input [(ngModel)]="marka.ad" maxlength="60"></label>
+    <label>{{ 'Vurgu rengi' | t }} <span class="renk"><input type="color" [(ngModel)]="marka.renk"><input [(ngModel)]="marka.renk" maxlength="7" class="hex"></span></label>
+    <button class="birincil" (click)="markaKaydet()" [disabled]="!marka.ad.trim()">{{ i18n.t('kaydet') }}</button>
+  </div>
+</section>
+
+<section class="kart">
+  <h3><app-ikon ad="user" /> {{ 'Kişi hakları' | t }}</h3>
+  <p class="aciklama">{{ 'Bir çalışanın verilerini dışa aktarmak (erişim hakkı) ya da kalıcı silmek (silinme hakkı) için Kullanıcılar listesinden kişinin geçmişini aç; sayfanın altındaki “Veri hakları” bölümünü kullan.' | t }}</p>
+</section>

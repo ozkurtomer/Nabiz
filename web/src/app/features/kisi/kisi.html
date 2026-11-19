@@ -37,6 +37,15 @@
       </table>
     </div>
   </section>
+
+  <section class="kart">
+    <h3><app-ikon ad="shield" /> {{ 'Veri hakları' | t }}</h3>
+    <p class="hak">{{ 'KVKK kapsamında kişinin verilerini dışa aktarabilir (erişim hakkı) ya da kalıcı silebilirsin (silinme hakkı). Anonim yorumlar dışa aktarmaya dahil edilmez.' | t }}</p>
+    <div class="hak-islem">
+      <button (click)="disaAktar()"><app-ikon ad="download" /> {{ 'Verilerini dışa aktar (CSV)' | t }}</button>
+      <button class="tehlike" (click)="sil()"><app-ikon ad="trash" /> {{ 'Verilerini kalıcı sil' | t }}</button>
+    </div>
+  </section>
 } @else if (hata()) {
   <div class="kart"><h3>{{ 'Bu sayfaya erişim yok' | t }}</h3><p>{{ 'Kişi bazlı geçmişi yalnızca İK görebilir.' | t }}</p></div>
 } @else { <p class="bos">{{ 'Yükleniyor…' | t }}</p> }

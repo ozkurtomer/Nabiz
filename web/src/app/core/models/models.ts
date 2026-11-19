@@ -6,7 +6,7 @@ export type UyariDurumu = 'Yeni' | 'Takipte' | 'Kapandi';
 export interface LoginYanit { token: string; rol: Rol; dil: 'tr' | 'en'; ad: string; }
 
 // ---- Soru ve paket
-export interface Soru { id: number; metinTr: string; metinEn: string; tip: SoruTipi; aktif: boolean; takipMetniTr?: string | null; takipMetniEn?: string | null; }
+export interface Soru { id: number; metinTr: string; metinEn: string; tip: SoruTipi; aktif: boolean; takipMetniTr?: string | null; takipMetniEn?: string | null; enps?: boolean; }
 export type SoruKaydet = Omit<Soru, 'id'>;
 export interface Paket { id: number; ad: string; adEn: string; aciklama?: string; aciklamaEn?: string; aktif: boolean; sorular: Soru[]; }
 export interface PaketKaydet { ad: string; adEn: string; aciklama?: string | null; aciklamaEn?: string | null; aktif: boolean; soruIdleri: number[]; }
@@ -26,7 +26,7 @@ export interface PlanKaydet {
 
 // ---- Cevaplama
 export interface CevapGirdisi { soruId: number; deger: number; yorum?: string | null; anonimYorum?: boolean; }
-export interface CevapSayfasi { kullaniciAd: string; dil: 'tr' | 'en'; paketAd: string; paketAdEn: string; aciklama?: string; aciklamaEn?: string; sorular: Soru[]; cevaplar: CevapGirdisi[]; tamamlandi: boolean; emojiEsik: number; puanEsik: number; }
+export interface CevapSayfasi { kullaniciAd: string; dil: 'tr' | 'en'; paketAd: string; paketAdEn: string; aciklama?: string; aciklamaEn?: string; sorular: Soru[]; cevaplar: CevapGirdisi[]; tamamlandi: boolean; emojiEsik: number; puanEsik: number; aydinlatma?: string; sirketAd?: string; renk?: string; }
 export interface CevapKaydetYanit { tamamlandi: boolean; cevaplanan: number; toplam: number; }
 export interface BenimSoru { token: string; paket: string; soruSayisi: number; zaman: string; tamamlandi: boolean; }
 
@@ -63,7 +63,10 @@ export interface SoruSatiri { soruId: number; soru: string; tip: SoruTipi; cevap
 export interface Rapor {
   baslangic: string; bitis: string; kapsam: string;
   ozet: RaporOzet; oncekiOzet?: RaporOzet; trend: TrendNoktasi[]; departmanlar: DepartmanSatiri[]; sorular: SoruSatiri[];
+  enps?: Enps; oncekiEnps?: number; isi?: IsiHaritasi;
 }
+export interface Enps { toplam: number; destekleyen: number; pasif: number; elestiren: number; skor?: number; }
+export interface IsiHaritasi { haftalar: string[]; satirlar: { departman: string; degerler: (number | null)[]; sayilar: number[] }[]; }
 export interface CevapSatiri {
   cevapId: number; tarih: string; kisi?: string; departman?: string; paket: string; soru: string; tip: SoruTipi;
   deger: number; skor: number; yorum?: string; dusuk: boolean;
@@ -85,3 +88,24 @@ export interface SistemDurumu {
 export interface Denetim { id: number; zaman: string; kullanici: string; eylem: string; detay?: string; }
 
 export interface TestMailYanit { basarili: boolean; mesaj: string; sunucu: string; sandbox: boolean; }
+
+// ---- Aksiyon takibi
+export type AksiyonDurumu = 'Acik' | 'Devam' | 'Tamam' | 'Iptal';
+export type AksiyonOnceligi = 'Dusuk' | 'Orta' | 'Yuksek';
+export interface Aksiyon {
+  id: number; baslik: string; aciklama?: string; durum: AksiyonDurumu; oncelik: AksiyonOnceligi;
+  sorumluId?: number; sorumluAd?: string; sonTarih?: string; gecikmis: boolean;
+  uyariId?: number; kullaniciId?: number; kullaniciAd?: string; olusturma: string; kapanma?: string; not?: string;
+}
+export interface AksiyonKaydet {
+  baslik: string; aciklama?: string | null; durum: AksiyonDurumu; oncelik: AksiyonOnceligi; sorumluId?: number | null;
+  sonTarih?: string | null; uyariId?: number | null; kullaniciId?: number | null; not?: string | null;
+}
+export interface AksiyonOzet { acik: number; devam: number; tamam: number; gecikmis: number; }
+
+// ---- KVKK / marka
+export interface KvkkAyar { saklamaAy: number; aydinlatmaTr: string; aydinlatmaEn: string; }
+export interface SaklamaOnizleme { saklamaAy: number; kesimTarihi?: string; gonderim: number; cevap: number; }
+export interface SaklamaSonucu { gonderim: number; cevap: number; }
+export interface KisiSilSonuc { gonderim: number; cevap: number; uyari: number; aksiyon: number; }
+export interface Marka { ad: string; renk: string; }

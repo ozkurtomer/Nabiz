@@ -20,7 +20,7 @@
   <table>
     <thead><tr><th>{{ 'Kullanıcı' | t }}</th><th>{{ 'Departman' | t }}</th><th>{{ 'Rol' | t }}</th><th>{{ 'Aktif' | t }}</th><th></th></tr></thead>
     <tbody>
-      @for (k of liste(); track k.id) {
+      @for (k of gorunen(); track k.id) {
         <tr>
           <td>
             <div class="kisi">
@@ -35,7 +35,7 @@
             </select>
           </td>
           <td><label class="anahtar"><input type="checkbox" [(ngModel)]="k.aktif"><span></span></label></td>
-          <td><button class="kucuk birincil" (click)="kaydet(k)">{{ i18n.t('kaydet') }}</button></td>
+          <td class="islem"><button class="kucuk birincil" (click)="kaydet(k)">{{ i18n.t('kaydet') }}</button> <a class="kucuk" [routerLink]="['/kisi', k.id]" [attr.title]="'Kişi geçmişi' | t"><app-ikon ad="activity" /></a></td>
         </tr>
       } @empty {
         <tr><td colspan="5" class="bos">
@@ -45,3 +45,4 @@
     </tbody>
   </table>
 </div>
+<app-sayfalama [toplam]="liste().length" [boyut]="25" [(sayfa)]="sayfa" />

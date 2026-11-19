@@ -5,6 +5,7 @@
       @if (rapor(); as r) { <b>{{ r.kapsam }}</b> · {{ r.baslangic | date: 'dd.MM.yyyy' }} – {{ r.bitis | date: 'dd.MM.yyyy' }} } @else { {{ 'Moral ve cevap analizleri' | t }} }
     </p>
   </div>
+  <button class="yazdir-gizle" (click)="yazdir()"><app-ikon ad="printer" /> {{ 'Yazdır / PDF' | t }}</button>
 </div>
 
 <div class="kart filtre">
@@ -39,6 +40,11 @@
         @if (fark(r.ozet.ortalamaSkor, r.oncekiOzet?.ortalamaSkor); as f) { <span class="fark" [class.art]="f > 0" [class.azal]="f < 0">{{ f > 0 ? '▲ +' : '▼ ' }}{{ f }} <small>{{ 'önceki döneme göre' | t }}</small></span> }</div>
       <div class="kpi"><small>{{ 'Cevap oranı' | t }}</small><b>%{{ r.ozet.cevapOrani }}</b><span class="alt">{{ r.ozet.cevaplayan }} / {{ r.ozet.gonderilen }} {{ 'gönderim' | t }}</span>
         @if (fark(r.ozet.cevapOrani, r.oncekiOzet?.cevapOrani); as f) { <span class="fark" [class.art]="f > 0" [class.azal]="f < 0">{{ f > 0 ? '▲ +' : '▼ ' }}{{ f }} {{ 'puan' | t }} <small>{{ 'önceki döneme göre' | t }}</small></span> }</div>
+      @if (r.enps; as e) {
+        <div class="kpi"><small>eNPS</small><b class="skor {{ (e.skor ?? 0) >= 30 ? 'iyi' : (e.skor ?? 0) >= 0 ? 'orta' : 'kotu' }}">{{ (e.skor ?? 0) > 0 ? '+' : '' }}{{ e.skor }}</b>
+          <span class="alt">{{ e.destekleyen }} {{ 'destekleyen' | t }} · {{ e.pasif }} {{ 'pasif' | t }} · {{ e.elestiren }} {{ 'eleştiren' | t }}</span>
+          @if (fark(e.skor, r.oncekiEnps); as f) { <span class="fark" [class.art]="f > 0" [class.azal]="f < 0">{{ f > 0 ? '▲ +' : '▼ ' }}{{ f }} <small>{{ 'önceki döneme göre' | t }}</small></span> }</div>
+      }
       <div class="kpi"><small>{{ 'Düşük puan' | t }}</small><b class="skor kotu">{{ r.ozet.dusukPuan }}</b><span class="alt">{{ 'uyarı eşiği altı cevap' | t }}</span></div>
     </div>
 
@@ -62,6 +68,26 @@
       <h3>{{ 'Günlük moral trendi' | t }}</h3>
       <app-trend-grafik [noktalar]="r.trend" />
     </section>
+
+    @if (r.isi && r.isi.satirlar.length > 0) {
+      <section class="kart">
+        <h3>{{ 'Isı haritası: departman x hafta' | t }}</h3>
+        <div class="isi-kutu">
+          <table class="isi">
+            <thead><tr><th></th>@for (h of r.isi.haftalar; track h) { <th>{{ h | date: 'dd.MM' }}</th> }</tr></thead>
+            <tbody>
+              @for (sat of r.isi.satirlar; track sat.departman) {
+                <tr><th>{{ sat.departman }}</th>
+                  @for (v of sat.degerler; track $index) {
+                    <td [class]="'h ' + (v == null ? 'bos-h' : skorSinifi(v))" [attr.title]="v == null ? '' : v + ' · ' + sat.sayilar[$index] + ' ' + ('cevap' | t)">{{ v == null ? '' : (v | number: '1.0-0') }}</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
 
     <div class="iki">
       <section class="kart">

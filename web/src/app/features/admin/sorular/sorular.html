@@ -17,6 +17,7 @@
         <option value="Emoji">{{ 'Emoji' | t }}</option><option value="Puan">{{ '1-10 puan' | t }}</option><option value="EvetHayir">{{ 'Evet/Hayır' | t }}</option>
       </select>
     </label>
+    @if (yeni.tip === 'Puan') { <label class="aktif-satir">eNPS <span class="anahtar"><input type="checkbox" [(ngModel)]="yeni.enps"><span></span></span></label> }
     <button class="birincil" (click)="ekle()" [disabled]="!yeni.metinTr.trim() && !yeni.metinEn.trim()">{{ 'Ekle' | t }}</button>
   </div>
   <p class="ipucu"> {{ 'Soruyu Türkçe ya da İngilizce yazman yeterli; diğer dil boşsa aynı soru her iki dilde gösterilir.' | t }}</p>
@@ -24,7 +25,7 @@
 
 <div class="tablo-kutu">
   <table>
-    <thead><tr><th>{{ 'Türkçe' | t }}</th><th>English</th><th>{{ 'Takip sorusu (düşük puanda)' | t }}</th><th>{{ 'Tip' | t }}</th><th>{{ 'Aktif' | t }}</th><th></th></tr></thead>
+    <thead><tr><th>{{ 'Türkçe' | t }}</th><th>English</th><th>{{ 'Takip sorusu (düşük puanda)' | t }}</th><th>{{ 'Tip' | t }}</th><th>{{ 'Aktif' | t }}</th><th title="eNPS">eNPS</th><th></th></tr></thead>
     <tbody>
       @for (s of liste(); track s.id) {
         <tr>
@@ -34,6 +35,7 @@
           <td><span class="rozet" [class.ok]="s.tip === 'Puan'" [class.uyari]="s.tip === 'EvetHayir'">
             {{ (s.tip === 'Emoji' ? 'Emoji' : s.tip === 'Puan' ? 'Puan' : 'Evet/Hayır') | t }}</span></td>
           <td><label class="anahtar"><input type="checkbox" [(ngModel)]="s.aktif"><span></span></label></td>
+          <td>@if (s.tip === 'Puan') { <label class="anahtar" [attr.title]="'Bu soru eNPS (tavsiye) sorusu: 9-10 destekleyen, 1-6 eleştiren' | t"><input type="checkbox" [(ngModel)]="s.enps"><span></span></label> }</td>
           <td>
             <div class="islem">
               <button class="kucuk birincil" (click)="kaydet(s)">{{ i18n.t('kaydet') }}</button>

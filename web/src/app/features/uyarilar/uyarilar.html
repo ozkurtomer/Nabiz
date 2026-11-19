@@ -23,7 +23,7 @@
   </div>
 } @else {
   <div class="liste">
-    @for (u of gorunen(); track u.id) {
+    @for (u of sayfadaki(); track u.id) {
       <article class="kart uyari">
         <div class="ust">
           <div class="kisi">
@@ -44,8 +44,10 @@
           </select>
           <input class="not" [(ngModel)]="u.ikNotu" [placeholder]="'İK notu ekle…' | t">
           <button class="birincil" (click)="kaydet(u)">{{ i18n.t('kaydet') }}</button>
+          <button (click)="aksiyonOlustur(u)"><app-ikon ad="tasks" /> {{ 'Aksiyon oluştur' | t }}</button>
         </div>
       </article>
     }
   </div>
+  <app-sayfalama [toplam]="gorunen().length" [boyut]="15" [(sayfa)]="sayfa" />
 }

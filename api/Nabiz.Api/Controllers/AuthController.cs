@@ -5,7 +5,7 @@ using Nabiz.Application.Services;
 
 namespace Nabiz.Api.Controllers;
 
-[ApiController, Route("api/auth"), AllowAnonymous]
+[ApiController, Route("api/auth"), AllowAnonymous, Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("kimlik")]
 public class AuthController(IAuthService auth) : ControllerBase
 {
     /// <summary>E-posta + şifre (şifresi olan hesaplar: ilk İK hesabı ve demo).</summary>

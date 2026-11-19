@@ -1,0 +1,70 @@
+<div class="sayfa-baslik">
+  <div>
+    <h2>{{ 'Aksiyonlar' | t }}</h2>
+    <p>{{ 'Uyarılardan ve sonuçlardan doğan iyileştirme görevlerini sorumlu, öncelik ve son tarihle takip et.' | t }}</p>
+  </div>
+  <button class="birincil" (click)="yeniAcik.set(!yeniAcik())"><app-ikon ad="plus" /> {{ 'Yeni aksiyon' | t }}</button>
+</div>
+
+<div class="kpi-satir">
+  <div class="kpi"><small>{{ 'Açık' | t }}</small><b>{{ ozet().acik }}</b></div>
+  <div class="kpi"><small>{{ 'Devam ediyor' | t }}</small><b>{{ ozet().devam }}</b></div>
+  <div class="kpi"><small>{{ 'Tamamlanan' | t }}</small><b class="ok">{{ ozet().tamam }}</b></div>
+  <div class="kpi"><small>{{ 'Geciken' | t }}</small><b [class.hata]="ozet().gecikmis > 0">{{ ozet().gecikmis }}</b></div>
+</div>
+
+@if (yeniAcik()) {
+  <section class="kart yeni">
+    <h3>{{ 'Yeni aksiyon' | t }}</h3>
+    <div class="form">
+      <label class="genis">{{ 'Başlık' | t }} <input [(ngModel)]="yeni.baslik" [placeholder]="'Örn. Yazılım ekibiyle iş yükü görüşmesi' | t"></label>
+      <label class="genis">{{ 'Açıklama' | t }} <input [(ngModel)]="yeni.aciklama"></label>
+      <label>{{ 'Sorumlu' | t }}
+        <select [(ngModel)]="yeni.sorumluId"><option [ngValue]="null">—</option>@for (k of ikler(); track k.id) { <option [ngValue]="k.id">{{ k.ad }}</option> }</select>
+      </label>
+      <label>{{ 'Öncelik' | t }}
+        <select [(ngModel)]="yeni.oncelik">@for (o of oncelikler; track o.d) { <option [value]="o.d">{{ o.ad | t }}</option> }</select>
+      </label>
+      <label>{{ 'Son tarih' | t }} <input type="date" [(ngModel)]="yeni.sonTarih"></label>
+    </div>
+    <div class="islem">
+      <button class="birincil" (click)="ekle()" [disabled]="!yeni.baslik.trim()">{{ 'Oluştur' | t }}</button>
+      <button (click)="yeniAcik.set(false)">{{ 'Vazgeç' | t }}</button>
+    </div>
+  </section>
+}
+
+<div class="sekmeler">
+  @for (s of sekmeler; track s.d) { <button class="sekme" [class.aktif]="filtre() === s.d" (click)="filtre.set(s.d)">{{ s.ad | t }}</button> }
+</div>
+
+@if (yukleniyor()) {
+  <p class="bos">{{ 'Yükleniyor…' | t }}</p>
+} @else if (gorunen().length === 0) {
+  <div class="kart bos-kart"><div class="buyuk"><app-ikon ad="tasks" /></div><h3>{{ 'Gösterilecek aksiyon yok' | t }}</h3>
+    <p>{{ 'Bir uyarıdan aksiyon oluşturabilir ya da yukarıdan yeni ekleyebilirsin.' | t }}</p></div>
+} @else {
+  <div class="liste">
+    @for (a of gorunen(); track a.id) {
+      <article class="kart aks" [class.gecikmis]="a.gecikmis">
+        <div class="ust">
+          <input class="baslik" [(ngModel)]="a.baslik">
+          <span class="rozet" [class.hata]="a.oncelik === 'Yuksek'" [class.uyari]="a.oncelik === 'Orta'" [class.gri]="a.oncelik === 'Dusuk'">{{ (a.oncelik === 'Yuksek' ? 'Yüksek' : a.oncelik === 'Orta' ? 'Orta' : 'Düşük') | t }}</span>
+          @if (a.gecikmis) { <span class="rozet hata">{{ 'Gecikti' | t }}</span> }
+        </div>
+        @if (a.kullaniciAd) { <small class="ilgili"><app-ikon ad="user" /> {{ a.kullaniciAd }}</small> }
+        <div class="satir">
+          <label>{{ 'Durum' | t }}<select [(ngModel)]="a.durum">@for (d of durumlar; track d.d) { <option [value]="d.d">{{ d.ad | t }}</option> }</select></label>
+          <label>{{ 'Öncelik' | t }}<select [(ngModel)]="a.oncelik">@for (o of oncelikler; track o.d) { <option [value]="o.d">{{ o.ad | t }}</option> }</select></label>
+          <label>{{ 'Sorumlu' | t }}<select [(ngModel)]="a.sorumluId"><option [ngValue]="undefined">—</option>@for (k of ikler(); track k.id) { <option [ngValue]="k.id">{{ k.ad }}</option> }</select></label>
+          <label>{{ 'Son tarih' | t }}<input type="date" [ngModel]="a.sonTarih ? a.sonTarih.substring(0, 10) : ''" (ngModelChange)="a.sonTarih = $event || undefined"></label>
+        </div>
+        <input class="not" [(ngModel)]="a.not" [placeholder]="'Not ekle…' | t">
+        <div class="alt">
+          <small>{{ 'Oluşturma' | t }}: {{ a.olusturma | date: 'dd.MM.yyyy' }}@if (a.kapanma) { · {{ 'Kapanış' | t }}: {{ a.kapanma | date: 'dd.MM.yyyy' }} }</small>
+          <span class="islem"><button class="kucuk birincil" (click)="kaydet(a)">{{ i18n.t('kaydet') }}</button><button class="kucuk tehlike" (click)="sil(a)"><app-ikon ad="trash" /></button></span>
+        </div>
+      </article>
+    }
+  </div>
+}

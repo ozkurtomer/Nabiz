@@ -1,5 +1,6 @@
 import { SoruTipi } from '../../core/models/models';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { Ikon } from '../../shared/ikon/ikon';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CevapSatiri, Paket, Rapor } from '../../core/models/models';
@@ -16,7 +17,7 @@ import { TPipe } from '../../shared/t.pipe';
 
 @Component({
   selector: 'app-raporlar',
-  imports: [TPipe, FormsModule, DatePipe, TrendGrafik, DagilimGrafigi],
+  imports: [TPipe, Ikon, FormsModule, DatePipe, DecimalPipe, TrendGrafik, DagilimGrafigi],
   templateUrl: './raporlar.html',
   styleUrl: './raporlar.scss',
 })
@@ -51,6 +52,7 @@ export class Raporlar implements OnInit {
     this.api.csv({ baslangic: this.baslangic, bitis: this.bitis, departman: this.departman || undefined, paketId: this.paketId || undefined })
       .subscribe(b => indir(b, `nabiz-cevaplar-${this.bitis}.csv`));
   }
+  yazdir() { window.print(); }
   yuzde(n: number) { const t = this.toplamDuygu(); return t ? Math.round(n * 100 / t) : 0; }
 
   ngOnInit() {

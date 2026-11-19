@@ -3,7 +3,7 @@
     <button class="hayalet menu-btn" (click)="menuAcik.set(!menuAcik())" [attr.aria-label]="'Menü' | t">
       <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
-    <span class="marka-kucuk"><span class="logo-kutu"><app-ikon ad="activity" /></span><strong>Nabız</strong></span>
+    <span class="marka-kucuk"><span class="logo-kutu"><app-ikon ad="activity" /></span><strong>{{ marka.marka().ad }}</strong></span>
   </header>
 
   @if (menuAcik()) { <div class="perde" (click)="menuAcik.set(false)"></div> }
@@ -11,7 +11,7 @@
   <aside class="yan" [class.acik]="menuAcik()">
     <div class="logo-alan">
       <span class="logo-kutu"><app-ikon ad="activity" /></span>
-      <div><strong>Nabız</strong><small>{{ 'Ekip moral takibi' | t }}</small></div>
+      <div><strong>{{ marka.marka().ad }}</strong><small>{{ 'Ekip moral takibi' | t }}</small></div>
     </div>
 
     <nav>

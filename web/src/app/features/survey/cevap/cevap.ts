@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CevapGirdisi, CevapSayfasi } from '../../../core/models/models';
 import { AuthService } from '../../../core/services/auth.service';
 import { CevapService } from '../../../core/services/cevap.service';
+import { MarkaService } from '../../../core/services/marka.service';
 import { I18n } from '../../../core/services/i18n';
 import { EMOJILER } from '../../../core/utils/cevap';
 import { sec } from '../../../core/utils/dil';
@@ -24,6 +25,7 @@ export class Cevap implements OnInit {
   readonly auth = inject(AuthService);
   private api = inject(CevapService);
   private router = inject(Router);
+  private markaApi = inject(MarkaService);
 
   /** Rota parametresi (withComponentInputBinding). */
   readonly token = input.required<string>();
@@ -67,6 +69,7 @@ export class Cevap implements OnInit {
     this.api.getir(this.token()).subscribe({
       next: s => {
         this.sayfa.set(s);
+        if (s.sirketAd && s.renk) this.markaApi.uygula({ ad: s.sirketAd, renk: s.renk });
         this.i18n.varsayilan(s.dil);   // kullanıcı kendi dilini seçmediyse, kayıtlı dilinde aç
         this.cevaplar.set(Object.fromEntries(s.cevaplar.map(c => [c.soruId, c])));
         this.tamamlandi.set(s.tamamlandi);

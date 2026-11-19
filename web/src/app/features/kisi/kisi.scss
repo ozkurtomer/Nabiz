@@ -12,3 +12,6 @@ td .skor { font-size: .9rem; padding: 2px 10px; }
 td small { display: block; }
 .yorum { font-style: italic; }
 .bos { text-align: center; color: var(--soluk); padding: 24px; }
+
+.hak { color: var(--soluk); margin: 0 0 14px; }
+.hak-islem { display: flex; gap: 10px; flex-wrap: wrap; }

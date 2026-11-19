@@ -26,6 +26,7 @@ public static class DependencyInjection
         s.AddScoped<IMarkaService, MarkaService>();
         s.AddScoped<IAksiyonService, AksiyonService>();
         s.AddScoped<IKvkkService, KvkkService>();
+        s.AddScoped<IOzetService, OzetService>();
         return s;
     }
 }

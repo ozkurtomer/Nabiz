@@ -44,6 +44,12 @@ public class ArkaPlanIsleri(IServiceScopeFactory scopes, IConfiguration cfg, ILo
                     if (n > 0) log.LogInformation("{N} hatırlatma maili gönderildi.", n);
                 });
             }
+            if (cfg.GetValue("Ozet:Aktif", true))
+                await Calistir("Haftalık özet", async sp =>
+                {
+                    var n = await sp.GetRequiredService<IOzetService>().GonderVarsaAsync(cfg.GetValue("Ozet:Gun", 1), cfg.GetValue("Ozet:Saat", 9), ct);
+                    if (n > 0) log.LogInformation("Haftalık özet {N} İK kullanıcısına gönderildi.", n);
+                });
             await Calistir("Saklama süresi temizliği", async sp =>
             {
                 var r = await sp.GetRequiredService<IKvkkService>().SaklamaGunlukAsync(ct);

@@ -1,3 +1,4 @@
+import { MarkaService } from '../../core/services/marka.service';
 import { Component, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
@@ -14,6 +15,7 @@ import { Ikon } from '../../shared/ikon/ikon';
   styleUrl: './shell.scss',
 })
 export class Shell {
+  readonly marka = inject(MarkaService);
   readonly auth = inject(AuthService);
   readonly i18n = inject(I18n);
   private kullanicilar = inject(KullaniciService);

@@ -24,7 +24,9 @@ public partial class MarkaService(IUnitOfWork uow, IAyarDeposu depo, IDenetimSer
     {
         var ad = await depo.OkuAsync(AyarAnahtarlari.SirketAdi, ct);
         var renk = await depo.OkuAsync(AyarAnahtarlari.MarkaRenk, ct);
-        return new MarkaDto(string.IsNullOrWhiteSpace(ad) ? VarsayilanAd : ad, string.IsNullOrWhiteSpace(renk) ? VarsayilanRenk : renk);
+        var m = new MarkaDto(string.IsNullOrWhiteSpace(ad) ? VarsayilanAd : ad, string.IsNullOrWhiteSpace(renk) ? VarsayilanRenk : renk);
+        EmailSablonu.Marka = (m.Ad, m.Renk);   // e-posta şablonları güncel markayı kullanır
+        return m;
     }
 
     public async Task KaydetAsync(MarkaDto marka, CancellationToken ct)
@@ -35,6 +37,7 @@ public partial class MarkaService(IUnitOfWork uow, IAyarDeposu depo, IDenetimSer
         await depo.YazAsync(AyarAnahtarlari.SirketAdi, ad, ct);
         await depo.YazAsync(AyarAnahtarlari.MarkaRenk, marka.Renk!.ToLowerInvariant(), ct);
         await uow.SaveChangesAsync(ct);
+        EmailSablonu.Marka = (ad, marka.Renk!.ToLowerInvariant());
         await denetim.KaydetAsync("Marka ayarları değişti", $"{ad} {marka.Renk}", ct);
     }
 }
