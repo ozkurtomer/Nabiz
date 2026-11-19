@@ -1,5 +1,4 @@
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CevapGirdisi, CevapSayfasi } from '../../../core/models/models';
@@ -16,7 +15,7 @@ import { TPipe } from '../../../shared/t.pipe';
 /** E-postadaki linkten açılır (giriş gerekmez). Paketteki soruları adım adım sorar. */
 @Component({
   selector: 'app-cevap',
-  imports: [FormsModule, DecimalPipe, TPipe, Ikon],
+  imports: [FormsModule, TPipe, Ikon],
   templateUrl: './cevap.html',
   styleUrl: './cevap.scss',
 })
@@ -55,6 +54,7 @@ export class Cevap implements OnInit {
   metin(s: Soru) { return sec(this.i18n.dil(), s.metinTr, s.metinEn); }
   readonly paketAdi = computed(() => { const p = this.sayfa(); return p ? sec(this.i18n.dil(), p.paketAd, p.paketAdEn) : ''; });
   readonly aciklama = computed(() => { const p = this.sayfa(); return p ? sec(this.i18n.dil(), p.aciklama, p.aciklamaEn) : ''; });
+  readonly dakika = computed(() => Math.max(1, Math.ceil(this.sorular().length * 0.3)));
   readonly sonAdim = computed(() => this.adim() === this.sorular().length);
   readonly yuzde = computed(() => this.sorular().length ? Math.round((Math.max(this.adim() - 1, 0) / this.sorular().length) * 100) : 0);
 

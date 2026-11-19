@@ -30,7 +30,7 @@
         <p class="selam">{{ 'Merhaba' | t }} {{ sayfa()!.kullaniciAd.split(' ')[0] }}</p>
         <h2>{{ paketAdi() }}</h2>
         @if (aciklama()) { <p class="aciklama">{{ aciklama() }}</p> }
-        <p class="meta">{{ sorular().length }} {{ 'kısa soru' | t }} · {{ 'yaklaşık' | t }} {{ (sorular().length * 0.3) | number: '1.0-0' }} {{ 'dk' | t }}</p>
+        <p class="meta">{{ sorular().length }} {{ 'kısa soru' | t }} · {{ 'yaklaşık' | t }} {{ dakika() }} {{ 'dk' | t }}</p>
         <button class="birincil buyuk-btn" (click)="basla()">{{ 'Başlayalım' | t }} <app-ikon ad="arrow-right" /></button>
         @if (sayfa()!.aydinlatma) {
           <details class="aydinlatma"><summary><app-ikon ad="shield" /> {{ 'Aydınlatma metni' | t }}</summary><p>{{ sayfa()!.aydinlatma }}</p></details>
