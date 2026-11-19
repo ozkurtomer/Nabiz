@@ -10,7 +10,7 @@
 
   <div class="form">
     <label class="genis">Paket
-      <select [(ngModel)]="paketId">
+      <select [ngModel]="paketId()" (ngModelChange)="paketId.set($event)">
         @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ p.ad }} ({{ p.sorular.length }} soru)</option> }
       </select>
     </label>
@@ -41,7 +41,7 @@
   }
 
   <div class="islem">
-    <button class="birincil" (click)="gonder()" [disabled]="gonderiliyor() || !paketId || !hedefHazir() || (mod() !== 'hemen' && (!baslangic || !saat || (mod() === 'tekrar' && siklikGun < 1)))">
+    <button class="birincil" (click)="gonder()" [disabled]="gonderiliyor() || !paketId() || !hedefHazir() || (mod() !== 'hemen' && (!baslangic || !saat || (mod() === 'tekrar' && siklikGun < 1)))">
       @switch (mod()) {
         @case ('hemen') { {{ gonderiliyor() ? 'Gönderiliyor…' : '✉ Şimdi gönder' }} }
         @case ('birkez') { 🕘 Zamanla }
@@ -51,13 +51,13 @@
   </div>
 </section>
 
-@if (bekleyenPlanlar().length) {
+@if (planlar().length) {
   <h3 class="alt-baslik">Zamanlanmış gönderimler</h3>
   <div class="tablo-kutu plan-kutu">
     <table>
       <thead><tr><th>Paket</th><th>Kime</th><th>Ne zaman</th><th>Durum</th><th></th></tr></thead>
       <tbody>
-        @for (p of bekleyenPlanlar(); track p.id) {
+        @for (p of planlar(); track p.id) {
           <tr>
             <td><b>{{ p.paketAd }}</b></td>
             <td><span class="rozet">{{ p.hedefAciklama }}</span></td>

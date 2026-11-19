@@ -39,20 +39,20 @@ export class Gonderimler implements OnInit {
   readonly skorSinifi = skorSinifi;
 
   readonly mod = signal<Mod>('hemen');
-  paketId = 0;
+  /** Sinyal olmalı: secilenPaket (computed) seçim değiştikçe yeniden hesaplanır. */
+  readonly paketId = signal(0);
   readonly hedefTipi = signal<HedefTipi>('Hepsi');
   readonly hedefDeger = signal('');
   baslangic = this.bugun();
   saat = '09:00';
   siklikGun = 1;
 
-  readonly secilenPaket = computed(() => this.paketler().find(p => p.id === this.paketId));
+  readonly secilenPaket = computed(() => this.paketler().find(p => p.id === this.paketId()));
   readonly hedefHazir = computed(() => this.hedefTipi() === 'Hepsi' || !!this.hedefDeger());
-  readonly bekleyenPlanlar = computed(() => this.planlar().filter(p => p.aktif || p.siklikGun > 0));
 
   ngOnInit() {
     this.yukle();
-    this.paketApi.liste().subscribe(p => { const a = p.filter(x => x.aktif); this.paketler.set(a); if (a.length) this.paketId = a[0].id; });
+    this.paketApi.liste().subscribe(p => { const a = p.filter(x => x.aktif); this.paketler.set(a); if (a.length) this.paketId.set(a[0].id); });
     this.kullaniciApi.liste().subscribe(k => this.kullanicilar.set(k));
   }
   yukle() { this.api.liste().subscribe(l => this.liste.set(l)); this.planApi.liste().subscribe(p => this.planlar.set(p)); }
