@@ -16,6 +16,12 @@ Tüm ayarlar `api/Nabiz.Api/appsettings.json` ya da ortam değişkenleridir (`Bo
 
 Hatırlatmalar yalnızca **hafta içi 09:00-18:00** (şirket saat diliminde) gönderilir; demo ve test gönderimlerine hatırlatma gitmez.
 
+## Diller
+- Arayüz dili sağ alttaki **TR / EN** düğmesiyle değişir ve kullanıcının profiline kaydedilir; **e-postalar kullanıcının kayıtlı dilinde** gider.
+- Sunucu metinleri (paket adı, soru metni, hata mesajı) istekteki `X-Dil` başlığına göre seçilir.
+- Soru ve paketlerde Türkçe/İngilizce metinlerden **en az biri** zorunludur; seçili dilde metin yoksa diğer dil gösterilir.
+- Yeni arayüz metni eklerken Türkçe kaynak metni `{{ 'metin' | t }}` ile sar ve İngilizcesini `web/src/app/core/i18n/en.ts` sözlüğüne ekle.
+
 ## Teams / Slack bildirimi
 Teams'te "Workflows → Webhook isteği alındığında" (ya da Slack'te Incoming Webhook) ile bir adres oluşturup `Bildirim__WebhookUrl` olarak ver. Gönderilen mesajda **kişi bilgisi yoktur**, yalnızca "yeni düşük puan uyarısı" ve panel linki bulunur.
 

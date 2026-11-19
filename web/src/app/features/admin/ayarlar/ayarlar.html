@@ -31,13 +31,19 @@
     </div>
     @if (testSonuc(); as r) {
       @if (r.basarili && r.sandbox) {
-        <p class="bilgi uyari-kutu">⚠️ <b>{{ 'Mail gerçek gelen kutusuna gitmedi.' | t }}</b> {{ 'Şu an sahte test sunucusuna (Mailpit) bağlısın; mailler orada yakalanır:' | t }}
+        <div class="bilgi uyari-kutu"><span>⚠️</span><div>
+          <b>{{ 'Mail gerçek gelen kutusuna gitmedi.' | t }}</b>
+          {{ 'Şu an sahte test sunucusuna (Mailpit) bağlısın; mailler orada yakalanır:' | t }}
           <a href="http://localhost:8025" target="_blank" rel="noopener">http://localhost:8025</a><br>
-          <small>{{ 'Gerçek bir kutuya mail göndermek için docs/MAIL-TEST.md rehberindeki SMTP ayarlarını yap.' | t }}</small></p>
+          <small>{{ 'Gerçek bir kutuya mail göndermek için docs/MAIL-TEST.md rehberindeki SMTP ayarlarını yap.' | t }}</small>
+        </div></div>
       } @else if (r.basarili) {
-        <p class="bilgi ok-kutu">✅ {{ 'Gönderildi:' | t }} <b>{{ r.mesaj }}</b> <small>({{ r.sunucu }})</small><br><small>{{ 'Gelen kutunu ve spam klasörünü kontrol et. Mail gelmediyse SMTP sunucusu maili kabul etmiş ama teslim etmemiş olabilir.' | t }}</small></p>
+        <div class="bilgi ok-kutu"><span>✅</span><div>
+          {{ 'Gönderildi:' | t }} <b>{{ r.mesaj }}</b> <small>({{ r.sunucu }})</small><br>
+          <small>{{ 'Gelen kutunu ve spam klasörünü kontrol et. Mail gelmediyse SMTP sunucusu maili kabul etmiş ama teslim etmemiş olabilir.' | t }}</small>
+        </div></div>
       } @else {
-        <p class="bilgi hata-kutu">❌ {{ 'Gönderilemedi:' | t }} {{ r.mesaj }} <small>({{ r.sunucu }})</small></p>
+        <div class="bilgi hata-kutu"><span>❌</span><div>{{ 'Gönderilemedi:' | t }} {{ r.mesaj }} <small>({{ r.sunucu }})</small></div></div>
       }
     }
   </section>

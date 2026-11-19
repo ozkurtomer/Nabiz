@@ -10,7 +10,7 @@
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-MSSQL-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-39%20passing-2ea44f)
+![Tests](https://img.shields.io/badge/tests-53%20passing-2ea44f)
 
 <img src="docs/screenshots/raporlar.jpg" alt="Raporlar" width="860">
 
@@ -34,7 +34,8 @@
 | 🔒 **Gizlilik ve denetim** | İki rol (**İK** ve **Çalışan**), anonim yorum, her kişisel veri erişimi **denetim kaydında**. |
 | 🔗 **Personel senkronu** | Kullanıcılar mevcut personel tablosundan (salt okunur) otomatik gelir. Şifre yönetimi yok. |
 | 🔑 **Şifresiz giriş** | E-postaya gelen 15 dakikalık giriş linki. Mobil uygulamadan **WebView otomatik giriş** ([doküman](docs/MOBIL.md)). |
-| 🩺 **Sistem durumu** | Veritabanı, SMTP, son 24 saat mail sonuçları tek bakışta. |
+| 🩺 **Sistem durumu** | Veritabanı, SMTP, son 24 saat mail sonuçları tek bakışta; **E-posta testi** düğmesiyle SMTP'yi canlı doğrula. |
+| 🌍 **Türkçe + İngilizce** | Tüm arayüz, e-postalar ve hata mesajları iki dilde. Soru ve paketlerde **iki dilden yalnızca birini yazmak yeterli**, diğer dilde aynı metin gösterilir. Kullanıcının dili profilinde saklanır. |
 
 <table>
   <tr>
@@ -76,6 +77,8 @@ Giriş ekranındaki **demo butonlarıyla** (İK / Çalışan) hemen deneyebilirs
 4. Boş raporları doldurmak için *Ayarlar → Demo veri üret* (sahte veri; "Temizle" yalnızca onu siler).
 
 Sıfırlamak için: `docker compose down -v`
+
+> ⚠️ **Mailler gerçek kutulara gitmez**: varsayılan SMTP, mailleri yakalayan Mailpit'tir. Gerçek teslimatı görmek için [docs/MAIL-TEST.md](docs/MAIL-TEST.md) rehberine bak (Gmail ile 5 dakika; **Ayarlar → E-posta testi** düğmesi sonucu ya da hata nedenini gösterir).
 
 ## 🏗️ Mimari
 
@@ -125,7 +128,7 @@ Tüm ayarlar, gizlilik özeti, yedekleme ve izleme: **[docs/OPERASYON.md](docs/O
 ```bash
 # API (appsettings.Development.json içindeki bağlantı cümlesini düzenle ya da yalnızca db servisini başlat: docker compose up -d db mailpit)
 cd api && dotnet run --project Nabiz.Api        # http://localhost:5277
-cd api && dotnet test Nabiz.Tests                # 39 test
+cd api && dotnet test Nabiz.Tests                # 53 test
 
 # Web
 cd web && npm install && npm start               # http://localhost:4200 (/api → 5277 proxy)
