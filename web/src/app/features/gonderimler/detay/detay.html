@@ -34,7 +34,7 @@
   <h3 class="alt-baslik">{{ 'Kim ne demiş?' | t }}</h3>
   <div class="sekmeler">
     @for (s of sekmeler(); track s.f) {
-      <button class="sekme" [class.aktif]="filtre() === s.f" (click)="filtre.set(s.f)">{{ s.ad }} <span class="sayac">{{ s.n }}</span></button>
+      <button class="sekme" [class.aktif]="filtre() === s.f" (click)="filtre.set(s.f)">{{ s.ad | t }} <span class="sayac">{{ s.n }}</span></button>
     }
   </div>
 

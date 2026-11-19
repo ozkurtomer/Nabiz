@@ -8,12 +8,15 @@
 
 @if (form(); as f) {
   <section class="kart duzenle">
-    <h3>{{ f.id ? 'Paketi düzenle' : 'Yeni paket' }}</h3>
+    <h3>{{ (f.id ? 'Paketi düzenle' : 'Yeni paket') | t }}</h3>
     <div class="form">
-      <label class="genis">{{ 'Paket adı' | t }} <input [ngModel]="f.ad" (ngModelChange)="adGuncelle($event)" [placeholder]="'Motivasyon Paketi' | t"></label>
-      <label class="genis">{{ 'Açıklama (isteğe bağlı)' | t }} <input [ngModel]="f.aciklama" (ngModelChange)="aciklamaGuncelle($event)" [placeholder]="'Kısa bir açıklama' | t"></label>
+      <label class="genis">{{ 'Paket adı (Türkçe)' | t }} <input [ngModel]="f.ad" (ngModelChange)="adGuncelle($event)" [placeholder]="'Motivasyon Paketi' | t"></label>
+      <label class="genis">{{ 'Paket adı (İngilizce)' | t }} <input [ngModel]="f.adEn" (ngModelChange)="adEnGuncelle($event)" placeholder="Motivation Pack"></label>
+      <label class="genis">{{ 'Açıklama (Türkçe, isteğe bağlı)' | t }} <input [ngModel]="f.aciklama" (ngModelChange)="aciklamaGuncelle($event)" [placeholder]="'Kısa bir açıklama' | t"></label>
+      <label class="genis">{{ 'Açıklama (İngilizce, isteğe bağlı)' | t }} <input [ngModel]="f.aciklamaEn" (ngModelChange)="aciklamaEnGuncelle($event)" placeholder="A short description"></label>
       <label class="aktif">{{ 'Aktif' | t }} <span class="anahtar"><input type="checkbox" [ngModel]="f.aktif" (ngModelChange)="aktifGuncelle($event)"><span></span></span></label>
     </div>
+    <p class="ipucu">💡 {{ 'Türkçe ya da İngilizce adı yazman yeterli; diğer dil boşsa aynı ad her iki dilde gösterilir.' | t }}</p>
 
     <div class="iki">
       <div>
@@ -21,7 +24,7 @@
         @for (s of secilenSorular(); track s.id; let i = $index) {
           <div class="secili-soru">
             <span class="no">{{ i + 1 }}</span>
-            <span class="metin">{{ s.metinTr }}<small>{{ s.tip }}</small></span>
+            <span class="metin">{{ metin(s) }}<small>{{ s.tip }}</small></span>
             <button class="kucuk hayalet" (click)="tasi(i, -1)" [disabled]="i === 0" [attr.title]="'Yukarı' | t">↑</button>
             <button class="kucuk hayalet" (click)="tasi(i, 1)" [disabled]="i === secilenSorular().length - 1" [attr.title]="'Aşağı' | t">↓</button>
             <button class="kucuk hayalet" (click)="cikar(s.id)" [attr.title]="'Çıkar' | t">✕</button>
@@ -33,14 +36,14 @@
         <input class="ara" [ngModel]="ara()" (ngModelChange)="ara.set($event)" [placeholder]="'Soru ara…' | t">
         <div class="havuz">
           @for (s of eklenebilir(); track s.id) {
-            <button class="havuz-soru" (click)="ekle(s.id)"><span>＋</span><span class="metin">{{ s.metinTr }}<small>{{ s.tip }}</small></span></button>
+            <button class="havuz-soru" (click)="ekle(s.id)"><span>＋</span><span class="metin">{{ metin(s) }}<small>{{ s.tip }}</small></span></button>
           } @empty { <p class="bos">{{ 'Eklenecek soru kalmadı.' | t }}</p> }
         </div>
       </div>
     </div>
 
     <div class="islem">
-      <button class="birincil" (click)="kaydet()" [disabled]="!f.ad.trim() || f.secili.length === 0">{{ i18n.t('kaydet') }}</button>
+      <button class="birincil" (click)="kaydet()" [disabled]="(!f.ad.trim() && !f.adEn.trim()) || f.secili.length === 0">{{ 'Kaydet' | t }}</button>
       <button (click)="vazgec()">{{ 'Vazgeç' | t }}</button>
     </div>
   </section>
@@ -50,12 +53,12 @@
   @for (p of liste(); track p.id) {
     <article class="kart paket" [class.pasif]="!p.aktif">
       <div class="baslik">
-        <h3>{{ p.ad }}</h3>
-        <span class="rozet" [class.gri]="!p.aktif" [class.ok]="p.aktif">{{ p.aktif ? 'Aktif' : 'Pasif' }}</span>
+        <h3>{{ ad(p) }}</h3>
+        <span class="rozet" [class.gri]="!p.aktif" [class.ok]="p.aktif">{{ (p.aktif ? 'Aktif' : 'Pasif') | t }}</span>
       </div>
-      @if (p.aciklama) { <p class="aciklama">{{ p.aciklama }}</p> }
+      @if (aciklama(p)) { <p class="aciklama">{{ aciklama(p) }}</p> }
       <ol>
-        @for (s of p.sorular; track s.id) { <li>{{ s.metinTr }}</li> }
+        @for (s of p.sorular; track s.id) { <li>{{ metin(s) }}</li> }
       </ol>
       <div class="islem">
         <button class="kucuk" (click)="dene(p)" [attr.title]="'Paketi e-posta atmadan kendine gönderip cevapla' | t">{{ '▶ Dene' | t }}</button>

@@ -1,14 +1,18 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { Dagilim, SoruTipi } from '../../core/models/models';
 import { EMOJILER } from '../../core/utils/cevap';
+import { I18n } from '../../core/services/i18n';
+import { TPipe } from '../t.pipe';
 
 /** Cevap değerlerinin dağılımı: her değer için bir çubuk (kaç kişi hangi cevabı seçmiş). */
 @Component({
   selector: 'app-dagilim',
+  imports: [TPipe],
   templateUrl: './dagilim.html',
   styleUrl: './dagilim.scss',
 })
 export class DagilimGrafigi {
+  private i18n = inject(I18n);
   readonly tip = input.required<SoruTipi>();
   readonly veri = input.required<Dagilim[]>();
 
@@ -24,7 +28,7 @@ export class DagilimGrafigi {
 
   private etiket(d: number) {
     const t = this.tip();
-    return t === 'Emoji' ? EMOJILER[d - 1] : t === 'EvetHayir' ? (d === 1 ? 'Evet' : 'Hayır') : String(d);
+    return t === 'Emoji' ? EMOJILER[d - 1] : t === 'EvetHayir' ? this.i18n.t(d === 1 ? 'Evet' : 'Hayır') : String(d);
   }
   /** Olumsuzdan olumluya: kırmızı → sarı → yeşil. */
   private renk(d: number) {

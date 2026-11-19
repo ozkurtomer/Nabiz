@@ -5,16 +5,18 @@ import { Paket, Soru } from '../../core/models/models';
 import { AuthService } from '../../core/services/auth.service';
 import { CevapService } from '../../core/services/cevap.service';
 import { I18n } from '../../core/services/i18n';
+import { sec } from '../../core/utils/dil';
 import { NotifyService } from '../../core/services/notify.service';
 import { OnayService } from '../../core/services/onay.service';
 import { PaketService } from '../../core/services/paket.service';
 import { SoruService } from '../../core/services/soru.service';
+import { TPipe } from '../../shared/t.pipe';
 
-interface PaketForm { id?: number; ad: string; aciklama: string; aktif: boolean; secili: number[]; }
+interface PaketForm { id?: number; ad: string; adEn: string; aciklama: string; aciklamaEn: string; aktif: boolean; secili: number[]; }
 
 @Component({
   selector: 'app-paketler',
-  imports: [FormsModule],
+  imports: [TPipe, FormsModule],
   templateUrl: './paketler.html',
   styleUrl: './paketler.scss',
 })
@@ -39,14 +41,14 @@ export class Paketler implements OnInit {
   });
   readonly eklenebilir = computed(() => {
     const secili = new Set(this.form()?.secili ?? []); const a = this.ara().toLocaleLowerCase('tr');
-    return this.havuz().filter(s => !secili.has(s.id) && (!a || s.metinTr.toLocaleLowerCase('tr').includes(a)));
+    return this.havuz().filter(s => !secili.has(s.id) && (!a || (s.metinTr + ' ' + s.metinEn).toLocaleLowerCase('tr').includes(a)));
   });
 
   ngOnInit() { this.yukle(); this.sorularApi.liste().subscribe(s => this.havuz.set(s)); }
   yukle() { this.api.liste().subscribe(p => this.liste.set(p)); }
 
-  yeni() { this.form.set({ ad: '', aciklama: '', aktif: true, secili: [] }); }
-  duzenle(p: Paket) { this.form.set({ id: p.id, ad: p.ad, aciklama: p.aciklama ?? '', aktif: p.aktif, secili: p.sorular.map(s => s.id) }); }
+  yeni() { this.form.set({ ad: '', adEn: '', aciklama: '', aciklamaEn: '', aktif: true, secili: [] }); }
+  duzenle(p: Paket) { this.form.set({ id: p.id, ad: p.ad, adEn: p.adEn, aciklama: p.aciklama ?? '', aciklamaEn: p.aciklamaEn ?? '', aktif: p.aktif, secili: p.sorular.map(s => s.id) }); }
   vazgec() { this.form.set(null); }
 
   ekle(id: number) { this.form.update(f => f && { ...f, secili: [...f.secili, id] }); }
@@ -60,19 +62,25 @@ export class Paketler implements OnInit {
     });
   }
   adGuncelle(v: string) { this.form.update(f => f && { ...f, ad: v }); }
+  adEnGuncelle(v: string) { this.form.update(f => f && { ...f, adEn: v }); }
+  aciklamaEnGuncelle(v: string) { this.form.update(f => f && { ...f, aciklamaEn: v }); }
   aciklamaGuncelle(v: string) { this.form.update(f => f && { ...f, aciklama: v }); }
   aktifGuncelle(v: boolean) { this.form.update(f => f && { ...f, aktif: v }); }
 
   kaydet() {
     const f = this.form(); if (!f) return;
-    const govde = { ad: f.ad, aciklama: f.aciklama || null, aktif: f.aktif, soruIdleri: f.secili };
+    const govde = { ad: f.ad, adEn: f.adEn, aciklama: f.aciklama || null, aciklamaEn: f.aciklamaEn || null, aktif: f.aktif, soruIdleri: f.secili };
     const istek = f.id ? this.api.guncelle(f.id, govde) : this.api.ekle(govde);
     istek.subscribe(() => { this.notify.bilgi('Paket kaydedildi.'); this.form.set(null); this.yukle(); });
   }
   async sil(p: Paket) {
-    if (!await this.onay.sor({ baslik: 'Paket silinsin mi?', mesaj: `"${p.ad}" paketi kalıcı olarak silinecek.`, evet: 'Evet, sil', tur: 'tehlike' })) return;
+    if (!await this.onay.sor({ baslik: 'Paket silinsin mi?', mesaj: '"{0}" paketi kalıcı olarak silinecek.', degerler: [this.ad(p)], evet: 'Evet, sil', tur: 'tehlike' })) return;
     this.api.sil(p.id).subscribe(() => { this.notify.bilgi('Paket silindi.'); this.yukle(); });
   }
+  // Seçili dilde gösterim (o dilde yazılmadıysa diğer dile düşer)
+  ad(p: Paket) { return sec(this.i18n.dil(), p.ad, p.adEn); }
+  aciklama(p: Paket) { return sec(this.i18n.dil(), p.aciklama, p.aciklamaEn); }
+  metin(s: Soru) { return sec(this.i18n.dil(), s.metinTr, s.metinEn); }
   /** Paketi e-posta atmadan kendine gönderip cevaplama ekranını açar. */
   dene(p: Paket) { this.cevap.testGonderimi(p.id).subscribe(r => this.router.navigate(['/cevap', r.token])); }
 }

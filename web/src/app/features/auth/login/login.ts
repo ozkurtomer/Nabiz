@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
 import { I18n } from '../../../core/services/i18n';
+import { TPipe } from '../../../shared/t.pipe';
 
 interface DemoHesap { etiket: string; ikon: string; email: string; sifre: string; }
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, TPipe],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

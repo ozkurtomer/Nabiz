@@ -5,8 +5,8 @@
       <h3 id="onay-baslik">{{ o.baslik }}</h3>
       @if (o.mesaj) { <p>{{ o.mesaj }}</p> }
       <div class="dugmeler">
-        <button (click)="onay.kapat(false)">{{ o.hayir ?? 'Vazgeç' }}</button>
-        <button #evet class="birincil" [class.tehlike-btn]="o.tur === 'tehlike'" (click)="onay.kapat(true)">{{ o.evet ?? 'Evet' }}</button>
+        <button (click)="onay.kapat(false)">{{ (o.hayir ?? 'Vazgeç') | t }}</button>
+        <button #evet class="birincil" [class.tehlike-btn]="o.tur === 'tehlike'" (click)="onay.kapat(true)">{{ (o.evet ?? 'Evet') | t }}</button>
       </div>
     </div>
   </div>

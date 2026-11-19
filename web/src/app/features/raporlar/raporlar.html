@@ -25,7 +25,7 @@
       <label>{{ 'Paket' | t }}
         <select [(ngModel)]="paketId" (change)="yukle()">
           <option [ngValue]="0">{{ 'Tümü' | t }}</option>
-          @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ p.ad }}</option> }
+          @for (p of paketler(); track p.id) { <option [ngValue]="p.id">{{ ad(p) }}</option> }
         </select>
       </label>
     <button class="birincil" (click)="yukle()">{{ 'Uygula' | t }}</button>

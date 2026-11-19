@@ -6,10 +6,11 @@ import { Uyari, UyariDurumu } from '../../core/models/models';
 import { I18n } from '../../core/services/i18n';
 import { NotifyService } from '../../core/services/notify.service';
 import { UyariService } from '../../core/services/uyari.service';
+import { TPipe } from '../../shared/t.pipe';
 
 @Component({
   selector: 'app-uyarilar',
-  imports: [FormsModule, DatePipe, RouterLink],
+  imports: [TPipe, FormsModule, DatePipe, RouterLink],
   templateUrl: './uyarilar.html',
   styleUrl: './uyarilar.scss',
 })

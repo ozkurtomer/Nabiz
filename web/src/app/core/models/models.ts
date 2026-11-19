@@ -8,8 +8,8 @@ export interface LoginYanit { token: string; rol: Rol; dil: 'tr' | 'en'; ad: str
 // ---- Soru ve paket
 export interface Soru { id: number; metinTr: string; metinEn: string; tip: SoruTipi; aktif: boolean; takipMetniTr?: string | null; takipMetniEn?: string | null; }
 export type SoruKaydet = Omit<Soru, 'id'>;
-export interface Paket { id: number; ad: string; aciklama?: string; aktif: boolean; sorular: Soru[]; }
-export interface PaketKaydet { ad: string; aciklama?: string | null; aktif: boolean; soruIdleri: number[]; }
+export interface Paket { id: number; ad: string; adEn: string; aciklama?: string; aciklamaEn?: string; aktif: boolean; sorular: Soru[]; }
+export interface PaketKaydet { ad: string; adEn: string; aciklama?: string | null; aciklamaEn?: string | null; aktif: boolean; soruIdleri: number[]; }
 
 // ---- Kullanıcı
 export interface Kullanici { id: number; personelId: string; ad: string; email: string; departman?: string; rol: Rol; dil: string; aktif: boolean; }
@@ -26,7 +26,7 @@ export interface PlanKaydet {
 
 // ---- Cevaplama
 export interface CevapGirdisi { soruId: number; deger: number; yorum?: string | null; anonimYorum?: boolean; }
-export interface CevapSayfasi { kullaniciAd: string; paketAd: string; aciklama?: string; sorular: Soru[]; cevaplar: CevapGirdisi[]; tamamlandi: boolean; emojiEsik: number; puanEsik: number; }
+export interface CevapSayfasi { kullaniciAd: string; dil: 'tr' | 'en'; paketAd: string; paketAdEn: string; aciklama?: string; aciklamaEn?: string; sorular: Soru[]; cevaplar: CevapGirdisi[]; tamamlandi: boolean; emojiEsik: number; puanEsik: number; }
 export interface CevapKaydetYanit { tamamlandi: boolean; cevaplanan: number; toplam: number; }
 export interface BenimSoru { token: string; paket: string; soruSayisi: number; zaman: string; tamamlandi: boolean; }
 
@@ -83,3 +83,5 @@ export interface SistemDurumu {
   webhookAyarli: boolean; hatirlatmaAktif: boolean; mobilGirisAktif: boolean; sonPersonelSenkron?: string;
 }
 export interface Denetim { id: number; zaman: string; kullanici: string; eylem: string; detay?: string; }
+
+export interface TestMailYanit { basarili: boolean; mesaj: string; sunucu: string; }

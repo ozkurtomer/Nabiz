@@ -1,11 +1,12 @@
 import { Component, computed, input, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HedefTipi, Kullanici } from '../../core/models/models';
+import { TPipe } from '../t.pipe';
 
 /** Hedef kitle seçici: Tüm çalışanlar / Departman / Kişi (çoklu). Değer, planlarla aynı biçimde tutulur. */
 @Component({
   selector: 'app-hedef-secici',
-  imports: [FormsModule],
+  imports: [TPipe, FormsModule],
   templateUrl: './hedef-secici.html',
   styleUrl: './hedef-secici.scss',
 })

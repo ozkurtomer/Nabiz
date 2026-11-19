@@ -87,7 +87,7 @@ public class DemoVeriService(IUnitOfWork uow, IZaman zaman, IAyarService ayarlar
             }
         }
         await uow.SaveChangesAsync(ct);
-        await denetim.KaydetAsync("Demo veri üretildi", $"{adet} gönderim", ct);
+        await denetim.KaydetAsync("Demo veri üretildi", $"{adet}", ct);
         return new DemoVeriSonucu(adet, 0);
     }
 
@@ -96,7 +96,7 @@ public class DemoVeriService(IUnitOfWork uow, IZaman zaman, IAyarService ayarlar
         var demo = await uow.GonderimPartileri.Query.Where(p => p.Demo).ToListAsync(ct);
         uow.GonderimPartileri.RemoveRange(demo);   // gönderimler, cevaplar ve uyarılar veritabanında cascade ile silinir
         await uow.SaveChangesAsync(ct);
-        await denetim.KaydetAsync("Demo veri silindi", $"{demo.Count} parti", ct);
+        await denetim.KaydetAsync("Demo veri silindi", $"{demo.Count}", ct);
         return new DemoVeriSonucu(0, demo.Count);
     }
 

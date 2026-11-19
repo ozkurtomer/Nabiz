@@ -1,11 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { TrendNoktasi } from '../../core/models/models';
+import { TPipe } from '../t.pipe';
 
 /** Günlük ortalama skor (0-100) çizgi grafiği; veri olmayan günlerde çizgi kopar. Kütüphanesiz SVG. */
 @Component({
   selector: 'app-trend-grafik',
-  imports: [DatePipe],
+  imports: [TPipe, DatePipe],
   templateUrl: './trend-grafik.html',
   styleUrl: './trend-grafik.scss',
 })

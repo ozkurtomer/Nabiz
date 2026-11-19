@@ -8,7 +8,7 @@
 <div class="sekmeler">
   @for (s of sekmeler; track s.d) {
     <button class="sekme" [class.aktif]="filtre() === s.d" (click)="filtre.set(s.d)">
-      {{ s.ad }} <span class="sayac">{{ sayi(s.d) }}</span>
+      {{ s.ad | t }} <span class="sayac">{{ sayi(s.d) }}</span>
     </button>
   }
 </div>
@@ -31,7 +31,7 @@
             <div><a [routerLink]="['/kisi', u.kullaniciId]" class="isim"><b>{{ u.kullaniciAd }}</b></a><small>{{ u.departman || '—' }} · {{ u.olusturma + 'Z' | date: 'dd.MM.yyyy HH:mm' }}</small></div>
           </div>
           @if (u.sonDonemUyariSayisi >= 3) { <span class="rozet hata" [attr.title]="'Son 30 günde birden çok uyarı' | t">{{ '🔁 30 günde' | t }} {{ u.sonDonemUyariSayisi }} {{ 'uyarı' | t }}</span> }
-          <span class="rozet" [class]="'rozet ' + rozet(u.durum)">{{ u.durum === 'Kapandi' ? 'Kapandı' : u.durum }}</span>
+          <span class="rozet" [class]="'rozet ' + rozet(u.durum)">{{ (u.durum === 'Kapandi' ? 'Kapandı' : u.durum === 'Takipte' ? 'Takipte' : 'Yeni') | t }}</span>
         </div>
         <p class="soru">{{ u.soru }}</p>
         <div class="cevap">

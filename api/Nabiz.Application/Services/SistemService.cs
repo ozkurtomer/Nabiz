@@ -57,7 +57,7 @@ public class SistemService(IUnitOfWork uow, IUygulamaAyarlari ayar, IZaman zaman
         {
             yanit = new TestMailYanit(false, ex.GetBaseException().Message, sunucu);
         }
-        await denetim.KaydetAsync("Test maili gönderildi", $"{hedef} · {(yanit.Basarili ? "başarılı" : "hata")} · {sunucu}", ct);
+        await denetim.KaydetAsync("Test maili gönderildi", $"{hedef} · {(yanit.Basarili ? "✓" : "✗")} · {sunucu}", ct);
         return yanit;
     }
 }

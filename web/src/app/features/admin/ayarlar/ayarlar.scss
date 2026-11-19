@@ -16,3 +16,10 @@ p { color: var(--soluk); margin: 8px 0 18px; }
 .d { background: var(--yuzey2); border: 1px solid var(--kenar); border-radius: 12px; padding: 10px 14px; border-left: 4px solid var(--kenar); }
 .d.ok { border-left-color: var(--ok); } .d.kotu { border-left-color: var(--hata); }
 .d small { display: block; color: var(--soluk); } .d b { font-size: .95rem; }
+
+.test-mail { margin-bottom: 20px; }
+.test-mail .aciklama { color: var(--soluk); margin: 0 0 12px; }
+.genis { flex: 1; min-width: 260px; }
+.genis input { width: 100%; }
+.ok-kutu { background: var(--ok-soft); border-color: var(--ok); }
+.hata-kutu { background: var(--hata-soft); border-color: var(--hata); color: var(--hata); }

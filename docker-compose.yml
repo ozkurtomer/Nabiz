@@ -42,9 +42,13 @@ services:
       Baslangic__DemoVeri: "true"
       Uygulama__PublicUrl: "http://localhost:4200"
       Mobil__Anahtar: "demo-mobil-anahtar"
-      Smtp__Host: "mailpit"
-      Smtp__Port: "1025"
-      Smtp__Gonderen: "nabiz@nabiz.local"
+      # SMTP: varsayılan olarak Mailpit (mailler yakalanır, gerçekten gitmez). Gerçek mail için .env.ornek'i .env olarak kopyala.
+      Smtp__Host: "${SMTP_HOST:-mailpit}"
+      Smtp__Port: "${SMTP_PORT:-1025}"
+      Smtp__EnableSsl: "${SMTP_SSL:-false}"
+      Smtp__Kullanici: "${SMTP_USER:-}"
+      Smtp__Sifre: "${SMTP_PASS:-}"
+      Smtp__Gonderen: "${SMTP_FROM:-nabiz@nabiz.local}"
       Personel__AktifKolon: "Aktif"
     ports:
       - "5277:8080"

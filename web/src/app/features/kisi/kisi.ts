@@ -5,11 +5,12 @@ import { KisiGecmisi, TrendNoktasi } from '../../core/models/models';
 import { RaporService } from '../../core/services/rapor.service';
 import { cevapGoster, skorSinifi } from '../../core/utils/cevap';
 import { TrendGrafik } from '../../shared/trend-grafik/trend-grafik';
+import { TPipe } from '../../shared/t.pipe';
 
 /** Bir çalışanın zaman içindeki skorları (yalnızca İK; her görüntüleme denetim kaydına işlenir). */
 @Component({
   selector: 'app-kisi',
-  imports: [DatePipe, RouterLink, TrendGrafik],
+  imports: [TPipe, DatePipe, RouterLink, TrendGrafik],
   templateUrl: './kisi.html',
   styleUrl: './kisi.scss',
 })

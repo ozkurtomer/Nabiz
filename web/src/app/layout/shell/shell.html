@@ -62,8 +62,8 @@
 
     <div class="alt">
       <div class="dil">
-        <button class="kucuk hayalet" [class.secili]="i18n.dil() === 'tr'" (click)="i18n.degistir('tr')">TR</button>
-        <button class="kucuk hayalet" [class.secili]="i18n.dil() === 'en'" (click)="i18n.degistir('en')">EN</button>
+        <button class="kucuk hayalet" [class.secili]="i18n.dil() === 'tr'" (click)="dilSec('tr')">TR</button>
+        <button class="kucuk hayalet" [class.secili]="i18n.dil() === 'en'" (click)="dilSec('en')">EN</button>
       </div>
       <div class="kullanici">
         <span class="avatar">{{ bas() }}</span>

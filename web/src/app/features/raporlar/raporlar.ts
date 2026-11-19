@@ -5,19 +5,24 @@ import { CevapSatiri, Paket, Rapor } from '../../core/models/models';
 import { AuthService } from '../../core/services/auth.service';
 import { PaketService } from '../../core/services/paket.service';
 import { RaporService } from '../../core/services/rapor.service';
+import { I18n } from '../../core/services/i18n';
 import { cevapGoster, skorSinifi } from '../../core/utils/cevap';
+import { sec } from '../../core/utils/dil';
 import { indir } from '../../core/utils/indir';
 import { DagilimGrafigi } from '../../shared/dagilim/dagilim';
 import { TrendGrafik } from '../../shared/trend-grafik/trend-grafik';
+import { TPipe } from '../../shared/t.pipe';
 
 @Component({
   selector: 'app-raporlar',
-  imports: [FormsModule, DatePipe, TrendGrafik, DagilimGrafigi],
+  imports: [TPipe, FormsModule, DatePipe, TrendGrafik, DagilimGrafigi],
   templateUrl: './raporlar.html',
   styleUrl: './raporlar.scss',
 })
 export class Raporlar implements OnInit {
   readonly auth = inject(AuthService);
+  readonly i18n = inject(I18n);
+  ad(p: Paket) { return sec(this.i18n.dil(), p.ad, p.adEn); }
   private api = inject(RaporService);
   private paketApi = inject(PaketService);
 

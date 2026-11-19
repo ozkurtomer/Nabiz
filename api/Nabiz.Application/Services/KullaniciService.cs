@@ -32,10 +32,10 @@ public class KullaniciService(IUnitOfWork uow, IPersonelKaynagi personel, IDenet
     public async Task GuncelleAsync(int id, KullaniciGuncelleIstek i, CancellationToken ct)
     {
         var k = await uow.Kullanicilar.FindAsync(id, ct) ?? throw new BulunamadiHatasi();
-        var eski = $"{k.Rol}/{(k.Aktif ? "aktif" : "pasif")}";
+        var eski = $"{k.Rol}/{(k.Aktif ? "active" : "inactive")}";
         k.Rol = i.Rol; k.Aktif = i.Aktif; k.Dil = Nabiz.Domain.Dil.Normalize(i.Dil);
         await uow.SaveChangesAsync(ct);
-        var yeni = $"{k.Rol}/{(k.Aktif ? "aktif" : "pasif")}";
+        var yeni = $"{k.Rol}/{(k.Aktif ? "active" : "inactive")}";
         if (eski != yeni) await denetim.KaydetAsync("Kullanıcı rolü/erişimi değişti", $"{k.Ad}: {eski} → {yeni}", ct);
     }
 

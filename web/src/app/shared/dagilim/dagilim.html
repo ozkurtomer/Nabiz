@@ -1,6 +1,6 @@
 <div class="kutu">
   @for (c of cubuklar(); track c.deger) {
-    <div class="kolon" [title]="c.adet + ' cevap (%' + c.yuzde + ')'">
+    <div class="kolon" [attr.title]="c.adet + ' ' + ('cevap' | t) + ' (%' + c.yuzde + ')'">
       <span class="adet">{{ c.adet || '' }}</span>
       <div class="cubuk-alan"><div class="cubuk {{ c.renk }}" [style.height.%]="c.adet ? c.yukseklik : 2"></div></div>
       <span class="etiket">{{ c.etiket }}</span>

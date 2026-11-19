@@ -31,7 +31,7 @@
           <td>{{ k.departman || '—' }}</td>
           <td>
             <select [(ngModel)]="k.rol">
-              <option value="Calisan">{{ 'Çalışan' | t }}</option><option value="IK">İK</option>
+              <option value="Calisan">{{ 'Çalışan' | t }}</option><option value="IK">{{ 'İK' | t }}</option>
             </select>
           </td>
           <td><label class="anahtar"><input type="checkbox" [(ngModel)]="k.aktif"><span></span></label></td>
@@ -39,7 +39,7 @@
         </tr>
       } @empty {
         <tr><td colspan="5" class="bos">
-          {{ yukleniyor() ? i18n.t('yukleniyor') : 'Kullanıcı yok. Personel tablosu ayarlarını kontrol edip "Şimdi senkronize et"e bas.' }}
+          {{ (yukleniyor() ? 'Yükleniyor…' : 'Kullanıcı yok. Personel tablosu ayarlarını kontrol edip "Şimdi senkronize et"e bas.') | t }}
         </td></tr>
       }
     </tbody>

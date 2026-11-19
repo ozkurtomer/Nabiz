@@ -25,15 +25,15 @@
       <div class="karsilama">
         <div class="buyuk">👋</div>
         <p class="selam">{{ i18n.dil() === 'tr' ? 'Merhaba' : 'Hi' }} {{ sayfa()!.kullaniciAd.split(' ')[0] }}</p>
-        <h2>{{ sayfa()!.paketAd }}</h2>
-        @if (sayfa()!.aciklama) { <p class="aciklama">{{ sayfa()!.aciklama }}</p> }
+        <h2>{{ paketAdi() }}</h2>
+        @if (aciklama()) { <p class="aciklama">{{ aciklama() }}</p> }
         <p class="meta">{{ sorular().length }} {{ i18n.dil() === 'tr' ? 'kısa soru' : 'quick questions' }} · {{ i18n.dil() === 'tr' ? 'yaklaşık' : 'about' }} {{ (sorular().length * 0.3) | number: '1.0-0' }} {{ i18n.dil() === 'tr' ? 'dk' : 'min' }}</p>
         <button class="birincil buyuk-btn" (click)="basla()">{{ i18n.dil() === 'tr' ? 'Başlayalım' : 'Let\'s start' }} →</button>
       </div>
     } @else if (soru(); as s) {
       <div class="ilerleme"><div class="dolu" [style.width.%]="yuzde()"></div></div>
       <p class="sayac">{{ adim() }} / {{ sorular().length }}</p>
-      <h2 class="soru">{{ i18n.dil() === 'tr' ? s.metinTr : s.metinEn }}</h2>
+      <h2 class="soru">{{ metin(s) }}</h2>
 
       @switch (s.tip) {
         @case ('Emoji') {

@@ -7,13 +7,14 @@ import { NotifyService } from '../../../core/services/notify.service';
 import { cevapGoster, skorSinifi } from '../../../core/utils/cevap';
 import { indir } from '../../../core/utils/indir';
 import { DagilimGrafigi } from '../../../shared/dagilim/dagilim';
+import { TPipe } from '../../../shared/t.pipe';
 
 type Filtre = 'hepsi' | 'cevap' | 'bekleyen' | 'dusuk' | 'hata';
 
 /** Bir gönderimin raporu: kim ne cevap vermiş, kim vermemiş, sorular nasıl dağılmış. */
 @Component({
   selector: 'app-gonderim-detay',
-  imports: [DatePipe, RouterLink, DagilimGrafigi],
+  imports: [TPipe, DatePipe, RouterLink, DagilimGrafigi],
   templateUrl: './detay.html',
   styleUrl: './detay.scss',
 })
@@ -60,8 +61,8 @@ export class GonderimDetay implements OnInit {
   csvIndir() { this.api.csv(+this.id()).subscribe(b => indir(b, `gonderim-${this.id()}.csv`)); }
   tekrarDene() {
     this.api.tekrarDene(+this.id()).subscribe(r => {
-      this.notify.bilgi(`${r.basarili}/${r.toplam} e-posta yeniden gönderildi.`);
-      if (r.hatali) this.notify.hata(`${r.hatali} e-posta hâlâ gitmiyor: ${r.ilkHata}`);
+      this.notify.bilgi('{0}/{1} e-posta yeniden gönderildi.', r.basarili, r.toplam);
+      if (r.hatali) this.notify.hata('{0} e-posta hâlâ gitmiyor: {1}', r.hatali, r.ilkHata);
       this.yukle();
     });
   }

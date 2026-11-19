@@ -54,7 +54,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
     {
         var p = await uow.GonderimPlanlari.FindAsync(planId, ct) ?? throw new BulunamadiHatasi();
         var sonuc = await PlanGonderAsync(p, ct);
-        await denetim.KaydetAsync("Plan şimdi gönderildi", $"Plan #{planId} ({sonuc.Basarili}/{sonuc.Toplam} mail)", ct);
+        await denetim.KaydetAsync("Plan şimdi gönderildi", $"Plan #{planId} ({sonuc.Basarili}/{sonuc.Toplam})", ct);
         return sonuc;
     }
 
@@ -64,7 +64,7 @@ public class GonderimService(IUnitOfWork uow, IEmailSender mail, IZaman zaman, I
         await HedefYardimcisi.DogrulaAsync(uow, i.HedefTipi, i.HedefDeger, ct);
         var hedef = i.HedefTipi == HedefTipi.Hepsi ? null : i.HedefDeger;
         var (parti, sonuc) = await GonderAsync(paket, i.HedefTipi, hedef, planId: null, anlik: true, ct);
-        await denetim.KaydetAsync("Anlık gönderim", $"{paket.AdGoster("tr")} → {i.HedefTipi} ({sonuc.Basarili}/{sonuc.Toplam} mail)", ct);
+        await denetim.KaydetAsync("Anlık gönderim", $"{paket.AdGoster("tr")} → {i.HedefTipi} ({sonuc.Basarili}/{sonuc.Toplam})", ct);
         return new AnlikGonderYanit(parti.Id, sonuc);
     }
 

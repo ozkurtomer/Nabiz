@@ -7,6 +7,8 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CevapService } from '../../../core/services/cevap.service';
 import { I18n } from '../../../core/services/i18n';
 import { EMOJILER } from '../../../core/utils/cevap';
+import { sec } from '../../../core/utils/dil';
+import { Soru } from '../../../core/models/models';
 
 /** E-postadaki linkten açılır (giriş gerekmez). Paketteki soruları adım adım sorar. */
 @Component({
@@ -43,8 +45,12 @@ export class Cevap implements OnInit {
   });
   readonly takipMetni = computed(() => {
     const s = this.soru(); const en = this.i18n.dil() === 'en';
-    return (en ? s?.takipMetniEn : s?.takipMetniTr) || (en ? 'We are sorry to hear that. Would you like to tell us what happened?' : 'Bunu duyduğumuza üzüldük. Ne olduğunu bizimle paylaşmak ister misin?');
+    return sec(this.i18n.dil(), s?.takipMetniTr, s?.takipMetniEn) || (en ? 'We are sorry to hear that. Would you like to tell us what happened?' : 'Bunu duyduğumuza üzüldük. Ne olduğunu bizimle paylaşmak ister misin?');
   });
+  /** Seçili dilde metin; o dilde yazılmadıysa diğer dile düşer. */
+  metin(s: Soru) { return sec(this.i18n.dil(), s.metinTr, s.metinEn); }
+  readonly paketAdi = computed(() => { const p = this.sayfa(); return p ? sec(this.i18n.dil(), p.paketAd, p.paketAdEn) : ''; });
+  readonly aciklama = computed(() => { const p = this.sayfa(); return p ? sec(this.i18n.dil(), p.aciklama, p.aciklamaEn) : ''; });
   readonly sonAdim = computed(() => this.adim() === this.sorular().length);
   readonly yuzde = computed(() => this.sorular().length ? Math.round((Math.max(this.adim() - 1, 0) / this.sorular().length) * 100) : 0);
 
@@ -59,6 +65,7 @@ export class Cevap implements OnInit {
     this.api.getir(this.token()).subscribe({
       next: s => {
         this.sayfa.set(s);
+        this.i18n.varsayilan(s.dil);   // kullanıcı kendi dilini seçmediyse, kayıtlı dilinde aç
         this.cevaplar.set(Object.fromEntries(s.cevaplar.map(c => [c.soruId, c])));
         this.tamamlandi.set(s.tamamlandi);
         this.yukleniyor.set(false);

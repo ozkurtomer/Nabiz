@@ -4,10 +4,11 @@ import { Soru, SoruKaydet } from '../../../core/models/models';
 import { I18n } from '../../../core/services/i18n';
 import { NotifyService } from '../../../core/services/notify.service';
 import { SoruService } from '../../../core/services/soru.service';
+import { TPipe } from '../../../shared/t.pipe';
 
 @Component({
   selector: 'app-sorular',
-  imports: [FormsModule],
+  imports: [TPipe, FormsModule],
   templateUrl: './sorular.html',
   styleUrl: './sorular.scss',
 })

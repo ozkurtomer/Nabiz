@@ -6,5 +6,7 @@ import { ApiBase } from './api.base';
 export class KullaniciService extends ApiBase {
   liste(ara?: string) { return this.http.get<Kullanici[]>(this.url('kullanicilar'), { params: ara ? { ara } : {} }); }
   guncelle(id: number, k: { rol: Rol; aktif: boolean; dil: string }) { return this.http.put<void>(this.url(`kullanicilar/${id}`), k); }
+  /** Oturum açan kullanıcının kendi dili (sonraki e-postalar bu dilde gelir). */
+  dilKaydet(dil: 'tr' | 'en') { return this.http.put<void>(this.url('profil/dil'), { dil }); }
   personelAktar() { return this.http.post<PersonelAktarimSonucu>(this.url('kullanicilar/personel-aktar'), {}); }
 }

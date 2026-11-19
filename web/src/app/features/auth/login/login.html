@@ -79,7 +79,7 @@
           <div class="ayrac"><span>{{ i18n.dil() === 'tr' ? 'veya demo hesapla dene' : 'or try a demo account' }}</span></div>
           <div class="demo">
             @for (h of demoHesaplar; track h.email) {
-              <button type="button" class="demo-btn" (click)="demoIleGir(h)" [disabled]="bekliyor()"><span class="ikon">{{ h.ikon }}</span>{{ h.etiket }}</button>
+              <button type="button" class="demo-btn" (click)="demoIleGir(h)" [disabled]="bekliyor()"><span class="ikon">{{ h.ikon }}</span>{{ h.etiket | t }}</button>
             }
           </div>
         }

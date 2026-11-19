@@ -79,7 +79,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
     public async Task<List<CevapSatiri>> CevaplarAsync(RaporFiltre f, bool sadeceYorumlu, CancellationToken ct)
     {
         var b = await YukleAsync(f, ct);
-        await denetim.KaydetAsync("Cevap listesi görüntülendi", $"{b.Bas:dd.MM.yyyy}-{b.Bit:dd.MM.yyyy} · {b.Kapsam}", ct);
+        await denetim.KaydetAsync("Cevap listesi görüntülendi", $"{b.Bas:dd.MM.yyyy}-{b.Bit:dd.MM.yyyy}{(string.IsNullOrWhiteSpace(f.Departman) ? "" : " · " + f.Departman)}", ct);
 
         var satirlar = b.Satirlar(b.Tamam).Where(x => !sadeceYorumlu || !string.IsNullOrWhiteSpace(x.C.Yorum));
         var paketAd = await uow.GonderimPartileri.Query.Include(p => p.Paket).ToDictionaryAsync(p => p.Id, p => p.Paket!.AdGoster(Lang), ct);
@@ -98,7 +98,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
     public async Task<byte[]> CevaplarCsvAsync(RaporFiltre f, CancellationToken ct)
     {
         var liste = await CevaplarAsync(f, sadeceYorumlu: false, ct);
-        await denetim.KaydetAsync("Rapor CSV indirildi", $"{liste.Count} satır", ct);
+        await denetim.KaydetAsync("Rapor CSV indirildi", $"{liste.Count}", ct);
         var satirlar = new List<object?[]> { new object?[] { "Tarih", "Kişi", "Departman", "Paket", "Soru", "Cevap", "Skor", "Düşük", "Yorum" } };
         satirlar.AddRange(liste.Select(c => new object?[] { c.Tarih, c.Kisi, c.Departman, c.Paket, c.Soru, c.Deger, c.Skor, c.Dusuk, c.Yorum }));
         return Csv.Uret(satirlar);

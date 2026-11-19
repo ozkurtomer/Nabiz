@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, effect, signal } from '@angular/core';
 import { EN } from '../i18n/en';
 
 export type Dil = 'tr' | 'en';
@@ -18,6 +18,11 @@ const KISA: Record<string, string> = {
 @Injectable({ providedIn: 'root' })
 export class I18n {
   readonly dil = signal<Dil>(this.oku());
+
+  constructor() {
+    // CSS büyük harf (text-transform) ve tarayıcı davranışları doğru dilde olsun: İngilizcede "İ" yerine "I"
+    effect(() => { document.documentElement.lang = this.dil(); });
+  }
 
   t(metin: string): string {
     const tr = KISA[metin] ?? metin;
