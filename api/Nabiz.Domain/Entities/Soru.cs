@@ -9,6 +9,8 @@ public class Soru
     public string MetinEn { get; set; } = "";
     public SoruTipi Tip { get; set; }
     public bool Aktif { get; set; } = true;
+    /// <summary>true: bu soru eNPS ("tavsiye eder misin?") ölçümünde kullanılır (1-10 puan sorusu olmalı).</summary>
+    public bool Enps { get; set; }
     /// <summary>Cevap düşükse çalışana gösterilen takip sorusu (ör. "Seni en çok ne zorladı?"). Boşsa genel metin gösterilir.</summary>
     public string? TakipMetniTr { get; set; }
     public string? TakipMetniEn { get; set; }

@@ -39,6 +39,8 @@ public static class SoruSeed
         S(24, "Yöneticin sana düzenli ve net geri bildirim veriyor mu?", "Does your manager give you regular, clear feedback?", SoruTipi.EvetHayir),
         S(25, "Yöneticine güveniyor musun?", "Do you trust your manager?", SoruTipi.Emoji, "Güveninin artması için ne gerekir?", "What would increase your trust?"),
         S(26, "Yöneticin kararlarında adil mi?", "Is your manager fair in decisions?", SoruTipi.Puan),
+        // eNPS
+        new() { Id = 27, MetinTr = "Bu şirketi bir arkadaşına iş yeri olarak tavsiye etme olasılığın nedir?", MetinEn = "How likely are you to recommend this company to a friend as a place to work?", Tip = SoruTipi.Puan, Aktif = true, Enps = true, TakipMetniTr = "Puanını en çok ne etkiledi?", TakipMetniEn = "What influenced your score the most?" },
     ];
 
     public static readonly SoruPaketi[] Paketler =
@@ -52,6 +54,7 @@ public static class SoruSeed
         new() { Id = 7, AdEn = "Post-Meeting Feedback", AciklamaEn = "A quick evaluation sent right after a meeting.", Ad = "Toplantı Sonrası Geri Bildirim", Aciklama = "Toplantıdan hemen sonra gönderilen hızlı değerlendirme.", Aktif = true },
         new() { Id = 8, AdEn = "Commitment & Career", AciklamaEn = "Career outlook, pay satisfaction and commitment; to spot attrition risk early.", Ad = "Bağlılık ve Kariyer", Aciklama = "Kariyer beklentisi, ücret memnuniyeti ve bağlılık; ayrılma riskini erken görmek için.", Aktif = true },
         new() { Id = 9, AdEn = "Manager Feedback", AciklamaEn = "Trust, feedback and fairness perceptions about the manager.", Ad = "Yönetici Değerlendirme", Aciklama = "Yöneticiye güven, geri bildirim ve adalet algısı.", Aktif = true },
+        new() { Id = 10, AdEn = "eNPS (Employee Net Promoter Score)", AciklamaEn = "A single question that measures how likely employees are to recommend the company.", Ad = "eNPS (Çalışan Tavsiye Skoru)", Aciklama = "Çalışanların şirketi tavsiye etme olasılığını ölçen tek soru.", Aktif = true },
     ];
 
     public static readonly PaketSoru[] PaketSorulari =
@@ -64,6 +67,7 @@ public static class SoruSeed
         P(6, 15, 0), P(6, 16, 1), P(6, 17, 2), P(6, 10, 3),
         P(7, 18, 0), P(7, 19, 1), P(7, 20, 2),
         P(8, 21, 0), P(8, 22, 1), P(8, 23, 2), P(8, 9, 3),
+        P(10, 27, 0),
         P(9, 6, 0), P(9, 24, 1), P(9, 25, 2), P(9, 26, 3),
     ];
 

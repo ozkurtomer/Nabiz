@@ -17,6 +17,7 @@ public class NabizDbContext(DbContextOptions<NabizDbContext> options) : DbContex
     public DbSet<Uyari> Uyarilar => Set<Uyari>();
     public DbSet<AyarDeger> Ayarlar => Set<AyarDeger>();
     public DbSet<DenetimKaydi> Denetim => Set<DenetimKaydi>();
+    public DbSet<Aksiyon> Aksiyonlar => Set<Aksiyon>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {

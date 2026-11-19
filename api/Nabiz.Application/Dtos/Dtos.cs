@@ -9,8 +9,8 @@ public record GirisLinkiIstek(string Email);
 public record GirisDogrulaIstek(string Token);
 
 // ---- Soru ve paket
-public record SoruDto(int Id, string MetinTr, string MetinEn, SoruTipi Tip, bool Aktif, string? TakipMetniTr = null, string? TakipMetniEn = null);
-public record SoruKaydetIstek(string? MetinTr, string? MetinEn, SoruTipi Tip, bool Aktif, string? TakipMetniTr = null, string? TakipMetniEn = null);
+public record SoruDto(int Id, string MetinTr, string MetinEn, SoruTipi Tip, bool Aktif, string? TakipMetniTr = null, string? TakipMetniEn = null, bool Enps = false);
+public record SoruKaydetIstek(string? MetinTr, string? MetinEn, SoruTipi Tip, bool Aktif, string? TakipMetniTr = null, string? TakipMetniEn = null, bool Enps = false);
 public record PaketDto(int Id, string Ad, string AdEn, string? Aciklama, string? AciklamaEn, bool Aktif, List<SoruDto> Sorular);
 public record PaketKaydetIstek(string? Ad, string? AdEn, string? Aciklama, string? AciklamaEn, bool Aktif, List<int> SoruIdleri);
 
@@ -26,7 +26,7 @@ public record PlanKaydetIstek(int PaketId, HedefTipi HedefTipi, string? HedefDeg
 // ---- Cevaplama (çalışan)
 public record CevapGirdisi(int SoruId, int Deger, string? Yorum, bool AnonimYorum = false);
 public record CevapKaydetIstek(List<CevapGirdisi> Cevaplar, bool Tamamla);
-public record CevapSayfasiDto(string KullaniciAd, string Dil, string PaketAd, string PaketAdEn, string? Aciklama, string? AciklamaEn, List<SoruDto> Sorular, List<CevapGirdisi> Cevaplar, bool Tamamlandi, int EmojiEsik, int PuanEsik);
+public record CevapSayfasiDto(string KullaniciAd, string Dil, string PaketAd, string PaketAdEn, string? Aciklama, string? AciklamaEn, List<SoruDto> Sorular, List<CevapGirdisi> Cevaplar, bool Tamamlandi, int EmojiEsik, int PuanEsik, string Aydinlatma = "", string SirketAd = "Nabız", string Renk = "#1f4fc6");
 public record CevapKaydetYanit(bool Tamamlandi, int Cevaplanan, int Toplam);
 public record TestGonderimYanit(string Token);
 public record BenimSoruDto(string Token, string Paket, int SoruSayisi, DateTime Zaman, bool Tamamlandi);
@@ -57,7 +57,8 @@ public record DepartmanSatiri(string Departman, int Gonderilen, int Cevaplayan, 
 public record SoruSatiri(int SoruId, string Soru, SoruTipi Tip, int CevapSayisi, double? OrtalamaSkor, List<DagilimNoktasi> Dagilim);
 public record RaporDto(
     DateTime Baslangic, DateTime Bitis, string Kapsam,
-    RaporOzet Ozet, RaporOzet? OncekiOzet, List<TrendNoktasi> Trend, List<DepartmanSatiri> Departmanlar, List<SoruSatiri> Sorular);
+    RaporOzet Ozet, RaporOzet? OncekiOzet, List<TrendNoktasi> Trend, List<DepartmanSatiri> Departmanlar, List<SoruSatiri> Sorular,
+    EnpsOzet? Enps = null, double? OncekiEnps = null, IsiHaritasi? Isi = null);
 public record CevapSatiri(int CevapId, DateTime Tarih, string? Kisi, string? Departman, string Paket, string Soru, SoruTipi Tip, int Deger, double Skor, string? Yorum, bool Dusuk);
 public record RaporFiltre(DateTime? Baslangic, DateTime? Bitis, string? Departman, int? PaketId);
 public record DemoVeriSonucu(int Gonderim, int Silinen);
@@ -78,3 +79,23 @@ public record ProfilDilIstek(string Dil);
 public record TestMailIstek(string? Adres);
 /// <param name="Sandbox">true: SMTP sahte test sunucusu (Mailpit); mail gerçek gelen kutusuna gitmez.</param>
 public record TestMailYanit(bool Basarili, string Mesaj, string Sunucu, bool Sandbox);
+
+// ---- eNPS ve ısı haritası
+/// <param name="Skor">Destekleyen% − Eleştiren% (−100..100). Destekleyen 9-10, pasif 7-8, eleştiren 1-6.</param>
+public record EnpsOzet(int Toplam, int Destekleyen, int Pasif, int Elestiren, double? Skor);
+public record IsiHaritasiSatiri(string Departman, List<double?> Degerler, List<int> Sayilar);
+public record IsiHaritasi(List<DateTime> Haftalar, List<IsiHaritasiSatiri> Satirlar);
+
+// ---- Aksiyon takibi
+public record AksiyonDto(int Id, string Baslik, string? Aciklama, AksiyonDurumu Durum, AksiyonOnceligi Oncelik, int? SorumluId, string? SorumluAd,
+    DateTime? SonTarih, bool Gecikmis, int? UyariId, int? KullaniciId, string? KullaniciAd, DateTime Olusturma, DateTime? Kapanma, string? Not);
+public record AksiyonKaydetIstek(string? Baslik, string? Aciklama, AksiyonDurumu Durum, AksiyonOnceligi Oncelik, int? SorumluId, DateTime? SonTarih, int? UyariId, int? KullaniciId, string? Not);
+public record AksiyonOzetDto(int Acik, int Devam, int Tamam, int Gecikmis);
+
+// ---- KVKK, saklama, marka
+public record KvkkAyarDto(int SaklamaAy, string AydinlatmaTr, string AydinlatmaEn);
+public record SaklamaOnizleme(int SaklamaAy, DateTime? KesimTarihi, int Gonderim, int Cevap);
+public record SaklamaSonucu(int Gonderim, int Cevap);
+public record KisiSilSonucu(int Gonderim, int Cevap, int Uyari, int Aksiyon);
+public record MarkaDto(string Ad, string Renk);
+

@@ -44,6 +44,11 @@ public class ArkaPlanIsleri(IServiceScopeFactory scopes, IConfiguration cfg, ILo
                     if (n > 0) log.LogInformation("{N} hatırlatma maili gönderildi.", n);
                 });
             }
+            await Calistir("Saklama süresi temizliği", async sp =>
+            {
+                var r = await sp.GetRequiredService<IKvkkService>().SaklamaGunlukAsync(ct);
+                if (r is { Gonderim: > 0 }) log.LogInformation("Saklama süresi dolan {N} gönderim silindi.", r.Gonderim);
+            });
             try { await Task.Delay(kontrol, ct); } catch (OperationCanceledException) { break; }
         }
     }

@@ -3,6 +3,7 @@ using Nabiz.Application.Abstractions;
 using Nabiz.Application.Dtos;
 using Nabiz.Application.Exceptions;
 using Nabiz.Domain.Entities;
+using Nabiz.Domain.Enums;
 
 namespace Nabiz.Application.Services;
 
@@ -15,7 +16,7 @@ public interface ISoruService
 
 public class SoruService(IUnitOfWork uow) : ISoruService
 {
-    public static SoruDto Dto(Soru s) => new(s.Id, s.MetinTr, s.MetinEn, s.Tip, s.Aktif, s.TakipMetniTr, s.TakipMetniEn);
+    public static SoruDto Dto(Soru s) => new(s.Id, s.MetinTr, s.MetinEn, s.Tip, s.Aktif, s.TakipMetniTr, s.TakipMetniEn, s.Enps);
 
     public async Task<List<SoruDto>> ListeAsync(CancellationToken ct) =>
         (await uow.Sorular.Query.OrderBy(x => x.Id).ToListAsync(ct)).Select(Dto).ToList();
@@ -23,7 +24,7 @@ public class SoruService(IUnitOfWork uow) : ISoruService
     public async Task<SoruDto> EkleAsync(SoruKaydetIstek i, CancellationToken ct)
     {
         Dogrula(i);
-        var s = new Soru { MetinTr = (i.MetinTr ?? "").Trim(), MetinEn = (i.MetinEn ?? "").Trim(), Tip = i.Tip, Aktif = i.Aktif, TakipMetniTr = Bos(i.TakipMetniTr), TakipMetniEn = Bos(i.TakipMetniEn) };
+        var s = new Soru { MetinTr = (i.MetinTr ?? "").Trim(), MetinEn = (i.MetinEn ?? "").Trim(), Tip = i.Tip, Aktif = i.Aktif, TakipMetniTr = Bos(i.TakipMetniTr), TakipMetniEn = Bos(i.TakipMetniEn), Enps = i.Enps && i.Tip == SoruTipi.Puan };
         uow.Sorular.Add(s);
         await uow.SaveChangesAsync(ct);
         return Dto(s);
@@ -34,7 +35,7 @@ public class SoruService(IUnitOfWork uow) : ISoruService
         Dogrula(i);
         var s = await uow.Sorular.FindAsync(id, ct) ?? throw new BulunamadiHatasi();
         s.MetinTr = (i.MetinTr ?? "").Trim(); s.MetinEn = (i.MetinEn ?? "").Trim(); s.Tip = i.Tip; s.Aktif = i.Aktif;
-        s.TakipMetniTr = Bos(i.TakipMetniTr); s.TakipMetniEn = Bos(i.TakipMetniEn);
+        s.TakipMetniTr = Bos(i.TakipMetniTr); s.TakipMetniEn = Bos(i.TakipMetniEn); s.Enps = i.Enps && i.Tip == SoruTipi.Puan;
         await uow.SaveChangesAsync(ct);
         return Dto(s);
     }

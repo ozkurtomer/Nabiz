@@ -1,3 +1,4 @@
+using Nabiz.Application.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Nabiz.Application.Services;
 
@@ -21,6 +22,10 @@ public static class DependencyInjection
         s.AddScoped<IDenetimService, DenetimService>();
         s.AddScoped<IUyariBildirimService, UyariBildirimService>();
         s.AddScoped<ISistemService, SistemService>();
+        s.AddScoped<IAyarDeposu, AyarDeposu>();
+        s.AddScoped<IMarkaService, MarkaService>();
+        s.AddScoped<IAksiyonService, AksiyonService>();
+        s.AddScoped<IKvkkService, KvkkService>();
         return s;
     }
 }

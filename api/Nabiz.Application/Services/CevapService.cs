@@ -20,7 +20,7 @@ public interface ICevapService
     Task<List<BenimSoruDto>> BenimAsync(int kullaniciId, CancellationToken ct);
 }
 
-public class CevapService(IUnitOfWork uow, IAyarService ayarlar, IZaman zaman, IUyariBildirimService bildirim, IDilBilgisi? dilBilgisi = null) : ICevapService
+public class CevapService(IUnitOfWork uow, IAyarService ayarlar, IZaman zaman, IUyariBildirimService bildirim, IDilBilgisi? dilBilgisi = null, IKvkkService? kvkk = null, IMarkaService? marka = null) : ICevapService
 {
     private string Lang => dilBilgisi?.Dil ?? "tr";
 
@@ -35,8 +35,11 @@ public class CevapService(IUnitOfWork uow, IAyarService ayarlar, IZaman zaman, I
         var g = await BulAsync(token, ct);
         var p = g.Parti!.Paket!;
         var a = await ayarlar.GetirAsync(ct);
+        var dil = Nabiz.Domain.Dil.Normalize(g.Kullanici!.Dil);
+        var ay = kvkk is null ? ("", "") : await kvkk.AydinlatmaAsync(ct);
+        var m = marka is null ? new MarkaDto("Nabız", "#1f4fc6") : await marka.GetirAsync(ct);
         return new CevapSayfasiDto(g.Kullanici!.Ad, Nabiz.Domain.Dil.Normalize(g.Kullanici.Dil), p.Ad, p.AdEn, p.Aciklama, p.AciklamaEn, PaketSorulari(g).Select(SoruService.Dto).ToList(),
-            g.Cevaplar.Select(c => new CevapGirdisi(c.SoruId, c.Deger, c.Yorum, c.YorumAnonim)).ToList(), g.Tamamlandi, a.EmojiEsik, a.PuanEsik);
+            g.Cevaplar.Select(c => new CevapGirdisi(c.SoruId, c.Deger, c.Yorum, c.YorumAnonim)).ToList(), g.Tamamlandi, a.EmojiEsik, a.PuanEsik, dil == "en" ? ay.Item2 : ay.Item1, m.Ad, m.Renk);
     }
 
     public async Task<CevapKaydetYanit> KaydetAsync(string token, CevapKaydetIstek i, CancellationToken ct)

@@ -23,6 +23,72 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Nabiz.Domain.Entities.Aksiyon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aciklama")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Baslik")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Durum")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("Kapanma")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("KullaniciId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Not")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnName("Not");
+
+                    b.Property<int?>("OlusturanKullaniciId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Olusturma")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Oncelik")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("SonTarih")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SorumluKullaniciId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UyariId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Durum");
+
+                    b.HasIndex("KullaniciId");
+
+                    b.HasIndex("SorumluKullaniciId");
+
+                    b.HasIndex("UyariId");
+
+                    b.ToTable("Aksiyonlar", "nabiz");
+                });
+
             modelBuilder.Entity("Nabiz.Domain.Entities.AyarDeger", b =>
                 {
                     b.Property<string>("Anahtar")
@@ -483,6 +549,12 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
+                            PaketId = 10,
+                            SoruId = 27,
+                            Sira = 0
+                        },
+                        new
+                        {
                             PaketId = 9,
                             SoruId = 6,
                             Sira = 0
@@ -518,6 +590,9 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                     b.Property<bool>("Aktif")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("Enps")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MetinEn")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -550,6 +625,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 1,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Are you feeling good today?",
                             MetinTr = "Bugün keyfin yerinde mi?",
                             TakipMetniEn = "What made today harder?",
@@ -560,6 +636,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 2,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "How energetic did you feel this week?",
                             MetinTr = "Bu hafta kendini ne kadar enerjik hissettin?",
                             Tip = "Puan"
@@ -568,6 +645,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 3,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Do you feel valued at work?",
                             MetinTr = "İşyerinde kendini değerli hissediyor musun?",
                             TakipMetniEn = "What would make you feel more valued?",
@@ -578,6 +656,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 4,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Is your workload manageable right now?",
                             MetinTr = "İş yükün şu an yönetilebilir düzeyde mi?",
                             TakipMetniEn = "What makes your workload hard?",
@@ -588,6 +667,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 5,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "How is your communication with teammates?",
                             MetinTr = "Ekip arkadaşlarınla iletişimin nasıl?",
                             Tip = "Puan"
@@ -596,6 +676,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 6,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Do you get enough support from your manager?",
                             MetinTr = "Yöneticinden yeterli destek alıyor musun?",
                             TakipMetniEn = "What kind of support do you need from your manager?",
@@ -606,6 +687,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 7,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Were you motivated to come to work this week?",
                             MetinTr = "Bu hafta işe gelmek için motive miydin?",
                             TakipMetniEn = "What lowered your motivation the most?",
@@ -616,6 +698,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 8,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Are you getting enough sleep and rest?",
                             MetinTr = "Uykun ve dinlenmen yeterli mi?",
                             Tip = "Emoji"
@@ -624,6 +707,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 9,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "How connected do you feel to the company?",
                             MetinTr = "Şirkete ne kadar bağlı hissediyorsun?",
                             Tip = "Puan"
@@ -632,6 +716,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 10,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "How was your work-life balance this week?",
                             MetinTr = "Bu hafta iş ve özel hayat dengen nasıldı?",
                             Tip = "Puan"
@@ -640,6 +725,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 11,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Have you received enough onboarding since you started?",
                             MetinTr = "İşe başladığından beri yeterli oryantasyon aldın mı?",
                             TakipMetniEn = "What was missing?",
@@ -650,6 +736,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 12,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Do you clearly know your role and responsibilities?",
                             MetinTr = "Görev ve sorumluluklarını net olarak biliyor musun?",
                             Tip = "Puan"
@@ -658,6 +745,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 13,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Do you feel you fit in with the team?",
                             MetinTr = "Ekibe uyum sağladığını hissediyor musun?",
                             Tip = "Emoji"
@@ -666,6 +754,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 14,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Do you have the tools and equipment you need?",
                             MetinTr = "İşini yapmak için gereken araç ve ekipmana sahip misin?",
                             TakipMetniEn = "What do you need?",
@@ -676,6 +765,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 15,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Can you stay connected with your team while working remotely?",
                             MetinTr = "Uzaktan/hibrit çalışırken ekibinle bağlantıda kalabiliyor musun?",
                             Tip = "Emoji"
@@ -684,6 +774,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 16,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Are you productive when working from home?",
                             MetinTr = "Evden çalışırken verimli olabiliyor musun?",
                             Tip = "Puan"
@@ -692,6 +783,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 17,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Is your work setup (equipment, internet) sufficient?",
                             MetinTr = "Çalışma ortamın (ekipman, internet) yeterli mi?",
                             TakipMetniEn = "What should we improve?",
@@ -702,6 +794,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 18,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Did the meeting achieve its goal?",
                             MetinTr = "Toplantı amacına ulaştı mı?",
                             TakipMetniEn = "Why not?",
@@ -712,6 +805,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 19,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Could you freely express your views in the meeting?",
                             MetinTr = "Toplantıda görüşlerini rahatça ifade edebildin mi?",
                             Tip = "Emoji"
@@ -720,6 +814,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 20,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Was the meeting time used efficiently?",
                             MetinTr = "Toplantı süresi verimli kullanıldı mı?",
                             Tip = "Puan"
@@ -728,6 +823,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 21,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Do you see a long-term career here?",
                             MetinTr = "Bu şirkette uzun vadeli bir kariyer görüyor musun?",
                             TakipMetniEn = "What makes you doubt it?",
@@ -738,6 +834,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 22,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Are you satisfied with career development opportunities?",
                             MetinTr = "Kariyer gelişim fırsatlarından memnun musun?",
                             Tip = "Puan"
@@ -746,6 +843,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 23,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Are you satisfied with your pay and benefits?",
                             MetinTr = "Ücret ve yan haklarından memnun musun?",
                             Tip = "Puan"
@@ -754,6 +852,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 24,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Does your manager give you regular, clear feedback?",
                             MetinTr = "Yöneticin sana düzenli ve net geri bildirim veriyor mu?",
                             Tip = "EvetHayir"
@@ -762,6 +861,7 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 25,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Do you trust your manager?",
                             MetinTr = "Yöneticine güveniyor musun?",
                             TakipMetniEn = "What would increase your trust?",
@@ -772,8 +872,20 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         {
                             Id = 26,
                             Aktif = true,
+                            Enps = false,
                             MetinEn = "Is your manager fair in decisions?",
                             MetinTr = "Yöneticin kararlarında adil mi?",
+                            Tip = "Puan"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Aktif = true,
+                            Enps = true,
+                            MetinEn = "How likely are you to recommend this company to a friend as a place to work?",
+                            MetinTr = "Bu şirketi bir arkadaşına iş yeri olarak tavsiye etme olasılığın nedir?",
+                            TakipMetniEn = "What influenced your score the most?",
+                            TakipMetniTr = "Puanını en çok ne etkiledi?",
                             Tip = "Puan"
                         });
                 });
@@ -892,6 +1004,15 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                             Ad = "Yönetici Değerlendirme",
                             AdEn = "Manager Feedback",
                             Aktif = true
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Aciklama = "Çalışanların şirketi tavsiye etme olasılığını ölçen tek soru.",
+                            AciklamaEn = "A single question that measures how likely employees are to recommend the company.",
+                            Ad = "eNPS (Çalışan Tavsiye Skoru)",
+                            AdEn = "eNPS (Employee Net Promoter Score)",
+                            Aktif = true
                         });
                 });
 
@@ -924,6 +1045,24 @@ namespace Nabiz.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Uyarilar", "nabiz");
+                });
+
+            modelBuilder.Entity("Nabiz.Domain.Entities.Aksiyon", b =>
+                {
+                    b.HasOne("Nabiz.Domain.Entities.Kullanici", null)
+                        .WithMany()
+                        .HasForeignKey("KullaniciId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Nabiz.Domain.Entities.Kullanici", null)
+                        .WithMany()
+                        .HasForeignKey("SorumluKullaniciId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Nabiz.Domain.Entities.Uyari", null)
+                        .WithMany()
+                        .HasForeignKey("UyariId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Nabiz.Domain.Entities.Cevap", b =>

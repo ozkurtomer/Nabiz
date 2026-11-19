@@ -15,6 +15,7 @@ public class UnitOfWork(NabizDbContext db) : IUnitOfWork
     public IRepository<Uyari> Uyarilar { get; } = new Repository<Uyari>(db);
     public IRepository<AyarDeger> Ayarlar { get; } = new Repository<AyarDeger>(db);
     public IRepository<DenetimKaydi> Denetim { get; } = new Repository<DenetimKaydi>(db);
+    public IRepository<Aksiyon> Aksiyonlar { get; } = new Repository<Aksiyon>(db);
 
     public Task<int> SaveChangesAsync(CancellationToken ct = default) => db.SaveChangesAsync(ct);
 }

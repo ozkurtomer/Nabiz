@@ -134,3 +134,19 @@ public class DenetimKaydiConfig : IEntityTypeConfiguration<DenetimKaydi>
         b.HasIndex(x => x.Zaman);
     }
 }
+
+public class AksiyonConfig : IEntityTypeConfiguration<Aksiyon>
+{
+    public void Configure(EntityTypeBuilder<Aksiyon> b)
+    {
+        b.Property(x => x.Baslik).HasMaxLength(200).IsRequired();
+        b.Property(x => x.Aciklama).HasMaxLength(2000);
+        b.Property(x => x.Not).HasColumnName("Not").HasMaxLength(2000);
+        b.Property(x => x.Durum).HasConversion<string>().HasMaxLength(20);
+        b.Property(x => x.Oncelik).HasConversion<string>().HasMaxLength(20);
+        b.HasOne<Kullanici>().WithMany().HasForeignKey(x => x.SorumluKullaniciId).OnDelete(DeleteBehavior.Restrict);
+        b.HasOne<Kullanici>().WithMany().HasForeignKey(x => x.KullaniciId).OnDelete(DeleteBehavior.Restrict);
+        b.HasOne<Uyari>().WithMany().HasForeignKey(x => x.UyariId).OnDelete(DeleteBehavior.SetNull);
+        b.HasIndex(x => x.Durum);
+    }
+}

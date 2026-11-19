@@ -25,7 +25,7 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
 {
     private string Lang => dilBilgisi?.Dil ?? "tr";
 
-    private record Satir(Gonderim G, Cevap C, Soru S, double Skor);
+    internal record Satir(Gonderim G, Cevap C, Soru S, double Skor);
 
     private record Baglam(
         DateTime Bas, DateTime Bit, AyarlarDto Ayar, string Kapsam,
@@ -73,7 +73,39 @@ public class RaporService(IUnitOfWork uow, ICurrentUser me, IZaman zaman, IAyarS
             trend.Add(new TrendNoktasi(d, liste is null ? null : Math.Round(b.Satirlar(liste).Average(x => x.Skor), 1), liste?.Count ?? 0));
         }
 
-        return new RaporDto(b.Bas, b.Bit, b.Kapsam, Ozet(b.Gonderimler.Count, tamam.Count, satirlar, b.Ayar), oncekiOzet, trend, departmanlar, sorular);
+        var enps = Enps(satirlar);
+        var oncekiEnps = oncekiTamam.Count > 0 ? Enps(onceki.Satirlar(oncekiTamam)).Skor : null;
+        return new RaporDto(b.Bas, b.Bit, b.Kapsam, Ozet(b.Gonderimler.Count, tamam.Count, satirlar, b.Ayar), oncekiOzet, trend, departmanlar, sorular,
+            enps.Toplam == 0 ? null : enps, oncekiEnps, IsiHaritasiUret(b, tamam));
+    }
+
+    /// <summary>eNPS: 9-10 destekleyen, 7-8 pasif, 1-6 eleştiren. Skor = %destekleyen - %eleştiren (-100..100).</summary>
+    internal static EnpsOzet Enps(List<Satir> satirlar)
+    {
+        var e = satirlar.Where(x => x.S.Enps && x.S.Tip == SoruTipi.Puan).Select(x => x.C.Deger).ToList();
+        if (e.Count == 0) return new EnpsOzet(0, 0, 0, 0, null);
+        int d = e.Count(v => v >= 9), el = e.Count(v => v <= 6);
+        return new EnpsOzet(e.Count, d, e.Count - d - el, el, Math.Round((d - el) * 100.0 / e.Count, 0));
+    }
+
+    /// <summary>Departman x hafta ortalama skor matrisi (haftalar pazartesi başlar).</summary>
+    private IsiHaritasi IsiHaritasiUret(Baglam b, List<Gonderim> tamam)
+    {
+        DateTime Hafta(DateTime d) => d.Date.AddDays(-(((int)d.DayOfWeek + 6) % 7));
+        var haftalar = new List<DateTime>();
+        for (var h = Hafta(b.Bas); h <= b.Bit; h = h.AddDays(7)) haftalar.Add(h);
+        if (haftalar.Count > 26) haftalar = haftalar.TakeLast(26).ToList();
+        var satirlar = tamam.GroupBy(b.Departman).OrderBy(g => g.Key).Select(g =>
+        {
+            var degerler = new List<double?>(); var sayilar = new List<int>();
+            foreach (var h in haftalar)
+            {
+                var l = g.Where(x => Hafta(zaman.Yerel(x.GonderimZamani)) == h).ToList();
+                degerler.Add(l.Count == 0 ? null : Math.Round(b.Satirlar(l).Average(x => x.Skor), 1)); sayilar.Add(l.Count);
+            }
+            return new IsiHaritasiSatiri(g.Key, degerler, sayilar);
+        }).ToList();
+        return new IsiHaritasi(haftalar, satirlar);
     }
 
     public async Task<List<CevapSatiri>> CevaplarAsync(RaporFiltre f, bool sadeceYorumlu, CancellationToken ct)

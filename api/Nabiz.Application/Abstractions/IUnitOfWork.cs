@@ -26,6 +26,7 @@ public interface IUnitOfWork
     IRepository<Uyari> Uyarilar { get; }
     IRepository<AyarDeger> Ayarlar { get; }
     IRepository<DenetimKaydi> Denetim { get; }
+    IRepository<Aksiyon> Aksiyonlar { get; }
 
     Task<int> SaveChangesAsync(CancellationToken ct = default);
 }
