@@ -1,165 +1,187 @@
 <div align="center">
 
+<img src="site/logo.svg" width="72" alt="Nabız logo">
+
 # Nabız
 
-**Çalışan esenliği ve moral takibi.** Küçük sorular, büyük içgörüler.
+### Know how your people are *really* doing, before they tell you they're leaving.
 
-Çalışanlara düzenli olarak kısa **soru paketleri** gönderir, cevapları raporlar ve düşük moral işaretlerini İK'ya erken ulaştırır.
+Short question packs · one-click answers from email · eNPS · early-warning alerts · KVKK/GDPR tools · white-label.
+**Self-hosted. Open source. Turkish + English.**
+
+[**Live demo**](https://ozkurtomer.github.io/Nabiz/) &nbsp;·&nbsp; [Quick start](#quick-start) &nbsp;·&nbsp; [Features](#features) &nbsp;·&nbsp; [Türkçe](README.tr.md) &nbsp;·&nbsp; [Contributing](CONTRIBUTING.md)
 
 ![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-MSSQL-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-59%20passing-2ea44f)
+![Tests](https://img.shields.io/badge/tests-61%20passing-2ea44f)
+![License](https://img.shields.io/badge/license-MIT-1f4fc6)
+![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
-<img src="docs/screenshots/raporlar.jpg" alt="Raporlar" width="860">
+<br>
+
+<img src="docs/screenshots/raporlar.jpg" alt="Nabız reports: eNPS, heatmap, trends" width="900">
 
 </div>
 
 ---
 
-## Demo / Live demo
+## Why Nabız?
 
-**TR:** Tarayıcıda çalışan tanıtım demosu (gerçek veri ya da sunucu yok): https://ozkurtomer.github.io/Nabiz/ — çalışan gibi soruları cevapla, rapor anında güncellensin. Sayfa `site/` klasöründe, `main`'e push edilince GitHub Pages ile yayınlanır.
-Tam uygulamayı denemek için aşağıdaki Docker adımlarını kullan.
+Annual engagement surveys are slow, long and ignored. By the time results arrive, the people who were unhappy have already left.
 
-**EN:** A browser-only showcase (no real data, no server): https://ozkurtomer.github.io/Nabiz/ — answer the questions as an employee and watch the report update. The page lives in `site/` and is published with GitHub Pages on every push to `main`.
-To try the full application, use the Docker steps below.
+Nabız sends **one or two tiny questions at a time**, straight to your employees' inbox. Answering takes **five seconds and zero logins**. HR sees the trend as it happens, gets alerted when somebody's morale drops, and can turn the alert into a tracked action, all on **your own server**, with **your own data**.
 
----
-
-## Özellikler
-
-| | |
+| Without Nabız | With Nabız |
 |---|---|
-| **Soru paketleri** | Sorular paket halinde gider (Motivasyon, İş Yükü, Oryantasyon, Uzaktan Çalışma, Yönetici Değerlendirme…). 9 hazır şablon, kendi paketini oluştur. |
-| **Mail ile gönderim** | Tek ekranda: **Hemen**, **Bir kez** (seçtiğin tarih/saatte) ya da **Tekrarlayan** (her N günde bir). Hedef: **Herkes / Departman / Kişi seç**. Türkçe + İngilizce mail şablonları. |
-| **Otomatik hatırlatma** | Cevaplamayanlara hafta içi çalışma saatlerinde nazik hatırlatma (en fazla N kez). |
-| **Adım adım cevaplama** | Tek mail linki, **giriş gerekmez**. Emoji / 1-10 puan / Evet-Hayır. Maildeki **emojiye tıklayınca** ilk soru o cevapla açılır. Düşük cevapta nazik bir **takip sorusu**; yorum **anonim** bırakılabilir. |
-| **Raporlar** | Ortalama skor, **eNPS**, departman × hafta **ısı haritası**, **Yazdır / PDF**, cevap oranı, olumlu/nötr/olumsuz ağırlık, günlük trend, departman karşılaştırma, soru bazlı dağılım, **önceki dönemle fark**, "kim ne demiş". |
-| **Gönderim raporu** | Her gönderimin kendi raporu: soru dağılımı, kim ne cevap vermiş, **kim vermemiş**, gitmeyen mailleri tekrar deneme. |
-| **Düşük puan uyarıları** | Panelde uyarı, **İK'ya e-posta**, isteğe bağlı **Teams/Slack** bildirimi. Üst üste uyarı alanlar öne çıkar. |
-| **Kişi geçmişi (İK)** | Bir çalışanın zaman içindeki skoru, **düşüş eğilimi** tespiti. |
-| **CSV dışa aktarma** | Excel'in doğrudan açtığı (UTF-8 BOM, `;`) CSV. Formül enjeksiyonuna karşı korumalı. |
-| **Aksiyon takibi** | Uyarılardan görev aç: sorumlu, öncelik, son tarih, durum; geciken aksiyonlar işaretlenir. |
-| **KVKK araçları** | Saklama süresi + otomatik silme, düzenlenebilir aydınlatma metni, kişi verisi **dışa aktarma** ve **kalıcı silme**. |
-| **Şirket markası** | Şirket adı ve vurgu rengi panelde, cevaplama ekranında ve e-postalarda (white-label). |
-| **Haftalık özet** | Her hafta İK'ya skor, cevap oranı, yeni uyarı ve geciken aksiyon özeti e-postası. |
-| **Giriş güvenliği** | IP başına hız sınırı + hesap başına 5 hatalı denemede 15 dk geçici kilit. |
-| **Gizlilik ve denetim** | İki rol (**İK** ve **Çalışan**), anonim yorum, her kişisel veri erişimi **denetim kaydında**. |
-| **Personel senkronu** | Kullanıcılar mevcut personel tablosundan (salt okunur) otomatik gelir. Şifre yönetimi yok. |
-| **Şifresiz giriş** | E-postaya gelen 15 dakikalık giriş linki. Mobil uygulamadan **WebView otomatik giriş** ([doküman](docs/MOBIL.md)). |
-| **Sistem durumu** | Veritabanı, SMTP, son 24 saat mail sonuçları tek bakışta; **E-posta testi** düğmesiyle SMTP'yi canlı doğrula. |
-| **Türkçe + İngilizce** | Tüm arayüz, e-postalar ve hata mesajları iki dilde. Soru ve paketlerde **iki dilden yalnızca birini yazmak yeterli**, diğer dilde aynı metin gösterilir. Kullanıcının dili profilinde saklanır. |
+| One long survey a year | A pulse every week, or whenever you choose |
+| Results months later | Live reports and early-warning alerts |
+| "Anonymous" in name only | Anonymous comments that even HR can't trace |
+| Data on someone else's cloud | Your SQL Server, your SMTP, your rules |
+| Per-seat SaaS pricing | Free, forever (MIT) |
 
-<table>
-  <tr>
-    <td width="50%"><img src="docs/screenshots/aksiyonlar.jpg" alt="Aksiyonlar"><br><sub><b>Aksiyon takibi:</b> sorumlu, öncelik, son tarih</sub></td>
-    <td width="50%"><img src="docs/screenshots/gonderim-olustur.jpg" alt="Yeni gönderim"><br><sub><b>Yeni gönderim:</b> Hemen / Bir kez / Tekrarlayan, tek ekranda</sub></td>
-  </tr>
-</table>
+## Try it in 10 seconds
 
-## Hızlı başlangıç (Docker)
+> **[Open the live demo](https://ozkurtomer.github.io/Nabiz/)**: answer three questions as an employee and watch the HR report update instantly. It runs fully in your browser, with no sign-up.
 
-Gereken: [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Apple Silicon'da *Settings → General → Use Rosetta* açık olmalı).
+Want the real thing? Run it locally with one command:
 
 ```bash
-git clone <repo-adresi> nabiz && cd nabiz
+git clone https://github.com/ozkurtomer/Nabiz.git nabiz && cd nabiz
 docker compose up --build -d
 ```
 
-| Ne | Adres |
+Open **http://localhost:4200**, click the **HR** demo button, send a pack, then read the email in **http://localhost:8025** (Mailpit) and answer it.
+
+## Features
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### Collect
+- **Question packs**: 9 ready templates (Motivation, Workload, Onboarding, Remote Work, Manager Review, **eNPS**…) or build your own
+- **Send now, once, or repeatedly**: pick everyone, a department, or specific people
+- **Answer from the inbox**: personal link, **no login**; click an emoji in the email and the answer is pre-selected
+- **Emoji, 1-10 and Yes/No** questions with a gentle follow-up when the answer is low
+- **Automatic reminders** on working hours, capped at N times
+
+</td>
+<td width="50%" valign="top">
+
+### Understand
+- **Score, eNPS and trend** with comparison to the previous period
+- **Department × week heatmap**
+- **Per-send report**: who answered, who didn't, the distribution
+- **Per-person history** with downward-trend detection (HR only)
+- **Print / PDF** report, **Excel-ready CSV** export
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+### Act
+- **Low-score alerts** in the panel, by **email to HR**, and optionally to **Teams / Slack**
+- **Action tracking**: open an action from an alert with owner, priority, due date and status; overdue ones are flagged
+- **Weekly digest email** to HR: score, response rate, new alerts, overdue actions
+
+</td>
+<td valign="top">
+
+### Trust
+- **Only two roles**: HR and Employee
+- **Truly anonymous comments**, with every personal-data access in an **audit log**
+- **KVKK / GDPR tools**: retention with automatic deletion, editable privacy notice, per-person **data export and erasure**
+- **Rate limiting, login lockout, CSP and security headers**
+- Passwordless **magic-link sign-in** and **mobile WebView auto-login**
+
+</td>
+</tr>
+</table>
+
+**And also:** white-label branding (company name and colour in the panel, answer page and emails) · Turkish + English everywhere (question text too: write just one language and it falls back to the other) · staff sync from an existing read-only personnel table · system health page with a live **SMTP test** · clean, light, corporate design.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/aksiyonlar.jpg" alt="Action tracking"><br><sub><b>Action tracking</b>: owner, priority, due date</sub></td>
+    <td width="50%"><img src="docs/screenshots/gonderim-olustur.jpg" alt="New send"><br><sub><b>New send</b>: now / once / repeating, one screen</sub></td>
+  </tr>
+</table>
+
+## Quick start
+
+You only need [Docker Desktop](https://www.docker.com/products/docker-desktop/) (on Apple Silicon enable *Settings → General → Use Rosetta*).
+
+```bash
+docker compose up --build -d
+```
+
+| What | Where |
 |---|---|
-| Uygulama | http://localhost:4200 |
-| Gelen mailler (Mailpit, sahte SMTP) | http://localhost:8025 |
-| API sağlık | http://localhost:5277/saglik |
+| App | http://localhost:4200 |
+| Captured emails (Mailpit, fake SMTP) | http://localhost:8025 |
+| API health | http://localhost:5277/saglik |
 
-Giriş ekranındaki **demo butonlarıyla** (İK / Çalışan) hemen deneyebilirsin.
-`ik@nabiz.local` (İK) ve `calisan@nabiz.local` (Çalışan), şifre: `Demo123!`
+Demo accounts: `ik@nabiz.local` (HR) and `calisan@nabiz.local` (Employee), password `Demo123!` (local demo only). In the panel, *Settings → Generate demo data* fills the reports with fake data.
 
-**Denemek için:**
-1. *Gönderimler → Yeni gönderim* ile bir paketi seç, kimlere gideceğini belirle ve **Hemen** gönder (ya da *Bir kez* / *Tekrarlayan* olarak zamanla).
-2. http://localhost:8025 adresinden maili aç, **Hemen cevapla**'ya tıkla ve soruları cevapla.
-3. *Gönderimler → ilgili gönderim*'de cevapları, *Uyarılar*'da düşük puanları gör.
-4. Boş raporları doldurmak için *Ayarlar → Demo veri üret* (sahte veri; "Temizle" yalnızca onu siler).
+> Emails never leave your machine by default: they land in Mailpit. To see real delivery follow [docs/MAIL-TEST.md](docs/MAIL-TEST.md) (5 minutes with Gmail).
 
-Sıfırlamak için: `docker compose down -v`
+Reset everything with `docker compose down -v`.
 
-> **Mailler gerçek kutulara gitmez**: varsayılan SMTP, mailleri yakalayan Mailpit'tir. Gerçek teslimatı görmek için [docs/MAIL-TEST.md](docs/MAIL-TEST.md) rehberine bak (Gmail ile 5 dakika; **Ayarlar → E-posta testi** düğmesi sonucu ya da hata nedenini gösterir).
-
-## Mimari
+## Architecture
 
 ```mermaid
 flowchart LR
-    subgraph Web["web/ · Angular 21"]
-        UI[Panel ve cevaplama ekranları]
+    subgraph Web["web/ · Angular 21 (zoneless, signals)"]
+        UI[Panel and answer screens]
     end
-    subgraph API["api/ · ASP.NET Core"]
-        C[Controllers] --> A[Application\nservisler · DTO · UnitOfWork arayüzleri]
-        A --> D[Domain\nvarlıklar · iş kuralları]
-        I[Infrastructure\nEF Core · SMTP · JWT · zamanlayıcı] --> A
+    subgraph API["api/ · ASP.NET Core (.NET 10)"]
+        C[Controllers] --> A[Application\nservices · DTOs · UnitOfWork]
+        A --> D[Domain\nentities · rules]
+        I[Infrastructure\nEF Core · SMTP · JWT · scheduler] --> A
     end
-    UI -- "/api (JWT / cevap token'ı)" --> C
-    I --> DB[(SQL Server\nnabiz şeması)]
-    I -. "salt okunur" .-> P[(Personel tablosu)]
-    I --> SMTP[[Şirket SMTP]]
+    UI -- "/api (JWT or answer token)" --> C
+    I --> DB[(SQL Server)]
+    I -. "read-only" .-> P[(Personnel table)]
+    I --> SMTP[[Your SMTP]]
     I -.-> WH[[Teams / Slack webhook]]
 ```
 
-| Katman | Sorumluluk |
-|---|---|
-| `Nabiz.Domain` | Varlıklar, enum'lar, skor normalizasyonu gibi iş kuralları (bağımlılık yok) |
-| `Nabiz.Application` | Servisler, DTO'lar, `IUnitOfWork` + `IRepository<T>` arayüzleri |
-| `Nabiz.Infrastructure` | EF Core `DbContext`, `UnitOfWork`/`Repository`, migration'lar, JWT, BCrypt, SMTP, webhook, zamanlayıcı, personel kaynağı |
-| `Nabiz.Api` | İnce controller'lar, JWT yapılandırması, hata middleware'i |
-| `Nabiz.Tests` | xUnit: iş kuralları ve bellek içi veritabanıyla gizlilik/cevap akışı testleri |
-| `web/` | Angular: `core` (servis, guard, interceptor) · `layout` · `shared` · `features` |
+Clean layers (Domain → Application → Infrastructure → Api), `UnitOfWork` + `IRepository<T>`, 61 xUnit tests with an in-memory database, CI on every push.
 
-## Gerçek ortama alma
+## Go to production
 
-1. `cp .env.gercek.example .env.gercek` ve doldur: şirket SQL Server bağlantısı, SMTP, `Jwt__Key`, `Uygulama__PublicUrl`, personel tablosu/sütunları.
-2. Demo yığınını kapat: `docker compose down`
-3. Başlat:
-   ```bash
-   docker compose -f docker-compose.gercek.yml --env-file .env.gercek up --build -d
-   ```
+1. `cp .env.gercek.example .env.gercek` and fill in your SQL Server, SMTP, `Jwt__Key` and `Uygulama__PublicUrl`.
+2. `docker compose -f docker-compose.gercek.yml --env-file .env.gercek up --build -d`
 
-Uygulama kendi tablolarını **`nabiz` şemasında** oluşturur; personel tablosuna yalnızca **okuma** yapar. Migration'ı DBA'nın uygulaması gerekiyorsa `Baslangic__OtomatikMigration=false` yapıp SQL betiğini verebilirsin ([docs/OPERASYON.md](docs/OPERASYON.md)).
+Nabız creates its own tables in a dedicated `nabiz` schema and only **reads** your personnel table. Everything else (backups, monitoring, DBA-applied migrations, privacy summary) is in **[docs/OPERASYON.md](docs/OPERASYON.md)**; mobile sign-in is in **[docs/MOBIL.md](docs/MOBIL.md)**.
 
-Personel tablosu eşlemesi (`Personel__*`): `Tablo`, `SicilKolon`, `AdKolon`, `EmailKolon`, `DepartmanKolon`, `AktifKolon`.
-
-Tüm ayarlar, gizlilik özeti, yedekleme ve izleme: **[docs/OPERASYON.md](docs/OPERASYON.md)** · Mobil WebView girişi: **[docs/MOBIL.md](docs/MOBIL.md)**
-
-## Geliştirme
+## Development
 
 ```bash
-# API (appsettings.Development.json içindeki bağlantı cümlesini düzenle ya da yalnızca db servisini başlat: docker compose up -d db mailpit)
-cd api && dotnet run --project Nabiz.Api        # http://localhost:5277
-cd api && dotnet test Nabiz.Tests                # 61 test
-
-# Web
-cd web && npm install && npm start               # http://localhost:4200 (/api → 5277 proxy)
+cd api && dotnet run --project Nabiz.Api     # http://localhost:5277
+cd api && dotnet test Nabiz.Tests            # 61 tests
+cd web && npm install && npm start           # http://localhost:4200
 ```
 
-Migration:
+## Status and honesty
 
-```bash
-cd api && dotnet tool restore
-dotnet ef migrations add <Ad> -p Nabiz.Infrastructure -s Nabiz.Api -o Persistence/Migrations
-dotnet ef database update -p Nabiz.Infrastructure -s Nabiz.Api
-```
+Verified end to end on Docker (email, answering, reports, privacy, CSV, audit, mobile login endpoint). **Not yet exercised** against a real SMTP server, a real personnel table, a Teams/Slack webhook or a real mobile app: the settings and endpoints are ready, so please pilot for a couple of days before rolling out. There is no push-notification layer.
 
-## Güvenlik notları
-- Sırlar (`.env.gercek`, şifreler, `Jwt__Key`) repoda tutulmaz; `.gitignore` bunları dışarıda bırakır.
-- Canlıya alırken `web/src/environments/environment.ts` içinde `demoGiris` **false** olmalı (`docker-compose.gercek.yml` bunu otomatik yapar) ve demo veri/hesaplar kapalı olmalıdır.
-- Cevap linkleri kişiye özel gizli token'lardır; mail yönlendirmeyle paylaşılırsa başkası cevaplayabilir.
+## Contributing
 
-## Durum ve sınırlar
-- Docker üzerinde uçtan uca doğrulandı (mail, cevaplama, raporlar, gizlilik, CSV, denetim, mobil giriş uç noktası).
-- **Gerçek SMTP ve gerçek personel tablosuyla**, **Teams/Slack webhook** ile ve gerçek bir **mobil uygulamayla** henüz denenmedi; ayarlar ve uçlar hazır.
-- Push bildirim yok (mobil uygulamanın push altyapısı gerektirir).
-- Hatırlatma zamanlaması birim testlidir; gerçek zamanlı akışı en az iki günlük bir pilotla doğrulanmalıdır.
+Nabız is young and **contributions are very welcome**: bug reports, translations, new question packs, report ideas, docs, tests. Start with [CONTRIBUTING.md](CONTRIBUTING.md) or pick a [good first issue](https://github.com/ozkurtomer/Nabiz/labels/good%20first%20issue). Ideas we'd love help with:
 
----
+- [ ] Slack/Teams interactive answers
+- [ ] More languages (German, French, Spanish…)
+- [ ] OpenAPI / Swagger document
+- [ ] Export reports to PowerPoint
+- [ ] Optional SSO (Entra ID / Google)
 
-<sub>Proje lisansı henüz belirlenmedi; yayımlamadan önce bir `LICENSE` dosyası ekle.</sub>
+If Nabız is useful to you, **please give it a star**. It helps other people find it.
+
+## License
+
+[MIT](LICENSE) © 2026 Ömer Özkurt

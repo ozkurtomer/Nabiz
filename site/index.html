@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nabız · Demo</title>
+<link rel="icon" href="logo.svg">
 <style>
 :root{--arka:#f4f6f9;--yuzey:#fff;--metin:#101828;--soluk:#667085;--kenar:#e0e4ea;--vurgu:#1f4fc6;--vurgu-koyu:#173f9f;--soft:#eaf0fc;--ok:#0e7c57;--okb:#e4f4ec;--uy:#a65d03;--uyb:#fcf1de;--hata:#b42318;--hatab:#fbeceb;color-scheme:light}
 *{box-sizing:border-box}
@@ -12,7 +13,7 @@ body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;backgr
 header{background:var(--yuzey);border-bottom:1px solid var(--kenar)}
 header .kap{display:flex;align-items:center;gap:12px;height:60px}
 .logo{font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px}
-.logo i{width:28px;height:28px;border-radius:7px;background:var(--vurgu);display:inline-block}
+
 .bosluk{flex:1}
 .dil button{border:1px solid var(--kenar);background:#fff;padding:5px 11px;cursor:pointer;font:inherit;font-size:13px;color:var(--soluk)}
 .dil button:first-child{border-radius:7px 0 0 7px}.dil button:last-child{border-radius:0 7px 7px 0;border-left:0}
@@ -48,7 +49,7 @@ footer{padding:36px 0;color:var(--soluk);font-size:14px;text-align:center}
 </style>
 </head>
 <body>
-<header><div class="kap"><span class="logo"><i></i>Nabız</span><span class="bosluk"></span>
+<header><div class="kap"><span class="logo"><img src="logo.svg" width="28" height="28" alt="">Nabız</span><a href="https://github.com/ozkurtomer/Nabiz" style="margin-left:14px;color:var(--soluk);font-size:14px;text-decoration:none">GitHub ★</a><span class="bosluk"></span>
 <span class="dil"><button data-d="tr" class="s">TR</button><button data-d="en">EN</button></span></div></header>
 
 <main class="kap">
@@ -82,7 +83,7 @@ docker compose up --build -d
 const T={
 tr:{h1:"Çalışan esenliği ve moral takibi",h1p:"Çalışanlara kısa soru paketleri gönderin, cevapları raporlayın, düşük moral işaretlerini İK'ya erken ulaştırın.",dene:"Demoyu dene",kur:"Kendi sunucunda kur",
 demoH:"Canlı demo",demoA:"Çalışan gibi cevapla; sağdaki rapor cevabına göre anında güncellenir.",not:"Bu sayfa tarayıcıda çalışan bir tanıtım demosudur: gerçek veri ya da sunucu yok, hiçbir şey kaydedilmez.",
-ozH:"Özellikler",ekranH:"Ekran görüntüleri",kurH:"Kurulum",kurA:"Docker yeterli. Ayrıntılar README ve docs/ klasöründe.",alt:"Nabız · Türkçe + İngilizce · .NET + Angular + SQL Server",
+ozH:"Özellikler",ekranH:"Ekran görüntüleri",kurH:"Kurulum",kurA:"Docker yeterli. Ayrıntılar README ve docs/ klasöründe.",alt:"Nabız · MIT © 2026 Ömer Özkurt · Türkçe + İngilizce",
 sorular:["Bugün kendini nasıl hissediyorsun?","İş yükün sürdürülebilir mi?","Bu şirketi bir arkadaşına tavsiye eder misin? (1-10)"],
 tipler:["e","eh","p"],ilk:"{n} / {t}",ileri:"İleri",geri:"Geri",bit:"Tamamla",takip:"Bunu duyduğumuza üzüldük. Ne olduğunu paylaşmak ister misin?",yorum:"Ne oldu? (isteğe bağlı)",evet:"Evet",hayir:"Hayır",
 tesek:"Teşekkürler!",tesekA:"Cevabın tamamlandı.",tekrar:"Tekrar dene",
@@ -90,7 +91,7 @@ rH:"Rapor (örnek)",skor:"Moral skoru",enps:"eNPS",deps:["Satış","Mühendislik
 oz:[["Soru paketleri","Hazır şablonlar, kendi paketini oluştur; Türkçe/İngilizce."],["Mail ile cevaplama","Tek link, giriş yok; maildeki emojiye tıklayınca cevap hazır."],["Raporlar","Skor, eNPS, departman × hafta ısı haritası, PDF."],["Uyarı ve aksiyon","Düşük puanda İK'ya uyarı, sorumlu/son tarihli aksiyon takibi."],["KVKK","Saklama süresi, otomatik silme, dışa aktarma, aydınlatma metni."],["Şirket markası","Ad ve renk panelde, cevap ekranında ve mailde."],["Güvenlik","Hız sınırı, giriş kilidi, güvenlik başlıkları, denetim kaydı."],["Haftalık özet","İK'ya otomatik haftalık özet e-postası."]]},
 en:{h1:"Employee wellbeing and morale tracking",h1p:"Send short question packs to employees, report the answers and surface low-morale signals to HR early.",dene:"Try the demo",kur:"Self-host it",
 demoH:"Live demo",demoA:"Answer as an employee; the report on the right updates instantly.",not:"This is a browser-only showcase: no real data and no server, nothing is saved.",
-ozH:"Features",ekranH:"Screenshots",kurH:"Install",kurA:"Docker is all you need. Details in the README and docs/.",alt:"Nabız · Turkish + English · .NET + Angular + SQL Server",
+ozH:"Features",ekranH:"Screenshots",kurH:"Install",kurA:"Docker is all you need. Details in the README and docs/.",alt:"Nabız · MIT © 2026 Ömer Özkurt · Turkish + English",
 sorular:["How are you feeling today?","Is your workload sustainable?","Would you recommend this company to a friend? (1-10)"],
 tipler:["e","eh","p"],ilk:"{n} / {t}",ileri:"Next",geri:"Back",bit:"Finish",takip:"We're sorry to hear that. Would you like to tell us what happened?",yorum:"What happened? (optional)",evet:"Yes",hayir:"No",
 tesek:"Thank you!",tesekA:"Your response is complete.",tekrar:"Try again",
