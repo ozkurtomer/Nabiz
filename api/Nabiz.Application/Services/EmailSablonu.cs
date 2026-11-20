@@ -52,8 +52,16 @@ public static class EmailSablonu
             var dk = Math.Max(1, (int)Math.Ceiling(sorular.Count * 0.3));
             alt = en ? $"{sorular.Count} quick questions · about {dk} min" : $"{sorular.Count} kısa soru · yaklaşık {dk} dk";
         }
-        var ipucu = sorular.Count == 1 && sorular[0].Tip == SoruTipi.Emoji
-            ? "<div style=\"font-size:30px;letter-spacing:8px;margin:18px 0 0\">😞 🙁 😐 😄</div>" : "";
+        // İlk soru emoji ise tek tıkla cevap: link, cevabı önceden seçili olarak açar.
+        var ipucu = "";
+        if (sorular.Count > 0 && sorular[0].Tip == SoruTipi.Emoji)
+        {
+            string[] yuzler = ["😞", "🙁", "😐", "🙂", "😄"];
+            var sep = link.Contains('?') ? "&" : "?";
+            var hucre = string.Concat(yuzler.Select((y, i) =>
+                $"""<a href="{link}{sep}d={i + 1}" style="display:inline-block;margin:0 4px;padding:8px 10px;border:1px solid #e4e7ec;border-radius:10px;font-size:28px;text-decoration:none">{y}</a>"""));
+            ipucu = $"<div style=\"margin:18px 0 0\">{hucre}</div>";
+        }
         var konu = en ? $"{Marka.Ad}: a quick check-in for you" : $"{Marka.Ad}: sana kısa bir sorumuz var";
 
         return (konu, Cerceve(520, $$"""

@@ -25,7 +25,7 @@
 | **Soru paketleri** | Sorular paket halinde gider (Motivasyon, İş Yükü, Oryantasyon, Uzaktan Çalışma, Yönetici Değerlendirme…). 9 hazır şablon, kendi paketini oluştur. |
 | **Mail ile gönderim** | Tek ekranda: **Hemen**, **Bir kez** (seçtiğin tarih/saatte) ya da **Tekrarlayan** (her N günde bir). Hedef: **Herkes / Departman / Kişi seç**. Türkçe + İngilizce mail şablonları. |
 | **Otomatik hatırlatma** | Cevaplamayanlara hafta içi çalışma saatlerinde nazik hatırlatma (en fazla N kez). |
-| **Adım adım cevaplama** | Tek mail linki, **giriş gerekmez**. Emoji / 1-10 puan / Evet-Hayır. Düşük cevapta nazik bir **takip sorusu**; yorum **anonim** bırakılabilir. |
+| **Adım adım cevaplama** | Tek mail linki, **giriş gerekmez**. Emoji / 1-10 puan / Evet-Hayır. Maildeki **emojiye tıklayınca** ilk soru o cevapla açılır. Düşük cevapta nazik bir **takip sorusu**; yorum **anonim** bırakılabilir. |
 | **Raporlar** | Ortalama skor, **eNPS**, departman × hafta **ısı haritası**, **Yazdır / PDF**, cevap oranı, olumlu/nötr/olumsuz ağırlık, günlük trend, departman karşılaştırma, soru bazlı dağılım, **önceki dönemle fark**, "kim ne demiş". |
 | **Gönderim raporu** | Her gönderimin kendi raporu: soru dağılımı, kim ne cevap vermiş, **kim vermemiş**, gitmeyen mailleri tekrar deneme. |
 | **Düşük puan uyarıları** | Panelde uyarı, **İK'ya e-posta**, isteğe bağlı **Teams/Slack** bildirimi. Üst üste uyarı alanlar öne çıkar. |
@@ -35,6 +35,7 @@
 | **KVKK araçları** | Saklama süresi + otomatik silme, düzenlenebilir aydınlatma metni, kişi verisi **dışa aktarma** ve **kalıcı silme**. |
 | **Şirket markası** | Şirket adı ve vurgu rengi panelde, cevaplama ekranında ve e-postalarda (white-label). |
 | **Haftalık özet** | Her hafta İK'ya skor, cevap oranı, yeni uyarı ve geciken aksiyon özeti e-postası. |
+| **Giriş güvenliği** | IP başına hız sınırı + hesap başına 5 hatalı denemede 15 dk geçici kilit. |
 | **Gizlilik ve denetim** | İki rol (**İK** ve **Çalışan**), anonim yorum, her kişisel veri erişimi **denetim kaydında**. |
 | **Personel senkronu** | Kullanıcılar mevcut personel tablosundan (salt okunur) otomatik gelir. Şifre yönetimi yok. |
 | **Şifresiz giriş** | E-postaya gelen 15 dakikalık giriş linki. Mobil uygulamadan **WebView otomatik giriş** ([doküman](docs/MOBIL.md)). |
@@ -124,7 +125,7 @@ Tüm ayarlar, gizlilik özeti, yedekleme ve izleme: **[docs/OPERASYON.md](docs/O
 ```bash
 # API (appsettings.Development.json içindeki bağlantı cümlesini düzenle ya da yalnızca db servisini başlat: docker compose up -d db mailpit)
 cd api && dotnet run --project Nabiz.Api        # http://localhost:5277
-cd api && dotnet test Nabiz.Tests                # 59 test
+cd api && dotnet test Nabiz.Tests                # 61 test
 
 # Web
 cd web && npm install && npm start               # http://localhost:4200 (/api → 5277 proxy)

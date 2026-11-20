@@ -125,4 +125,42 @@ public class KurumsalTests
         Assert.Empty(db.Gonderimler);
         Assert.Empty(db.Cevaplar);
     }
+
+    private class DuzSifre : IPasswordHasher { public string Hashle(string s) => s; public bool Dogrula(string s, string h) => s == h; }
+    private class TokenYok : ITokenService
+    {
+        public string Olustur(Kullanici k) => "oturum";
+        public string GirisLinkiTokeniOlustur(Kullanici k) => "giris";
+        public Task<int?> GirisLinkiTokeniDogrulaAsync(string t) => Task.FromResult<int?>(null);
+    }
+
+    [Fact]
+    public async Task Giris_bes_hatali_denemeden_sonra_kilitlenir_ve_dogru_sifre_bile_reddedilir()
+    {
+        var (db, uow) = Ortam();
+        var email = $"kilit-{Guid.NewGuid():N}@x";
+        db.Kullanicilar.Add(new Kullanici { Id = 150, PersonelId = "K", Ad = "Kilit", Email = email, Rol = Rol.IK, SifreHash = "dogru" });
+        db.SaveChanges();
+        var auth = new AuthService(uow, new DuzSifre(), new TokenYok(), null!, null!);
+        for (var i = 0; i < 5; i++)
+            await Assert.ThrowsAsync<YetkisizHatasi>(() => auth.LoginAsync(new LoginIstek(email, "yanlis"), default));
+        var ex = await Assert.ThrowsAsync<YetkisizHatasi>(() => auth.LoginAsync(new LoginIstek(email, "dogru"), default));
+        Assert.Contains("Çok fazla", ex.Message);
+    }
+
+    [Fact]
+    public async Task Basarili_giris_hatali_deneme_sayacini_sifirlar()
+    {
+        var (db, uow) = Ortam();
+        var email = $"sifirla-{Guid.NewGuid():N}@x";
+        db.Kullanicilar.Add(new Kullanici { Id = 151, PersonelId = "S", Ad = "Sifir", Email = email, Rol = Rol.IK, SifreHash = "dogru" });
+        db.SaveChanges();
+        var auth = new AuthService(uow, new DuzSifre(), new TokenYok(), null!, null!);
+        for (var i = 0; i < 4; i++)
+            await Assert.ThrowsAsync<YetkisizHatasi>(() => auth.LoginAsync(new LoginIstek(email, "yanlis"), default));
+        Assert.NotNull(await auth.LoginAsync(new LoginIstek(email, "dogru"), default));
+        for (var i = 0; i < 4; i++)
+            await Assert.ThrowsAsync<YetkisizHatasi>(() => auth.LoginAsync(new LoginIstek(email, "yanlis"), default));
+        Assert.NotNull(await auth.LoginAsync(new LoginIstek(email, "dogru"), default));
+    }
 }

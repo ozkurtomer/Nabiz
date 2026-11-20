@@ -16,7 +16,7 @@
       <label class="genis">{{ 'Açıklama (İngilizce, isteğe bağlı)' | t }} <input [ngModel]="f.aciklamaEn" (ngModelChange)="aciklamaEnGuncelle($event)" placeholder="A short description"></label>
       <label class="aktif">{{ 'Aktif' | t }} <span class="anahtar"><input type="checkbox" [ngModel]="f.aktif" (ngModelChange)="aktifGuncelle($event)"><span></span></span></label>
     </div>
-    <p class="ipucu"> {{ 'Türkçe ya da İngilizce adı yazman yeterli; diğer dil boşsa aynı ad her iki dilde gösterilir.' | t }}</p>
+    <p class="ipucu">{{ 'Türkçe ya da İngilizce adı yazman yeterli; diğer dil boşsa aynı ad her iki dilde gösterilir.' | t }}</p>
 
     <div class="iki">
       <div>
@@ -27,7 +27,7 @@
             <span class="metin">{{ metin(s) }}<small>{{ s.tip }}</small></span>
             <button class="kucuk hayalet" (click)="tasi(i, -1)" [disabled]="i === 0" [attr.title]="'Yukarı' | t">↑</button>
             <button class="kucuk hayalet" (click)="tasi(i, 1)" [disabled]="i === secilenSorular().length - 1" [attr.title]="'Aşağı' | t">↓</button>
-            <button class="kucuk hayalet" (click)="cikar(s.id)" [attr.title]="'Çıkar' | t"></button>
+            <button class="kucuk hayalet" (click)="cikar(s.id)" [attr.title]="'Çıkar' | t" [attr.aria-label]="'Çıkar' | t">×</button>
           </div>
         } @empty { <p class="bos">{{ 'Sağdaki havuzdan soru ekle.' | t }}</p> }
       </div>
@@ -36,7 +36,7 @@
         <input class="ara" [ngModel]="ara()" (ngModelChange)="ara.set($event)" [placeholder]="'Soru ara…' | t">
         <div class="havuz">
           @for (s of eklenebilir(); track s.id) {
-            <button class="havuz-soru" (click)="ekle(s.id)"><span></span><span class="metin">{{ metin(s) }}<small>{{ s.tip }}</small></span></button>
+            <button class="havuz-soru" (click)="ekle(s.id)"><span>+</span><span class="metin">{{ metin(s) }}<small>{{ s.tip }}</small></span></button>
           } @empty { <p class="bos">{{ 'Eklenecek soru kalmadı.' | t }}</p> }
         </div>
       </div>

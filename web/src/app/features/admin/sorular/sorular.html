@@ -20,7 +20,7 @@
     @if (yeni.tip === 'Puan') { <label class="aktif-satir">eNPS <span class="anahtar"><input type="checkbox" [(ngModel)]="yeni.enps"><span></span></span></label> }
     <button class="birincil" (click)="ekle()" [disabled]="!yeni.metinTr.trim() && !yeni.metinEn.trim()">{{ 'Ekle' | t }}</button>
   </div>
-  <p class="ipucu"> {{ 'Soruyu Türkçe ya da İngilizce yazman yeterli; diğer dil boşsa aynı soru her iki dilde gösterilir.' | t }}</p>
+  <p class="ipucu">{{ 'Soruyu Türkçe ya da İngilizce yazman yeterli; diğer dil boşsa aynı soru her iki dilde gösterilir.' | t }}</p>
 </div>
 
 <div class="tablo-kutu">

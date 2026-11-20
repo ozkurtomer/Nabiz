@@ -6,6 +6,7 @@ public static class Mesajlar
     private static readonly Dictionary<string, string> En = new()
     {
         ["E-posta veya şifre hatalı."] = "Incorrect email or password.",
+        ["Çok fazla hatalı deneme. Lütfen 15 dakika sonra tekrar dene."] = "Too many failed attempts. Please try again in 15 minutes.",
         ["E-posta zorunlu."] = "Email is required.",
         ["Geçersiz mobil anahtar."] = "Invalid mobile key.",
         ["Giriş linki geçersiz ya da süresi dolmuş."] = "The sign-in link is invalid or has expired.",

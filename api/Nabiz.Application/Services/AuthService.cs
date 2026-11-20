@@ -20,11 +20,24 @@ public interface IAuthService
 
 public class AuthService(IUnitOfWork uow, IPasswordHasher hasher, ITokenService tokens, IEmailSender mail, IUygulamaAyarlari uygulama) : IAuthService
 {
+    // Brute-force koruması: bir e-posta için 15 dakikada 5 hatalı denemeden sonra giriş geçici kilitlenir (bellek içi).
+    private const int MaksDeneme = 5;
+    private static readonly TimeSpan Pencere = TimeSpan.FromMinutes(15);
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, (int Sayi, DateTime Ilk)> Denemeler = new();
+
     public async Task<LoginYanit> LoginAsync(LoginIstek istek, CancellationToken ct)
     {
+        var anahtar = (istek.Email ?? "").Trim().ToLowerInvariant();
+        if (Denemeler.TryGetValue(anahtar, out var d) && DateTime.UtcNow - d.Ilk < Pencere && d.Sayi >= MaksDeneme)
+            throw new YetkisizHatasi("Çok fazla hatalı deneme. Lütfen 15 dakika sonra tekrar dene.");
         var k = await uow.Kullanicilar.Query.FirstOrDefaultAsync(x => x.Email == istek.Email && x.Aktif, ct);
         if (k is null || !k.SifreVar || !hasher.Dogrula(istek.Sifre, k.SifreHash))
+        {
+            Denemeler.AddOrUpdate(anahtar, (1, DateTime.UtcNow),
+                (_, o) => DateTime.UtcNow - o.Ilk >= Pencere ? (1, DateTime.UtcNow) : (o.Sayi + 1, o.Ilk));
             throw new YetkisizHatasi("E-posta veya şifre hatalı.");
+        }
+        Denemeler.TryRemove(anahtar, out _);
         return Yanit(k);
     }
 

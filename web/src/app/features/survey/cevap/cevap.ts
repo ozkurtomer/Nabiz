@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CevapGirdisi, CevapSayfasi } from '../../../core/models/models';
 import { AuthService } from '../../../core/services/auth.service';
 import { CevapService } from '../../../core/services/cevap.service';
@@ -24,6 +24,7 @@ export class Cevap implements OnInit {
   readonly auth = inject(AuthService);
   private api = inject(CevapService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private markaApi = inject(MarkaService);
 
   /** Rota parametresi (withComponentInputBinding). */
@@ -73,10 +74,20 @@ export class Cevap implements OnInit {
         this.i18n.varsayilan(s.dil);   // kullanıcı kendi dilini seçmediyse, kayıtlı dilinde aç
         this.cevaplar.set(Object.fromEntries(s.cevaplar.map(c => [c.soruId, c])));
         this.tamamlandi.set(s.tamamlandi);
+        this.hizliCevap(s);
         this.yukleniyor.set(false);
       },
       error: () => { this.hataVar.set(true); this.yukleniyor.set(false); },
     });
+  }
+
+  /** E-postadaki emojiye tıklanınca (?d=1..5) ilk soruyu o cevapla açar. */
+  private hizliCevap(s: CevapSayfasi) {
+    const d = Number(this.route.snapshot.queryParamMap.get('d'));
+    const ilk = s.sorular[0];
+    if (s.tamamlandi || !ilk || ilk.tip !== 'Emoji' || !Number.isInteger(d) || d < 1 || d > 5) return;
+    this.cevaplar.update(c => ({ ...c, [ilk.id]: { soruId: ilk.id, deger: d, yorum: c[ilk.id]?.yorum ?? null } }));
+    this.adim.set(1);
   }
 
   sec(deger: number) {
