@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nabız · Demo</title>
+<style>
+:root{--arka:#f4f6f9;--yuzey:#fff;--metin:#101828;--soluk:#667085;--kenar:#e0e4ea;--vurgu:#1f4fc6;--vurgu-koyu:#173f9f;--soft:#eaf0fc;--ok:#0e7c57;--okb:#e4f4ec;--uy:#a65d03;--uyb:#fcf1de;--hata:#b42318;--hatab:#fbeceb;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--arka);color:var(--metin)}
+.kap{max-width:980px;margin:0 auto;padding:0 20px}
+header{background:var(--yuzey);border-bottom:1px solid var(--kenar)}
+header .kap{display:flex;align-items:center;gap:12px;height:60px}
+.logo{font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px}
+.logo i{width:28px;height:28px;border-radius:7px;background:var(--vurgu);display:inline-block}
+.bosluk{flex:1}
+.dil button{border:1px solid var(--kenar);background:#fff;padding:5px 11px;cursor:pointer;font:inherit;font-size:13px;color:var(--soluk)}
+.dil button:first-child{border-radius:7px 0 0 7px}.dil button:last-child{border-radius:0 7px 7px 0;border-left:0}
+.dil button.s{background:var(--vurgu);color:#fff;border-color:var(--vurgu)}
+.hero{padding:56px 0 28px}
+.hero h1{font-size:40px;line-height:1.2;margin:0 0 12px;letter-spacing:-.5px}
+.hero p{font-size:18px;color:var(--soluk);max-width:640px;margin:0}
+.btn{display:inline-block;margin-top:22px;padding:11px 22px;background:var(--vurgu);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;border:0;cursor:pointer;font-size:15px}
+.btn:hover{background:var(--vurgu-koyu)}.btn.h{background:#fff;color:var(--metin);border:1px solid var(--kenar);margin-left:8px}
+h2{font-size:24px;margin:44px 0 6px}.alt{color:var(--soluk);margin:0 0 18px}
+.kart{background:var(--yuzey);border:1px solid var(--kenar);border-radius:10px;padding:24px;box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.demo{grid-template-columns:1fr}.hero h1{font-size:30px}}
+.bar{height:6px;background:var(--kenar);border-radius:9px;overflow:hidden;margin-bottom:6px}.bar b{display:block;height:100%;background:var(--vurgu);transition:width .25s}
+.sayac{color:var(--soluk);font-size:13px;margin:0 0 10px}.soru{font-size:20px;margin:0 0 18px;line-height:1.35}
+.emoji{display:flex;gap:8px;flex-wrap:wrap}.emoji button{font-size:30px;padding:8px 12px;border:1px solid var(--kenar);background:#fff;border-radius:10px;cursor:pointer}
+.emoji button.s,.puan button.s,.eh button.s{border-color:var(--vurgu);background:var(--soft)}
+.puan{display:flex;gap:6px;flex-wrap:wrap}.puan button,.eh button{min-width:42px;padding:9px 12px;border:1px solid var(--kenar);background:#fff;border-radius:8px;cursor:pointer;font:inherit}
+.eh{display:flex;gap:10px}.eh button{flex:1}
+.takip{background:var(--uyb);color:var(--uy);padding:10px 12px;border-radius:8px;font-size:14px;margin-top:14px}
+textarea{width:100%;margin-top:12px;border:1px solid var(--kenar);border-radius:8px;padding:10px;font:inherit;resize:vertical;min-height:60px}
+.nav{display:flex;justify-content:space-between;margin-top:18px}.nav .btn{margin:0}.nav button:disabled{opacity:.4;cursor:default}
+.tamam{text-align:center;padding:30px 0}.tamam .t{width:52px;height:52px;border-radius:50%;background:var(--okb);color:var(--ok);display:inline-grid;place-items:center;font-size:26px}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}.kpi div{border:1px solid var(--kenar);border-radius:8px;padding:12px}
+.kpi small{color:var(--soluk);display:block;font-size:12px}.kpi b{font-size:26px}
+.dep{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}.dep span:first-child{width:90px;color:var(--soluk)}.dep .c{flex:1;height:10px;background:var(--kenar);border-radius:9px;overflow:hidden}.dep .c i{display:block;height:100%;background:var(--ok)}
+.uyari{margin-top:12px;background:var(--hatab);color:var(--hata);border-radius:8px;padding:10px 12px;font-size:14px}
+.ozellik{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.ozellik .kart{padding:18px}.ozellik h3{margin:0 0 4px;font-size:16px}.ozellik p{margin:0;color:var(--soluk);font-size:14px}
+.gorsel{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.gorsel img{width:100%;border:1px solid var(--kenar);border-radius:10px;display:block}
+pre{background:#101828;color:#e6ebf5;padding:16px;border-radius:10px;overflow:auto;font-size:14px}
+footer{padding:36px 0;color:var(--soluk);font-size:14px;text-align:center}
+.not{font-size:13px;color:var(--soluk);margin-top:10px}
+</style>
+</head>
+<body>
+<header><div class="kap"><span class="logo"><i></i>Nabız</span><span class="bosluk"></span>
+<span class="dil"><button data-d="tr" class="s">TR</button><button data-d="en">EN</button></span></div></header>
+
+<main class="kap">
+<section class="hero">
+  <h1 data-i="h1"></h1><p data-i="h1p"></p>
+  <a class="btn" href="#demo" data-i="dene"></a><a class="btn h" href="#baslangic" data-i="kur"></a>
+</section>
+
+<h2 id="demo" data-i="demoH"></h2><p class="alt" data-i="demoA"></p>
+<div class="demo">
+  <div class="kart" id="anket"></div>
+  <div class="kart" id="rapor"></div>
+</div>
+<p class="not" data-i="not"></p>
+
+<h2 data-i="ozH"></h2>
+<div class="ozellik" id="ozellik"></div>
+
+<h2 data-i="ekranH"></h2>
+<div class="gorsel"><img src="raporlar.jpg" alt="Reports"><img src="aksiyonlar.jpg" alt="Actions"><img src="gonderim-olustur.jpg" alt="New send"></div>
+
+<h2 id="baslangic" data-i="kurH"></h2>
+<pre>git clone https://github.com/ozkurtomer/Nabiz.git nabiz &amp;&amp; cd nabiz
+docker compose up --build -d
+# http://localhost:4200  ·  http://localhost:8025 (Mailpit)</pre>
+<p class="alt" data-i="kurA"></p>
+</main>
+<footer data-i="alt"></footer>
+
+<script>
+const T={
+tr:{h1:"Çalışan esenliği ve moral takibi",h1p:"Çalışanlara kısa soru paketleri gönderin, cevapları raporlayın, düşük moral işaretlerini İK'ya erken ulaştırın.",dene:"Demoyu dene",kur:"Kendi sunucunda kur",
+demoH:"Canlı demo",demoA:"Çalışan gibi cevapla; sağdaki rapor cevabına göre anında güncellenir.",not:"Bu sayfa tarayıcıda çalışan bir tanıtım demosudur: gerçek veri ya da sunucu yok, hiçbir şey kaydedilmez.",
+ozH:"Özellikler",ekranH:"Ekran görüntüleri",kurH:"Kurulum",kurA:"Docker yeterli. Ayrıntılar README ve docs/ klasöründe.",alt:"Nabız · Türkçe + İngilizce · .NET + Angular + SQL Server",
+sorular:["Bugün kendini nasıl hissediyorsun?","İş yükün sürdürülebilir mi?","Bu şirketi bir arkadaşına tavsiye eder misin? (1-10)"],
+tipler:["e","eh","p"],ilk:"{n} / {t}",ileri:"İleri",geri:"Geri",bit:"Tamamla",takip:"Bunu duyduğumuza üzüldük. Ne olduğunu paylaşmak ister misin?",yorum:"Ne oldu? (isteğe bağlı)",evet:"Evet",hayir:"Hayır",
+tesek:"Teşekkürler!",tesekA:"Cevabın tamamlandı.",tekrar:"Tekrar dene",
+rH:"Rapor (örnek)",skor:"Moral skoru",enps:"eNPS",deps:["Satış","Mühendislik","İK","Destek"],uyari:"Uyarı: düşük cevap alındı, İK'ya bildirilir ve aksiyon açılabilir.",
+oz:[["Soru paketleri","Hazır şablonlar, kendi paketini oluştur; Türkçe/İngilizce."],["Mail ile cevaplama","Tek link, giriş yok; maildeki emojiye tıklayınca cevap hazır."],["Raporlar","Skor, eNPS, departman × hafta ısı haritası, PDF."],["Uyarı ve aksiyon","Düşük puanda İK'ya uyarı, sorumlu/son tarihli aksiyon takibi."],["KVKK","Saklama süresi, otomatik silme, dışa aktarma, aydınlatma metni."],["Şirket markası","Ad ve renk panelde, cevap ekranında ve mailde."],["Güvenlik","Hız sınırı, giriş kilidi, güvenlik başlıkları, denetim kaydı."],["Haftalık özet","İK'ya otomatik haftalık özet e-postası."]]},
+en:{h1:"Employee wellbeing and morale tracking",h1p:"Send short question packs to employees, report the answers and surface low-morale signals to HR early.",dene:"Try the demo",kur:"Self-host it",
+demoH:"Live demo",demoA:"Answer as an employee; the report on the right updates instantly.",not:"This is a browser-only showcase: no real data and no server, nothing is saved.",
+ozH:"Features",ekranH:"Screenshots",kurH:"Install",kurA:"Docker is all you need. Details in the README and docs/.",alt:"Nabız · Turkish + English · .NET + Angular + SQL Server",
+sorular:["How are you feeling today?","Is your workload sustainable?","Would you recommend this company to a friend? (1-10)"],
+tipler:["e","eh","p"],ilk:"{n} / {t}",ileri:"Next",geri:"Back",bit:"Finish",takip:"We're sorry to hear that. Would you like to tell us what happened?",yorum:"What happened? (optional)",evet:"Yes",hayir:"No",
+tesek:"Thank you!",tesekA:"Your response is complete.",tekrar:"Try again",
+rH:"Report (sample)",skor:"Morale score",enps:"eNPS",deps:["Sales","Engineering","HR","Support"],uyari:"Alert: a low answer came in; HR is notified and an action can be opened.",
+oz:[["Question packs","Ready templates, build your own; Turkish/English."],["Answer by email","One link, no login; click an emoji in the mail to pre-answer."],["Reports","Score, eNPS, department × week heatmap, PDF."],["Alerts and actions","HR alerted on low scores; owner/due-date action tracking."],["GDPR/KVKK","Retention, auto-delete, data export, privacy notice."],["Company brand","Name and colour in the panel, answer page and emails."],["Security","Rate limiting, login lockout, security headers, audit log."],["Weekly digest","Automatic weekly summary email to HR."]]}};
+let dil=(navigator.language||"").startsWith("tr")?"tr":"en";
+try{dil=localStorage.getItem("nb-dil")||dil}catch(e){}
+let adim=0,cev=[null,null,null],bitti=false;
+const E=["😞","🙁","😐","🙂","😄"];
+const $=s=>document.querySelector(s);
+function t(){return T[dil]}
+function dusuk(i){const v=cev[i];if(v==null)return false;return i==0?v<=2:i==1?v===0:v<=6}
+function ciz(){
+ const x=t();document.documentElement.lang=dil;
+ document.querySelectorAll("[data-i]").forEach(e=>e.textContent=x[e.dataset.i]);
+ document.querySelectorAll(".dil button").forEach(b=>b.classList.toggle("s",b.dataset.d===dil));
+ $("#ozellik").innerHTML=x.oz.map(o=>`<div class="kart"><h3>${o[0]}</h3><p>${o[1]}</p></div>`).join("");
+ anket();rapor();
+}
+function anket(){
+ const x=t(),k=$("#anket");
+ if(bitti){k.innerHTML=`<div class="tamam"><div class="t">✓</div><h3>${x.tesek}</h3><p>${x.tesekA}</p><button class="btn" id="tk">${x.tekrar}</button></div>`;$("#tk").onclick=()=>{adim=0;cev=[null,null,null];bitti=false;ciz()};return}
+ const tip=x.tipler[adim],v=cev[adim];let g="";
+ if(tip=="e")g=`<div class="emoji">${E.map((e,i)=>`<button data-v="${i+1}" class="${v===i+1?"s":""}">${e}</button>`).join("")}</div>`;
+ if(tip=="p")g=`<div class="puan">${[...Array(10)].map((_,i)=>`<button data-v="${i+1}" class="${v===i+1?"s":""}">${i+1}</button>`).join("")}</div>`;
+ if(tip=="eh")g=`<div class="eh"><button data-v="1" class="${v===1?"s":""}">${x.evet}</button><button data-v="0" class="${v===0?"s":""}">${x.hayir}</button></div>`;
+ const son=adim==2;
+ k.innerHTML=`<div class="bar"><b style="width:${adim/3*100}%"></b></div><p class="sayac">${x.ilk.replace("{n}",adim+1).replace("{t}",3)}</p><h3 class="soru">${x.sorular[adim]}</h3>${g}${dusuk(adim)?`<div class="takip">${x.takip}</div><textarea placeholder="${x.yorum}"></textarea>`:""}<div class="nav"><button class="btn h" ${adim?"":"disabled"} id="geri">${x.geri}</button><button class="btn" id="ileri" ${v==null?"disabled":""}>${son?x.bit:x.ileri}</button></div>`;
+ k.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{cev[adim]=+b.dataset.v;anket();rapor()});
+ $("#geri").onclick=()=>{adim--;anket()};
+ $("#ileri").onclick=()=>{if(son)bitti=true;else adim++;anket()};
+}
+function rapor(){
+ const x=t();
+ const e=cev[0],p=cev[2];
+ const skor=Math.round(((e??4)-1)/4*100*0.7+ (cev[1]===0?10:30));
+ const enps=p==null?"—":(p>=9?"+100":p<=6?"-100":"0");
+ const deps=[82,71,64,e?Math.round((e-1)/4*100):58];
+ $("#rapor").innerHTML=`<h3 style="margin-top:0">${x.rH}</h3><div class="kpi"><div><small>${x.skor}</small><b>${skor}</b></div><div><small>${x.enps}</small><b>${enps}</b></div></div>${x.deps.map((d,i)=>`<div class="dep"><span>${d}</span><span class="c"><i style="width:${deps[i]}%;background:${deps[i]<45?"var(--hata)":deps[i]<65?"var(--uy)":"var(--ok)"}"></i></span><span>${deps[i]}</span></div>`).join("")}${(dusuk(0)||dusuk(1)||dusuk(2))?`<div class="uyari">${x.uyari}</div>`:""}`;
+}
+document.querySelectorAll(".dil button").forEach(b=>b.onclick=()=>{dil=b.dataset.d;try{localStorage.setItem("nb-dil",dil)}catch(e){}ciz()});
+ciz();
+</script>
+</body>
+</html>

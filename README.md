@@ -18,6 +18,16 @@
 
 ---
 
+## Demo / Live demo
+
+**TR:** Tarayıcıda çalışan tanıtım demosu (gerçek veri ya da sunucu yok): https://ozkurtomer.github.io/Nabiz/ — çalışan gibi soruları cevapla, rapor anında güncellensin. Sayfa `site/` klasöründe, `main`'e push edilince GitHub Pages ile yayınlanır.
+Tam uygulamayı denemek için aşağıdaki Docker adımlarını kullan.
+
+**EN:** A browser-only showcase (no real data, no server): https://ozkurtomer.github.io/Nabiz/ — answer the questions as an employee and watch the report update. The page lives in `site/` and is published with GitHub Pages on every push to `main`.
+To try the full application, use the Docker steps below.
+
+---
+
 ## Özellikler
 
 | | |
