@@ -1,9 +1,8 @@
 name: Demo sayfası
 
+# Yalnızca elle çalışır. Pages açık olduğunda (repo public ya da ücretli plan)
+# Actions sekmesinden "Run workflow" ile yayınla; otomatik yayın için push tetikleyicisini geri ekle.
 on:
-  push:
-    branches: [main]
-    paths: [site/**, .github/workflows/pages.yml]
   workflow_dispatch:
 
 permissions:
